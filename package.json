@@ -1,5 +1,5 @@
 {
-  "name": "Firmware catalog",
+  "name": "firmware_catalog",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
