@@ -1,42 +1,37 @@
-// index.js
-
-/**
- * Required External Modules
- */
+// import required packages
+const express = require('express');
+const cors = require('cors');
 
 const https = require('https');
+const http = require('http');
+
 const fs = require('fs');
-const app = require("express");
-const path = require("path");
 
-/**
- * App Variables
- */
+// create new express app and save it as "app"
+const app = express();
+app.use(cors());
 
-const port = process.env.PORT || "8000";
-
-/**
- *  App Configuration
- */
-
-app.set("views", path.join(__dirname, "views"));
-app.set("view engine", "pug");
-app.use(express.static(path.join(__dirname, "public")));
-/**
- * Routes Definitions
- */
-
-app.get("/", (req, res) => {
-	res.render("index", { title: "Home" });
+// create a route for the app
+app.get('/', (req, res) => {
+  res.send('Hello dev.to!');
 });
 
-/**
- * Server Activation
- */
+// another route
+app.get('/omergulen', (req, res) => {
+  res.send('Hello Omer! Welcome to dev.to!');
+});
 
-https.createServer({
-	key: fs.readFileSync('./key.pem'),
-	cert: fs.readFileSync('./cert.pem'),
-	passphrase: '8uluB0l@'
-}, app)
-.listen(port);
+// Listen both http & https ports
+const httpServer = http.createServer(app);
+// const httpsServer = https.createServer({
+//   key: fs.readFileSync('/etc/letsencrypt/live/my_api_url/privkey.pem'),
+//   cert: fs.readFileSync('/etc/letsencrypt/live/my_api_url/fullchain.pem'),
+// }, app);
+
+httpServer.listen(80, () => {
+    console.log('HTTP Server running on port 80');
+});
+
+// httpsServer.listen(443, () => {
+//     console.log('HTTPS Server running on port 443');
+// });
