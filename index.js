@@ -4,14 +4,15 @@
  * Required External Modules
  */
 
-const express = require("express");
+const https = require('https');
+const fs = require('fs');
+const app = require("express");
 const path = require("path");
 
 /**
  * App Variables
  */
 
-const app = express();
 const port = process.env.PORT || "8000";
 
 /**
@@ -33,6 +34,9 @@ app.get("/", (req, res) => {
  * Server Activation
  */
 
-app.listen(port, () => {
-	console.log(`Listening to requests on http://localhost:${port}`);
-  });
+https.createServer({
+	key: fs.readFileSync('./key.pem'),
+	cert: fs.readFileSync('./cert.pem'),
+	passphrase: '8uluB0l@'
+}, app)
+.listen(port);
