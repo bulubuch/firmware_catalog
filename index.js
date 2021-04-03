@@ -28,8 +28,8 @@ const httpServer = http.createServer(app);
 //   cert: fs.readFileSync('/etc/letsencrypt/live/my_api_url/fullchain.pem'),
 // }, app);
 
-httpServer.listen(80, () => {
-    console.log('HTTP Server running on port 80');
+httpServer.listen(8000, () => {
+    console.log('HTTP Server running on port 8000');
 });
 
 // httpsServer.listen(443, () => {
