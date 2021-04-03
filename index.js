@@ -17,9 +17,12 @@ app.get('/', (req, res) => {
 });
 
 // another route
-app.get('/omergulen', (req, res) => {
-  res.send('Hello Omer! Welcome to dev.to!');
+app.get('/firmware', (req, res) => {
+  res.send('');
 });
+
+// serve public folder
+app.use(express.static('public'))
 
 // Listen both http & https ports
 const httpServer = http.createServer(app);
