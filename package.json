@@ -1,28 +1,30 @@
 {
-  "name": "esp_catalog",
+  "name": "esp-catalog",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "ESP firmware catalog",
+  "main": "server.js",
   "scripts": {
-    "dev": "nodemon ./index.js"
+    "load-db": "node ./utils/load-db",
+    "start": "node server.js",
+    "start-dev": "nodemon server.js",
+    "unit-test": "node ./test/unit-test",
+    "test": "node ./test/functional-test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/bulubuch/firmware_catalog.git"
+    "url": "git+https://github.com/jstevenperry/IBM-Code.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "node",
+    "npm"
+  ],
+  "author": "J Steven Perry",
+  "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/bulubuch/firmware_catalog/issues"
+    "url": "https://github.com/jstevenperry/IBM-Code/issues"
   },
-  "homepage": "https://github.com/bulubuch/firmware_catalog#readme",
-  "devDependencies": {
-    "nodemon": "^2.0.7"
-  },
+  "homepage": "https://github.com/jstevenperry/IBM-Code#readme",
   "dependencies": {
-    "cors": "^2.8.5",
-    "express": "^4.17.1",
-    "pug": "^3.0.2"
+    "sqlite3": "^4.0.9"
   }
 }
