@@ -28,9 +28,9 @@ const utils = require('./utils/utils');
 const appSettings = require('./config/app-settings');
 // Routing
 const routes = require('./controllers/routes');
-var static = require('node-static');
+var nstatic = require('node-static');
 
-var file = new(static.Server)(__dirname + "public/");
+var file = new(nstatic.Server)(__dirname + "public/");
 
 /**
  * Creates an HTTP server that acts as the entry point
