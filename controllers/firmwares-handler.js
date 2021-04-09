@@ -140,7 +140,7 @@ function handleFirmwaresFindNewVersion(request, resolve, reject, parsedUrl) {
             reject(err)
         });
     }
-    reject(err)
+    logger.debug(`NOT Calling firmwaresDao.findNewVersion`, 'handleFirmwaresFindNewVersion()');
 }
 
 /**

@@ -193,20 +193,23 @@ function findByModelName(modelName) {
  */
 function findNewVersion(modelName, actualVersion) {
     return new Promise((resolve, reject) => {
-        let sql = `${SELECT} ${FROM} WHERE model = ?, version > ?`;
+        let sql = `${SELECT} ${FROM} WHERE model = ? AND firmware.version > ?`;
+        logger.debug(`NAME ${modelName}, version ${actualVersion})`, 'handleFirmwaresFindNewVersion()');
         db.get(sql, modelName, actualVersion, (err, rows) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
-                logger.error(message, 'findNewVersion()');, actualVersion
+                logger.error(message, 'findNewVersion()');
                 reject(message);
-            } else {
-                let next = rows[0];
+            } else if (rows) {
+                let next = rows.first();
                 rows.forEach(element => {
                     if (element.version > next.version) {
                         next = element;
                     }
                 });
                 resolve({ data : JSON.stringify(next), statusCode: 200});
+            } else {
+                resolve({ data : JSON.stringify({}), statusCode: 404});
             }
         });
     });

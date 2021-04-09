@@ -28,9 +28,9 @@ const utils = require('./utils/utils');
 const appSettings = require('./config/app-settings');
 // Routing
 const routes = require('./controllers/routes');
-var nstatic = require('node-static');
+// var nstatic = require('node-static');
 
-var file = new(nstatic.Server)(__dirname + "public/");
+// var file = new(nstatic.Server)(__dirname + "public/");
 
 /**
  * Creates an HTTP server that acts as the entry point
@@ -40,9 +40,10 @@ var file = new(nstatic.Server)(__dirname + "public/");
  * - Models requests (e.g., /lists/123, lists/123/firmwares/567)
  */
 http.createServer(((request, response) => {
-    file.serve(req.res);
+//    file.serve(request.response);
     let parsedUrl = url.parse(request.url, true);
     // Routing is really not super easy with Vanilla Node
+    logger.debug(`CREATING SERVER: ${parsedUrl.pathname}`, 'http.createServer:on(request)');
     if (parsedUrl.pathname.startsWith('/firmwares')) {
         logger.debug(`Greetings from pathname: ${parsedUrl.pathname}`, 'http.createServer:on(request)');
         // Route /firmwares URL
@@ -62,7 +63,8 @@ http.createServer(((request, response) => {
     } else {
         // Anything else gets an error message
         let errorMessage = `Unknown pathname: ${parsedUrl.pathname}', cannot continue.`;
-        logger.error(errorMessage, 'http.createServer:on(request)');
+        console.log('HTTP Server running on port 8000');
+         logger.error(errorMessage, 'http.createServer:on(request)');
         utils.writeServerResponse(response, errorMessage, 404);
     }
 })).listen({ port : appSettings.server_listen_port, host : appSettings.server_host });

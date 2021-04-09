@@ -18,6 +18,14 @@
 const firmwaresDao = require('./firmwares-dao-sqlite3');
 const modelsDao = require('./models-dao-sqlite3');
 
+
+/**
+ * Find all the firmwares
+ */
+ function findAll() {
+  return firmwaresDao.findAll();
+}
+
 /**
  * Find the firmware object by the specified ID
  * using the underlying implementation.
@@ -107,8 +115,8 @@ function findByVersion(version) {
  *          could be located for that model name 
  *  reject(): the err object from the underlying data store
  */
-function findNewVersion(version) {
-  return firmwaresDao.findNewVersion(version);
+function findNewVersion(model, version) {
+  return firmwaresDao.findNewVersion(model, version);
 }
 
 module.exports.create = create;

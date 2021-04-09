@@ -133,20 +133,20 @@ function loadData(db, fileName, handleTableRow) {
  */
 function handleModelRowForSqlDb(db, fields) {
     // Model description
-    let description = fields[1];
+    let name = fields[1];
     // Manufacturer (optional)
-    let manufacturer = (fields[3]) ? fields[3] : null;
+    let description = (fields[2]) ? fields[2] : null;
     // Address (optional)
-    let address = (fields[4]) ? fields[4] : null;
+    let manufacturer = (fields[3]) ? fields[3] : null;
     // Website (optional)
-    let website = (fields[5]) ? fields[5] : null;
+    let datasheet = (fields[4]) ? fields[4] : null;
     // Insert the row
     db.run('INSERT INTO model (name, description, manufacturer, datasheet) VALUES (?, ?, ?, ?)', 
         name, description, manufacturer, datasheet,
         (err) => {
             if (err) {
                 logger.error('Error occurred while inserting record: name = ' + 
-                    name + ', description = ' + description + ', manufacturer = ' + manufacturer + ', datasheet = ' + address + ', website = ' + website);
+                    name + ', description = ' + description + ', manufacturer = ' + manufacturer + ', datasheet = ' + datasheet);
             }
         });
 }
@@ -155,19 +155,21 @@ function handleModelRowForSqlDb(db, fields) {
  * Handles firmware table: inserts a single row into the table
  * using the specified DB module and the fields provided
  */
-function handleItemRowForSqlDb(db, fields) {
-    // UPC
-    let upc = fields[2];
-    // Model description
-    let modelDescription = fields[3];
-    // Item description
-    let firmwareDescription = fields[4];
+function handleFirmwareRowForSqlDb(db, fields) {
+    // Model ID
+    let model_id = fields[1];
+    // Model version
+    let version = fields[2];
+    // Firmware description
+    let description = fields[3];
+    // Firmware url
+    let firmwareUrl = fields[4];
     // Insert the row
-    db.run('INSERT INTO firmware (upc, description, model_id) VALUES (?, ?, (SELECT id FROM model WHERE description = ?))', 
-        upc, firmwareDescription, modelDescription, 
+    db.run('INSERT INTO firmware (model_id, version, description, url) VALUES (?, ?, ?, ?)', 
+        model_id, version, description, firmwareUrl,
         (err) => {
             if (err) {
-                logger.error('Error occurred while inserting this record: upc = ' + upc + ', model = ' + modelDescription + ', firmware = ' + firmwareDescription, 'db.run()');
+                logger.error('Error occurred while inserting this record: model_id = ' + model_id + ', version = ' + version + ', description = ' + description + ', url = ' + firmwareUrl, 'db.run()');
             }
         });
 }
@@ -187,7 +189,7 @@ function handleItemRowForSqlDb(db, fields) {
         loadData(db, appSettings.model_file_name, handleModelRowForSqlDb).then(() => {
             logger.info('Loading model data, done.', 'mainline:createDbFixtures(resolved Promise)');
             logger.info('Loading data for firmware...', 'mainline:createDbFixtures(resolved Promise)');
-            loadData(db, appSettings.firmware_file_name, handleItemRowForSqlDb).then(() => {
+            loadData(db, appSettings.firmware_file_name, handleFirmwareRowForSqlDb).then(() => {
                 logger.info('Loading firmware data, done.', 'mainline:createDbFixtures(resolved Promise)');
                 logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
             });

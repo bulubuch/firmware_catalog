@@ -12,18 +12,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jstevenperry/IBM-Code.git"
+    "url": "git+https://github.com/bulubuch/firmware_catalog.git"
   },
   "keywords": [
     "node",
     "npm"
   ],
-  "author": "J Steven Perry",
+  "author": "Michel Buch",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/jstevenperry/IBM-Code/issues"
+    "url": "https://github.com/bulubuch/firmware_catalog/issues"
   },
-  "homepage": "https://github.com/jstevenperry/IBM-Code#readme",
+  "homepage": "https://github.com/bulubuch/firmware_catalog#readme",
   "dependencies": {
     "node-static": "^0.7.11",
     "nodemon": "^2.0.7",

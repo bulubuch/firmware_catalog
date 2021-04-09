@@ -19,7 +19,7 @@
  * appSettings - all relative to the project root
  */
 const appSettings = {
-    db_file_name : '../data/esp_catalog.db',
+    db_file_name : './data/esp_catalog.db',
     create_sql : {
         model : './scripts/model.sql',
         firmware : './scripts/firmware.sql',
@@ -27,7 +27,7 @@ const appSettings = {
     model_file_name : './data/models.csv',
     firmware_file_name : './data/firmwares.csv',
 
-    server_host : 'localhost',
+    server_host : '0.0.0.0',
     server_listen_port : 8000,
 };
 

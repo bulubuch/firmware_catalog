@@ -44,7 +44,7 @@ function routeFirmwaresRequest(request, parsedUrl) {
                 routeFirmwaresOnly(request, resolve, reject, parsedUrl);
                 break;
             case 2:
-                if (strcmp(urlPath[1], "module_update")) {
+                if (urlPath[1] == "module_update") {
                     routeFirmwaresModuleUpdate(request, resolve, reject, parsedUrl);
                 } else {
                     // Handle firmwares with id (e.g., /firmwares/122)
@@ -153,8 +153,12 @@ function routeModelsRequest(request, parsedUrl) {
  */
 function routeModelsOnly(request, resolve, reject, parsedUrl) {
     switch (request.method) {
+        case 'GET':
+            // All Model
+            modelsHandler.handleModelsFindAll(request, resolve, reject);
+            break;
         case 'POST':
-            // create shopping Model
+            // create Model
             modelsHandler.handleModelsCreate(request, resolve, reject);
             break;
         default:
