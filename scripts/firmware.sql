@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS firmware (
 	id				INTEGER PRIMARY KEY NOT NULL,
 	model_id		INTEGER NOT NULL,
-	version			REAL NOT NULL,
+	version			INTEGER DEFAULT 0,
 	description		TEXT,
 	url				TEXT,
 	when_created	INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,

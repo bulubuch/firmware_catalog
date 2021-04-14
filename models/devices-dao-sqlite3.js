@@ -30,7 +30,7 @@ const db = require('../utils/utils').getDatabase();
 
 function findAll() {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM model';
+        const sql = 'SELECT * FROM device';
         db.all(sql, (err, row) => {
             if (err) {
                 reject(err);
@@ -42,28 +42,64 @@ function findAll() {
 }
 
 /**
- * Create a firmware with the specified version
+ * Create a device with the specified version
  */
-function create(name, description, manufacturer, datasheet) {
+function register(uid, name, model_name, firmware_version) {
     return new Promise((resolve, reject) => {
-        const sql = `INSERT INTO model(name, description, manufacturer, datasheet) VALUES(?, ?, ?, ?)`
-        // Run the SQL (note: must use named callback to get properties of the resulting Statement)
-        db.run(sql, name, description, manufacturer, datasheet, function callback(err) {
-            if (err) {
-                reject(err);
-            } else {
-                resolve({ data : `{ "createdId" : ${this.lastID} }`, statusCode: 201 });
-            }
-        })
-    });
+		const sql = `SELECT id FROM model WHERE name = ?`;
+		var firmware_id = -1;
+		var model_id = -1;
+        db.run(sql, name, function callback(err, row) {
+			if (err) {
+				reject(err);
+			} else if (row) {
+				model_id = row.id;
+			} else {
+				sql = `INSERT INTO model(name) VALUES(?)`
+				db.run(sql, model_name, function callback(err) {
+					if (err) {
+						reject(err);
+					} else {
+						model_id = this.lastID;
+					}
+				});
+			}
+		});
+		const sql = `SELECT id FROM firmware WHERE model_id = ? AND version = ?`;
+        db.run(sql, model_id, firmware_version, function callback(err, row) {
+			if (err) {
+				reject(err);
+			} else if (row) {
+				firmware_id = row.id;
+			} else {
+				sql = `INSERT INTO firmware(model_id, version) VALUES(?, ?)`
+				db.run(sql, model_id, version, function callback(err) {
+					if (err) {
+						reject(err);
+					} else {
+						firmware_id = this.lastID;
+					}
+				});
+			}
+		});
+		sql = `INSERT INTO device(uid, name, model_id, firmware_id) VALUES(?, ?, ?, ?)`
+		// Run the SQL (note: must use named callback to get properties of the resulting Statement)
+		db.run(sql, uid, name, model_id, firmware_id, function callback(err) {
+			if (err) {
+				reject(err);
+			} else {
+				resolve({ data : `{ "createdId" : ${this.lastID} }`, statusCode: 201 });
+			}
+		});
+	})
 }
 
 /**
- * Find the model for the specified id
+ * Find the device for the specified id
  */
-function findById(id) {
+ function findById(id) {
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM model WHERE id = ?`;
+        const sql = `SELECT * FROM device WHERE id = ?`;
         db.get(sql, id, (err, row) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
@@ -79,15 +115,15 @@ function findById(id) {
 }
 
 /**
- * Find the model  for the specified id
+ * Find the device for the specified uid
  */
-function findByManufacturer(manufacturer) {
+ function findByUid(uid) {
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM model WHERE manufacturer like ?`;
-        db.get(sql, manufacturer, (err, row) => {
+        const sql = `SELECT * FROM device WHERE uid = ?`;
+        db.get(sql, uid, (err, row) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
-                logger.error(message, 'findByManufacturer()');
+                logger.error(message, 'findById()');
                 reject(message);
             } else if (row) {
                 resolve({ data : JSON.stringify(row), statusCode: 200 });
@@ -99,11 +135,31 @@ function findByManufacturer(manufacturer) {
 }
 
 /**
- * Find the model  for the specified name
+ * Find the device  for the specified id
+ */
+// function findByManufacturer(manufacturer) {
+//     return new Promise((resolve, reject) => {
+//         const sql = `SELECT * FROM device WHERE manufacturer like ?`;
+//         db.get(sql, manufacturer, (err, row) => {
+//             if (err) {
+//                 let message = `Error reading from the database: ${err.message}`;
+//                 logger.error(message, 'findByManufacturer()');
+//                 reject(message);
+//             } else if (row) {
+//                 resolve({ data : JSON.stringify(row), statusCode: 200 });
+//             } else {
+//                 resolve({ data : '{}', statusCode: 404 });
+//             }
+//         });
+//     });
+// }
+
+/**
+ * Find the device  for the specified name
  */
 function findByName(name) {
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM model WHERE name like ?`;
+        const sql = `SELECT * FROM device WHERE name = ?`;
         db.get(sql, name, (err, row) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
@@ -119,12 +175,12 @@ function findByName(name) {
 }
 
 /**
- * Update the model with the specified id
+ * Update the device with the specified id
  * with new field values
  */
 function update(id, name, description, manufacturer, datasheet) {
     return new Promise((resolve, reject) => {
-        const sql = `UPDATE model SET name = ?, description = ?, manufacturer = ?, datasheet = ?, when_modified = datetime('now') WHERE id = ?`;
+        const sql = `UPDATE device SET name = ?, description = ?, manufacturer = ?, datasheet = ?, when_modified = datetime('now') WHERE id = ?`;
         // Run the SQL (note: must use named callback to get properties of the resulting Statement)
         db.run(sql, name, description, manufacturer, datasheet, id, function callback(err) {
             if (err) {
@@ -137,12 +193,12 @@ function update(id, name, description, manufacturer, datasheet) {
 }
 
 /**
- * Delete the model with the specified id
+ * Delete the device with the specified id
  * with new field values
  */
 function del(id) {
     return new Promise((resolve, reject) => {
-        const sql = `DELETE model WHERE id = ?`;
+        const sql = `DELETE device WHERE id = ?`;
         // Run the SQL (note: must use named callback to get properties of the resulting Statement)
         db.run(sql, id,  function callback(err) {
             if (err) {
@@ -155,10 +211,11 @@ function del(id) {
 }
 
 
-module.exports.create = create;
+module.exports.register = register;
 module.exports.update = update;
 module.exports.del = del;
 module.exports.findAll = findAll;
 module.exports.findById = findById;
+module.exports.findByUid = findByUid;
 module.exports.findByName = findByName;
-module.exports.findByManufacturer = findByManufacturer;
+// module.exports.findByManufacturer = findByManufacturer;

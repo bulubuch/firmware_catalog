@@ -43,7 +43,7 @@ function findById(id) {
  * and return all items associated with it
  */
 function findByName(name) {
-  return modelsDao.findByIdWithAllItems(name);
+  return modelsDao.findByName(name);
 }
 
 /**

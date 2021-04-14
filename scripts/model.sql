@@ -1,6 +1,6 @@
 CREATE TABLE IF NOT EXISTS model(
 	id				INTEGER PRIMARY KEY NOT NULL,
-	name			TEXT NOT NULL,
+	name			TEXT UNIQUE NOT NULL,
 	description		TEXT,
 	manufacturer	TEXT,
 	datasheet		TEXT,

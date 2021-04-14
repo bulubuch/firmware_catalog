@@ -42,7 +42,12 @@ const SELECT = `SELECT firmware.id as firmware_id,
     model.manufacturer as model_manufacturer, 
     model.datasheet`;
 
-function findAll() {
+/**
+ * All of the FROMs in this module look the same
+ */
+ const FROM = `FROM firmware JOIN model ON firmware.model_id = model.id`;
+
+ function findAll() {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM firmware';
         db.all(sql, (err, row) => {
@@ -55,11 +60,6 @@ function findAll() {
     });
 }
     
-/**
- * All of the FROMs in this module look the same
- */
-const FROM = `FROM firmware JOIN model ON firmware.model_id = model.id`;
-
 /**
  * Create a firmware with the specified version
  */
