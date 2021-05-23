@@ -18,7 +18,7 @@
 const http = require('http');
 // Node URL module
 const url = require('url');// To avoid confusion
-
+const fs = require('fs')
 // Logger
 const logger = require('./utils/logger');
 logger.setLogLevel(logger.Level.DEBUG);
