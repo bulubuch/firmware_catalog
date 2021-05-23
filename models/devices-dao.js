@@ -3,7 +3,7 @@
 const devicesDao = require('./devices-dao-sqlite3');
 
 /**
- * Create a device with the specified description
+ * Create a device with the specified values
  */
 function register(uid, name, model_name, firmware_version) {
     return devicesDao.create(uid, name, model_name, firmware_version);
@@ -32,7 +32,7 @@ function findByName(name) {
 }
 
 /**
- * Find the device with the specified manufacturer
+ * Find the device with the specified model name
  * and return all items associated with it
  */
 function findByModel(model_name) {
@@ -43,8 +43,8 @@ function findByModel(model_name) {
  * Update the device with the specified id
  * with new field values
  */
-function update(id, name, description, manufacturer, datasheet) {
-    return devicesDao.update(id, name, description, manufacturer, datasheet);
+function update(id, name, model_name, firmware_version) {
+    return devicesDao.update(id, name, model_name, firmware_version);
 }
 
 /**
@@ -56,7 +56,7 @@ function del(id) {
 }
 
 module.exports.findAll = findAll;
-module.exports.create = create;
+module.exports.register = register;
 module.exports.update = update;
 module.exports.del = del;
 module.exports.findById = findById;

@@ -18,10 +18,10 @@
 const http = require('http');
 // Node URL module
 const url = require('url');// To avoid confusion
-const fs = require('fs')
 var nStatic = require('node-static');
 
-var fileServer = new nStatic.Server('./public');// Logger
+var fileServer = new nStatic.Server('./public');
+// Logger
 const logger = require('./utils/logger');
 logger.setLogLevel(logger.Level.DEBUG);
 // Utilities

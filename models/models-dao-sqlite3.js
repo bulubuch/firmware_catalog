@@ -42,7 +42,7 @@ function findAll() {
 }
 
 /**
- * Create a firmware with the specified version
+ * Create a model with the specified values
  */
 function create(name, description, manufacturer, datasheet) {
     return new Promise((resolve, reject) => {

@@ -42,14 +42,14 @@ function findAll() {
 }
 
 /**
- * Create a device with the specified version
+ * Create a device with the specified values
  */
 function register(uid, name, model_name, firmware_version) {
     return new Promise((resolve, reject) => {
-		const sql = `SELECT id FROM model WHERE name = ?`;
+		var sql = `SELECT id FROM model WHERE name = ?`;
 		var firmware_id = -1;
 		var model_id = -1;
-        db.run(sql, name, function callback(err, row) {
+        db.run(sql, model_name, function callback(err, row) {
 			if (err) {
 				reject(err);
 			} else if (row) {
@@ -65,32 +65,36 @@ function register(uid, name, model_name, firmware_version) {
 				});
 			}
 		});
-		const sql = `SELECT id FROM firmware WHERE model_id = ? AND version = ?`;
-        db.run(sql, model_id, firmware_version, function callback(err, row) {
-			if (err) {
-				reject(err);
-			} else if (row) {
-				firmware_id = row.id;
-			} else {
-				sql = `INSERT INTO firmware(model_id, version) VALUES(?, ?)`
-				db.run(sql, model_id, version, function callback(err) {
-					if (err) {
-						reject(err);
-					} else {
-						firmware_id = this.lastID;
-					}
-				});
-			}
-		});
-		sql = `INSERT INTO device(uid, name, model_id, firmware_id) VALUES(?, ?, ?, ?)`
-		// Run the SQL (note: must use named callback to get properties of the resulting Statement)
-		db.run(sql, uid, name, model_id, firmware_id, function callback(err) {
-			if (err) {
-				reject(err);
-			} else {
-				resolve({ data : `{ "createdId" : ${this.lastID} }`, statusCode: 201 });
-			}
-		});
+		if (model_id > 0) {
+			sql = `SELECT id FROM firmware WHERE model_id = ? AND version = ?`;
+			db.run(sql, model_id, firmware_version, function callback(err, row) {
+				if (err) {
+					reject(err);
+				} else if (row) {
+					firmware_id = row.id;
+				} else {
+					sql = `INSERT INTO firmware(model_id, version) VALUES(?, ?)`
+					db.run(sql, model_id, version, function callback(err) {
+						if (err) {
+							reject(err);
+						} else {
+							firmware_id = this.lastID;
+						}
+					});
+				}
+			});
+			sql = `INSERT INTO device(uid, name, model_id, firmware_id) VALUES(?, ?, ?, ?)`
+			// Run the SQL (note: must use named callback to get properties of the resulting Statement)
+			db.run(sql, uid, name, model_id, firmware_id, function callback(err) {
+				if (err) {
+					reject(err);
+				} else {
+					resolve({ data : `{ "createdId" : ${this.lastID} }`, statusCode: 201 });
+				}
+			});
+		} else {
+			resolve({ data : `{ "error" : "Failed to register device" }`, statusCode: 500 });
+		}
 	})
 }
 
