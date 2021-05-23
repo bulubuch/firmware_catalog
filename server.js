@@ -19,7 +19,9 @@ const http = require('http');
 // Node URL module
 const url = require('url');// To avoid confusion
 const fs = require('fs')
-// Logger
+var nStatic = require('node-static');
+
+var fileServer = new nStatic.Server('./public');// Logger
 const logger = require('./utils/logger');
 logger.setLogLevel(logger.Level.DEBUG);
 // Utilities
@@ -63,8 +65,9 @@ http.createServer(((request, response) => {
     } else if (parsedUrl.pathname.startsWith('/dashboard')) {
         logger.debug(`Greetings from pathname: ${parsedUrl.pathname}`, 'http.createServer:on(request)');
         // Route /dashboard URL
-		response.writeHead(200, { 'content-type': 'text/html' })
-		fs.createReadStream('views/dashboard.html').pipe(response)
+		fileServer.serve(request, response);
+		// response.writeHead(200, { 'content-type': 'text/html' })
+		// fs.createReadStream('views/dashboard.html').pipe(response)
         // routes.routeModelsRequest(request, parsedUrl).then((results) => {
         //     utils.writeServerJsonResponse(response, results.data, results.statusCode);
         // }).catch((rejectReason) => {
