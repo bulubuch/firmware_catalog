@@ -60,6 +60,16 @@ http.createServer(((request, response) => {
         }).catch((rejectReason) => {
             utils.writeServerResponse(response, rejectReason, 400);
         });
+    } else if (parsedUrl.pathname.startsWith('/dashboard')) {
+        logger.debug(`Greetings from pathname: ${parsedUrl.pathname}`, 'http.createServer:on(request)');
+        // Route /dashboard URL
+		res.writeHead(200, { 'content-type': 'text/html' })
+		fs.createReadStream('index.html').pipe(res)
+        // routes.routeModelsRequest(request, parsedUrl).then((results) => {
+        //     utils.writeServerJsonResponse(response, results.data, results.statusCode);
+        // }).catch((rejectReason) => {
+        //     utils.writeServerResponse(response, rejectReason, 400);
+        // });
     } else {
         // Anything else gets an error message
         let errorMessage = `Unknown pathname: ${parsedUrl.pathname}', cannot continue.`;
