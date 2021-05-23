@@ -64,7 +64,7 @@ http.createServer(((request, response) => {
         logger.debug(`Greetings from pathname: ${parsedUrl.pathname}`, 'http.createServer:on(request)');
         // Route /dashboard URL
 		response.writeHead(200, { 'content-type': 'text/html' })
-		fs.createReadStream('index.html').pipe(res)
+		fs.createReadStream('index.html').pipe(response)
         // routes.routeModelsRequest(request, parsedUrl).then((results) => {
         //     utils.writeServerJsonResponse(response, results.data, results.statusCode);
         // }).catch((rejectReason) => {
