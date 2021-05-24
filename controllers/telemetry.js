@@ -74,7 +74,8 @@ function getValue(message, key) {
 
 
 function getUid(message) {
-	var parts = message.split(",");
+	var str = "" + message;
+	var parts = str.split(",");
 	console.log("GET UID in message : " + message);
 	if (parts.length > 1) {
 		return parts[0];
