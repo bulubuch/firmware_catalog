@@ -46,9 +46,8 @@ function findAll() {
  */
 function register(uid, name, model_name, firmware_version) {
     return new Promise((resolve, reject) => {
-		var sql = `SELECT id FROM model WHERE name = ?`;
-		var firmware_id = -1;
 		var model_id = -1;
+		var sql = `SELECT id FROM model WHERE name = ?`;
         db.run(sql, model_name, function callback(err, row) {
 			if (err) {
 				reject(err);
@@ -65,36 +64,30 @@ function register(uid, name, model_name, firmware_version) {
 				});
 			}
 		});
-		if (model_id > 0) {
-			sql = `SELECT id FROM firmware WHERE model_id = ? AND version = ?`;
-			db.run(sql, model_id, firmware_version, function callback(err, row) {
-				if (err) {
-					reject(err);
-				} else if (row) {
-					firmware_id = row.id;
-				} else {
-					sql = `INSERT INTO firmware(model_id, version) VALUES(?, ?)`
-					db.run(sql, model_id, version, function callback(err) {
-						if (err) {
-							reject(err);
-						} else {
-							firmware_id = this.lastID;
-						}
-					});
-				}
-			});
-			sql = `INSERT INTO device(uid, name, model_id, firmware_id) VALUES(?, ?, ?, ?)`
-			// Run the SQL (note: must use named callback to get properties of the resulting Statement)
-			db.run(sql, uid, name, model_id, firmware_id, function callback(err) {
-				if (err) {
-					reject(err);
-				} else {
-					resolve({ data : `{ "createdId" : ${this.lastID} }`, statusCode: 201 });
-				}
-			});
-		} else {
-			resolve({ data : `{ "error" : "Failed to register device" }`, statusCode: 500 });
-		}
+		sql = `SELECT id FROM firmware WHERE model_id = ? AND version = ?`;
+		db.run(sql, model_id, firmware_version, function callback(err, row) {
+			if (err) {
+				reject(err);
+			} else if (row) {
+
+			} else if (model_id > 0) {
+				sql = `INSERT INTO firmware(model_id, version) VALUES(?, ?)`
+				db.run(sql, model_id, firmware_version, function callback(err) {
+					if (err) {
+						reject(err);
+					}
+				});
+			}
+		});
+		sql = `INSERT INTO device(uid, name, model_name, firmware_version) VALUES(?, ?, ?, ?)`
+		// Run the SQL (note: must use named callback to get properties of the resulting Statement)
+		db.run(sql, uid, name, model_name, firmware_version, function callback(err) {
+			if (err) {
+				reject(err);
+			} else {
+				resolve({ data : `{ "createdId" : ${this.lastID} }`, statusCode: 201 });
+			}
+		});
 	})
 }
 
@@ -139,24 +132,41 @@ function register(uid, name, model_name, firmware_version) {
 }
 
 /**
- * Find the device  for the specified id
+ * Find devices by the specified manufacturer
  */
-// function findByManufacturer(manufacturer) {
-//     return new Promise((resolve, reject) => {
-//         const sql = `SELECT * FROM device WHERE manufacturer like ?`;
-//         db.get(sql, manufacturer, (err, row) => {
-//             if (err) {
-//                 let message = `Error reading from the database: ${err.message}`;
-//                 logger.error(message, 'findByManufacturer()');
-//                 reject(message);
-//             } else if (row) {
-//                 resolve({ data : JSON.stringify(row), statusCode: 200 });
-//             } else {
-//                 resolve({ data : '{}', statusCode: 404 });
-//             }
-//         });
-//     });
-// }
+function findByManufacturer(manufacturer) {
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT * FROM model WHERE manufacturer like ?`;
+		var models = [];
+		var devices = [];
+        db.get(sql, manufacturer, (err, rows) => {
+            if (err) {
+                let message = `Error reading from the database: ${err.message}`;
+                logger.error(message, 'findByManufacturer()');
+                reject(message);
+            } else if (rows) {
+				models = rows;
+            } else {
+                logger.error('Not found : ' + manufacturer + "in ", 'findByManufacturer()');
+            }
+        });
+        const sql = `SELECT * FROM device WHERE model_id = ?`;
+		for (var i = 0; i < models.length; i++) {
+			db.get(sql, manufacturer, (err, rows) => {
+				if (err) {
+					let message = `Error reading from the database: ${err.message}`;
+					logger.error(message, 'findByManufacturer()');
+					reject(message);
+				} else if (rows) {
+					devices.push(rows);
+				}
+			});
+		}
+		if (devices) {
+			logger.info("FOUND devices", 'findByManufacturer()');
+		}
+    });
+}
 
 /**
  * Find the device  for the specified name
@@ -182,9 +192,9 @@ function findByName(name) {
  * Update the device with the specified id
  * with new field values
  */
-function update(id, name, description, manufacturer, datasheet) {
+function update(id, name, firmware_version) {
     return new Promise((resolve, reject) => {
-        const sql = `UPDATE device SET name = ?, description = ?, manufacturer = ?, datasheet = ?, when_modified = datetime('now') WHERE id = ?`;
+        const sql = `UPDATE device SET name = ?,  = ?, when_modified = datetime('now') WHERE id = ?`;
         // Run the SQL (note: must use named callback to get properties of the resulting Statement)
         db.run(sql, name, description, manufacturer, datasheet, id, function callback(err) {
             if (err) {
@@ -222,4 +232,4 @@ module.exports.findAll = findAll;
 module.exports.findById = findById;
 module.exports.findByUid = findByUid;
 module.exports.findByName = findByName;
-// module.exports.findByManufacturer = findByManufacturer;
+module.exports.findByManufacturer = findByManufacturer;

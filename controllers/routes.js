@@ -33,9 +33,78 @@ const modelsHandler = require('./models-handler');
 const firmwaresHandler = require('./firmwares-handler');
 
 /**
+ * Handle request for all supported /devices paths
+ */
+ function routeDevicesRequest(request, parsedUrl) {
+    return new Promise((resolve, reject) => {
+        logger.debug('Cracking message', 'routeDevicesRequest()');
+        let urlPath = utils.parseUrl(parsedUrl.pathname).pathComponents;
+        switch (urlPath.length) {
+            case 1:
+                routeDevicesOnly(request, resolve, reject, parsedUrl);
+                break;
+            case 2:
+                routeDevicesWithId(request, resolve, reject, parsedUrl, urlPath[1]);
+                break;
+            default:
+                var message = `Invalid path: ${parsedUrl} for method: ${request.method}`;
+                logger.error(message, 'routeDevicesRequest()');
+                reject(message);
+                break;
+        }    
+    });
+}
+
+/**
+ * Routes request for GET for devices only (e.g., /devices)
+ */
+ function routeDevicesOnly(request, resolve, reject, parsedUrl) {
+    switch (request.method) {
+        case 'GET':
+            // list all devices
+            devicesHandler.handleDevicesFindAll(request, resolve, reject, parsedUrl);
+            break;
+        case 'POST':
+            // create device
+            devicesHandler.handleDevicesRegister(request, resolve, reject);
+            break;
+        default:
+            var message = `HTTP Method ${request.method} is not supported for ${parsedUrl.pathname}`;
+            logger.error(message, 'routeDevicesRequest()');
+            reject(message);
+            break;
+    }
+}
+
+/**
+ * Routes request for GET for devices with id (e.g., /devices/123)
+ */
+function routeDevicesWithId(request, resolve, reject, parsedUrl, id) {
+    switch (request.method) {
+        case 'GET':
+            // find by id
+            devicesHandler.handleDevicesFindById(request, resolve, reject, id);
+            break;
+        case 'PUT':
+            // update device
+            devicesHandler.handleDevicesUpdate(request, resolve, reject, id);
+            break;
+        case 'DELETE':
+            // Delete device
+            devicesHandler.handleDevicesDelete(request, resolve, reject, id);
+            break;
+        default:
+            var message = `HTTP Method ${request.method} is not supported for ${parsedUrl.pathname}`;
+            logger.error(message, 'routeDevicesRequest()');
+            reject(message);
+            break;
+    }
+}
+
+/**
  * Handle request for all supported /firmwares paths
  */
-function routeFirmwaresRequest(request, parsedUrl) {
+ function routeFirmwaresRequest(request, parsedUrl) {
     return new Promise((resolve, reject) => {
         logger.debug('Cracking message', 'routeFirmwaresRequest()');
         let urlPath = utils.parseUrl(parsedUrl.pathname).pathComponents;

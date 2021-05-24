@@ -40,11 +40,19 @@ function findByModel(model_name) {
 }
 
 /**
+ * Find the device with the specified manufacturer
+ * and return all items associated with it
+ */
+function findByManufacturer(manufacturer) {
+	return devicesDao.findByManufacturer(manufacturer);
+}
+
+/**
  * Update the device with the specified id
  * with new field values
  */
-function update(id, name, model_name, firmware_version) {
-    return devicesDao.update(id, name, model_name, firmware_version);
+function update(id, name, firmware_version) {
+    return devicesDao.update(id, name, firmware_version);
 }
 
 /**
@@ -61,4 +69,4 @@ module.exports.update = update;
 module.exports.del = del;
 module.exports.findById = findById;
 module.exports.findByName = findByName;
-// module.exports.findByManufacturer = findByManufacturer;
+module.exports.findByManufacturer = findByManufacturer;
