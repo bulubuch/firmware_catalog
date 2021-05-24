@@ -78,6 +78,7 @@ function getUid(message) {
 	var parts = str.split(",");
 	console.log("GET UID in message : " + message);
 	if (parts.length > 1) {
+		console.log("Parts " + parts.length);
 		return parts[0];
 	}
 	return null;
