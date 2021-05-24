@@ -32,9 +32,9 @@ const db = require('../utils/utils').getDatabase();
 
 function getDevice(uid) {
 	console.log("Getting device with uid: " + uid);
-	const sql = `SELECT id from device WHERE uid = ?`
+	const sql = `SELECT id from device`
 	// Run the SQL (note: must use named callback to get properties of the resulting Statement)
-	db.run(sql, uid, function callback(err, row) {
+	db.run(sql, function callback(err, row) {
 		if (err) {
 			console.log("Error: " + err);
 			return 0;
