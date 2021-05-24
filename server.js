@@ -50,17 +50,16 @@ client.on("error",function(error){
 });
 //publish
 function publish(topic,msg,options){
-console.log("publishing",msg);
+	console.log("publishing",msg);
 
-if (client.connected == true){
-	
-client.publish(topic,msg,options);
-
-}
-count+=1;
-if (count==2) //ens script
-	clearTimeout(timer_id); //stop timer
-	client.end();	
+	if (client.connected == true){
+		client.publish(topic,msg,options);
+	}
+	count+=1;
+	if (count==2){ //ens script
+		clearTimeout(timer_id); //stop timer
+		client.end();
+	}
 }
 
 //////////////
