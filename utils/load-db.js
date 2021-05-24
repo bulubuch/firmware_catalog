@@ -247,6 +247,15 @@ function handleFirmwareRowForSqlDb(db, fields) {
     // Create db fixtures (e.g., tables, if applicable)
     let returnPromise = createDbFixtures(db);
     returnPromise.then(() => {
+		db.run('SELECT * FROM model',
+        (err, rows) => {
+            if (err) {
+                logger.error('Error occurred while inserting this record: model_id = ' + model_id + ', version = ' + version + ', description = ' + description + ', url = ' + firmwareUrl, 'db.run()');
+            } else {
+                logger.info('MODEL ROWS ');
+                console.log(rows);
+			}
+        });
         logger.info('Loading data for model...', 'mainline:createDbFixtures(resolved Promise)');
         loadData(db, appSettings.model_file_name, handleModelRowForSqlDb).then(() => {
             logger.info('Loading model data, done.', 'mainline:createDbFixtures(resolved Promise)');
