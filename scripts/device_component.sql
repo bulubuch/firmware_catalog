@@ -4,7 +4,7 @@ CREATE TABLE IF NOT EXISTS device_component (
 	model_name			VARCHAR 32 NOT NULL,
 	type				VARCHAR 32,
 	builtin				INTEGER DEFAULT 0,
-	active				INTEGER DEFAULT 0,
+	active				INTEGER DEFAULT 1,
 	when_created		INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY (device_id) REFERENCES device(id)
 );
