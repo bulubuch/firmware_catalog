@@ -10,13 +10,6 @@ const devicesDao = require('./devices-dao-sqlite3');
 }
 
 /**
- * Register a device componnet
- */
- function registerComponent(device_uid, model_name, type, builtin, active) {
-    return devicesDao.registerComponent(device_uid, model_name, type, builtin, active);
-}
-
-/**
  * Find all the devices
  */
 function findAll() {
@@ -58,8 +51,8 @@ function findByManufacturer(manufacturer) {
  * Update the device with the specified id
  * with new field values
  */
-function update(id, name, firmware_version) {
-    return devicesDao.update(id, name, firmware_version);
+function update(id, name, firmware_version, active) {
+    return devicesDao.update(id, name, firmware_version, active);
 }
 
 /**

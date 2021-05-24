@@ -6,7 +6,7 @@
   "scripts": {
     "load-db": "node ./utils/load-db",
     "start": "node server.js",
-    "start-dev": "node telemetry.js; nodemon server.js",
+    "start-dev": "node telemetry.js & nodemon server.js",
     "unit-test": "node ./test/unit-test",
     "test": "node ./test/functional-test"
   },

@@ -47,28 +47,12 @@ function handleComponentsFindById(request, resolve, reject, id) {
  * Handle (that is, resolve() or reject()) request for components
  * to find by Id (e.g., GET /components/123)
  * 
- * Call componentsDao.findByManufacturer()
+ * Call componentsDao.findByModelName()
  */
-function handleComponentsFindByManufacturer(request, resolve, reject, manufacturer) {
-    // Call componentsDao.findByManufacturer()
-    logger.debug(`Calling componentsDao.findByManufacturer(${manufacturer})`, 'handleComponentsFindByManufacturer()');
-    componentsDao.findByManufacturer(manufacturer).then((result) => {
-        resolve(result);
-    }).catch((err) => {
-        reject(err)
-    });
-}
-
-/**
- * Handle (that is, resolve() or reject()) request for components
- * to find by Id (e.g., GET /components/123)
- * 
- * Call componentsDao.findByName()
- */
-function handleComponentsFindByName(request, resolve, reject, name) {
-    // Call componentsDao.findByName()
-    logger.debug(`Calling componentsDao.findByName(${name})`, 'handleComponentsFindByName()');
-    componentsDao.findByName(name).then((result) => {
+function handleComponentsFindByModelName(request, resolve, reject, model_name) {
+    // Call componentsDao.findByModelName()
+    logger.debug(`Calling componentsDao.findByModelName(${name})`, 'handleComponentsFindByModelName()');
+    componentsDao.findByModelName(model_name).then((result) => {
         resolve(result);
     }).catch((err) => {
         reject(err)
