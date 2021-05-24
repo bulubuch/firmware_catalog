@@ -101,16 +101,16 @@ function createDbFixtures(db) {
 			logger.info('Creating model table...', 'createDbFixtures()');
 			db.run(modelSql);
 			logger.info('Creating model table, done.', 'createDbFixtures()');
-			return loadFile(appSettings.create_sql.device);
-		}).then((deviceSql) => {
-			logger.info('Creating device table...', 'createDbFixtures()');
-			db.run(deviceSql);
-			logger.info('Creating device table, done.', 'createDbFixtures()');
-			return loadFile(appSettings.create_sql.device_component);
-		}).then((deviceComponentSql) => {
-			logger.info('Creating device_component table...', 'createDbFixtures()');
-			db.run(deviceComponentSql);
-			logger.info('Creating device_component table, done.', 'createDbFixtures()');
+		// 	return loadFile(appSettings.create_sql.device);
+		// }).then((deviceSql) => {
+		// 	logger.info('Creating device table...', 'createDbFixtures()');
+		// 	db.run(deviceSql);
+		// 	logger.info('Creating device table, done.', 'createDbFixtures()');
+		// 	return loadFile(appSettings.create_sql.device_component);
+		// }).then((deviceComponentSql) => {
+		// 	logger.info('Creating device_component table...', 'createDbFixtures()');
+		// 	db.run(deviceComponentSql);
+		// 	logger.info('Creating device_component table, done.', 'createDbFixtures()');
 			return loadFile(appSettings.create_sql.firmware);
 		}).then((firmwareSql) => {
 			logger.info('Creating firmware table...', 'createDbFixtures()');
@@ -253,10 +253,10 @@ function handleFirmwareRowForSqlDb(db, fields) {
             logger.info('Loading data for firmware...', 'mainline:createDbFixtures(resolved Promise)');
             loadData(db, appSettings.firmware_file_name, handleFirmwareRowForSqlDb).then(() => {
                 logger.info('Loading firmware data, done.', 'mainline:createDbFixtures(resolved Promise)');
-				loadData(db, appSettings.device_file_name, handleDeviceRowForSqlDb).then(() => {
-					logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
+				// loadData(db, appSettings.device_file_name, handleDeviceRowForSqlDb).then(() => {
+				// 	logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
 					logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
-				});
+				// });
 			});
         });
     }).catch((err) => {
