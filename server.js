@@ -72,7 +72,10 @@ var message="test message";
 var topic_list=["topic2","topic3","topic4"];
 var topic_o={"topic22":0,"topic33":1,"topic44":1};
 console.log("subscribing to topics");
-client.subscribe(topic,{qos:1}); //single topic
+client.subscribe("CALLBACKTOPIC",{qos:1}, function callback() {
+	console.log("CALLBACK FOR CALLBACKTOPIC");
+});
+//single topic
 client.subscribe(topic_list,{qos:1}); //topic list
 client.subscribe(topic_o); //object
 var timer_id=setInterval(function(){publish(topic,message,options);},5000);
