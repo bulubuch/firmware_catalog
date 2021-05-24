@@ -1,10 +1,10 @@
-CREATE TABLE IF NOT EXISTS sector_item(
+CREATE TABLE IF NOT EXISTS sector(
 	id				INTEGER PRIMARY KEY NOT NULL,
-	sector_id		INTEGER NOT NULL,
-	item_id			INTEGER NOT NULL,
+	parent_id		INTEGER DEFAULT 0,
 	name			TEXT UNIQUE NOT NULL,
+	description		TEXT,
+	shape			TEXT,
 	type			VARCHAR 32,
 	active			INTEGER DEFAULT 0,
 	when_created	INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP
-	FOREIGN KEY (sector_id) REFERENCES sector(id)
 );

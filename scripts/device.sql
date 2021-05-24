@@ -6,5 +6,3 @@ CREATE TABLE IF NOT EXISTS device (
 	name				VARCHAR 32,
 	when_created		INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );
-
-CREATE INDEX device_idx1 ON device(uid);
