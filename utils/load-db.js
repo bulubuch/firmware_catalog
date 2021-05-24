@@ -106,11 +106,11 @@ function createDbFixtures(db) {
 			logger.info('Creating device table... \n' + deviceSql, 'createDbFixtures()');
 			db.run(deviceSql);
 			logger.info('Creating device table, done.', 'createDbFixtures()');
-			return loadFile(appSettings.create_sql.device_component);
-		}).then((deviceComponentSql) => {
-			logger.info('Creating device_component table... \n' + deviceComponentSql, 'createDbFixtures()');
-			db.run(deviceComponentSql);
-			logger.info('Creating device_component table, done.', 'createDbFixtures()');
+		// 	return loadFile(appSettings.create_sql.device_component);
+		// }).then((deviceComponentSql) => {
+		// 	logger.info('Creating device_component table... \n' + deviceComponentSql, 'createDbFixtures()');
+		// 	db.run(deviceComponentSql);
+		// 	logger.info('Creating device_component table, done.', 'createDbFixtures()');
 			return loadFile(appSettings.create_sql.firmware);
 		}).then((firmwareSql) => {
 			logger.info('Creating firmware table...', 'createDbFixtures()');
