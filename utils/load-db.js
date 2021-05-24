@@ -96,26 +96,31 @@ function createDbFixtures(db) {
 			logger.info('Dropping all tables, done.', 'createDbFixtures()');
 			resolve();
 		}).then(() => {
-			return loadFile(appSettings.create_sql.firmware);
-		}).then((firmwareSql) => {
-			logger.info('Creating firmware table...', 'createDbFixtures()');
-			db.run(firmwareSql);
-			logger.info('Creating firmware table, done.', 'createDbFixtures()')
-			return loadFile(appSettings.create_sql.model);
-		}).then((modelSql) => {
-			logger.info('Creating model table...', 'createDbFixtures()');
-			db.run(modelSql);
-			logger.info('Creating model table, done.', 'createDbFixtures()');
 			return loadFile(appSettings.create_sql.device);
 		}).then((deviceSql) => {
 			logger.info('Creating device table...', 'createDbFixtures()');
 			db.run(deviceSql);
 			logger.info('Creating device table, done.', 'createDbFixtures()');
-			return loadFile(appSettings.create_sql.device_component);
-		}).then((deviceComponentSql) => {
-			logger.info('Creating device_component table...', 'createDbFixtures()');
-			db.run(deviceComponentSql);
-			logger.info('Creating device_component table, done.', 'createDbFixtures()');
+		// 	return loadFile(appSettings.create_sql.firmware);
+		// }).then((firmwareSql) => {
+		// 	logger.info('Creating firmware table...', 'createDbFixtures()');
+		// 	db.run(firmwareSql);
+		// 	logger.info('Creating firmware table, done.', 'createDbFixtures()')
+		// 	return loadFile(appSettings.create_sql.model);
+		// }).then((modelSql) => {
+		// 	logger.info('Creating model table...', 'createDbFixtures()');
+		// 	db.run(modelSql);
+		// 	logger.info('Creating model table, done.', 'createDbFixtures()');
+		// 	return loadFile(appSettings.create_sql.device);
+		// }).then((deviceSql) => {
+		// 	logger.info('Creating device table...', 'createDbFixtures()');
+		// 	db.run(deviceSql);
+		// 	logger.info('Creating device table, done.', 'createDbFixtures()');
+		// 	return loadFile(appSettings.create_sql.device_component);
+		// }).then((deviceComponentSql) => {
+		// 	logger.info('Creating device_component table...', 'createDbFixtures()');
+		// 	db.run(deviceComponentSql);
+		// 	logger.info('Creating device_component table, done.', 'createDbFixtures()');
 			return Promise.resolve();
 		}).catch((err) => {
 			logger.error('Something has gone horribly wrong: ' + err.message);
@@ -246,31 +251,35 @@ function handleFirmwareRowForSqlDb(db, fields) {
     let db = new database.Database(appSettings.db_file_name);
     // Create db fixtures (e.g., tables, if applicable)
     let returnPromise = createDbFixtures(db);
-    // returnPromise.then(() => {
-	// 	db.run('SELECT * FROM model',
-    //     (err, rows) => {
-    //         if (err) {
-    //             logger.error('Error occurred while inserting this record: model_id = ' + model_id + ', version = ' + version + ', description = ' + description + ', url = ' + firmwareUrl, 'db.run()');
-    //         } else {
-    //             logger.info('MODEL ROWS ');
-    //             console.log(rows);
-	// 		}
-    //     });
-    //     logger.info('Loading data for model...', 'mainline:createDbFixtures(resolved Promise)');
-    //     loadData(db, appSettings.model_file_name, handleModelRowForSqlDb).then(() => {
-    //         logger.info('Loading model data, done.', 'mainline:createDbFixtures(resolved Promise)');
-    //         logger.info('Loading data for firmware...', 'mainline:createDbFixtures(resolved Promise)');
-    //         loadData(db, appSettings.firmware_file_name, handleFirmwareRowForSqlDb).then(() => {
-    //             logger.info('Loading firmware data, done.', 'mainline:createDbFixtures(resolved Promise)');
-	// 			// loadData(db, appSettings.device_file_name, handleDeviceRowForSqlDb).then(() => {
-	// 			// 	logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
-	// 				logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
-	// 			// });
-	// 		});
-    //     });
-    // }).catch((err) => {
-    //     logger.error('Better luck next time: ' + err.message, 'mainline():createDbFixtures(rejected Promise)');
-    // });
+    returnPromise.then(() => {
+		// db.run('SELECT * FROM model',
+        // (err, rows) => {
+        //     if (err) {
+        //         logger.error('Error occurred while inserting this record: model_id = ' + model_id + ', version = ' + version + ', description = ' + description + ', url = ' + firmwareUrl, 'db.run()');
+        //     } else {
+        //         logger.info('MODEL ROWS ');
+        //         console.log(rows);
+		// 	}
+        // });
+        logger.info('Loading data for model...', 'mainline:createDbFixtures(resolved Promise)');
+		loadData(db, appSettings.device_file_name, handleDeviceRowForSqlDb).then(() => {
+			logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
+			logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
+		});
+			// loadData(db, appSettings.model_file_name, handleModelRowForSqlDb).then(() => {
+            // logger.info('Loading model data, done.', 'mainline:createDbFixtures(resolved Promise)');
+            // logger.info('Loading data for firmware...', 'mainline:createDbFixtures(resolved Promise)');
+            // loadData(db, appSettings.firmware_file_name, handleFirmwareRowForSqlDb).then(() => {
+            //     logger.info('Loading firmware data, done.', 'mainline:createDbFixtures(resolved Promise)');
+			// 	// loadData(db, appSettings.device_file_name, handleDeviceRowForSqlDb).then(() => {
+			// 	// 	logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
+			// 		logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
+			// 	// });
+			// });
+        });
+    }).catch((err) => {
+        logger.error('Better luck next time: ' + err.message, 'mainline():createDbFixtures(rejected Promise)');
+    });
 
     process.on('exit', (code) => {
         db.close((err) => {
