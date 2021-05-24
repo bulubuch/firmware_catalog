@@ -30,7 +30,7 @@ const appSettings = require('./config/app-settings');
 const routes = require('./controllers/routes');
 var mqtt    = require('mqtt');
 var count =0;
-var client  = mqtt.connect("mqtt://192.168.1.157",{clientId:"mqttjs01"});
+var client  = mqtt.connect("mqtt://localhost",{clientId:"mqttjs01"});
 console.log("connected flag  " + client.connected);
 
 //handle incoming messages
@@ -46,8 +46,8 @@ console.log("connected  "+ client.connected);
 })
 //handle errors
 client.on("error",function(error){
-console.log("Can't connect" + error);
-process.exit(1)});
+	console.log("Can't connect" + error);
+});
 //publish
 function publish(topic,msg,options){
 console.log("publishing",msg);
