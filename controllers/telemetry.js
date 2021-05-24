@@ -31,6 +31,7 @@ logger.setLogLevel(logger.Level.DEBUG);
 const db = require('../utils/utils').getDatabase();
 
 function getDevice(uid) {
+	console.log("Getting device qith uid: " + uid);
 	const sql = `SELECT id from device WHERE uid = ?`
 	var device_id = null;
 	// Run the SQL (note: must use named callback to get properties of the resulting Statement)
@@ -47,7 +48,8 @@ function getDevice(uid) {
 function getComponents(device_id) {
 	const sql = `SELECT * FROM component WHERE device_id = ?`
 	// Run the SQL (note: must use named callback to get properties of the resulting Statement)
-	db.run(sql, uid, function callback(err, rows) {
+	console.log("Getting components with device_id: " + device_id);
+	db.run(sql, device_id, function callback(err, rows) {
 		if (err) {
 			return 0;
 		} else if (rows) {
@@ -79,6 +81,7 @@ function getUid(message) {
 	console.log("GET UID in message : " + message);
 	if (parts.length > 1) {
 		console.log("Parts " + parts.length);
+		console.log("UID: " + parts[0]);
 		return parts[0];
 	}
 	return null;
