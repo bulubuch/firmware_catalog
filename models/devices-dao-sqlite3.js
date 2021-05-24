@@ -232,5 +232,4 @@ module.exports.findAll = findAll;
 module.exports.findById = findById;
 module.exports.findByUid = findByUid;
 module.exports.findByName = findByName;
-module.exports.registerComponent = registerComponent;
 module.exports.findByManufacturer = findByManufacturer;
