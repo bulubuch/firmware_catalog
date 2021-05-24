@@ -30,7 +30,7 @@ const db = require('../utils/utils').getDatabase();
 
 function findAll() {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM device';
+        const sql = 'SELECT * FROM component';
         db.all(sql, (err, row) => {
             if (err) {
                 reject(err);
@@ -42,46 +42,33 @@ function findAll() {
 }
 
 /**
- * Create a device with the specified values
+ * Create a component with the specified values
  */
- function register(uid, name, model_name, firmware_version) {
+ function register(device_uid, model_name, type, builtin, active) {
     return new Promise((resolve, reject) => {
-		var model_id = -1;
-		var sql = `SELECT id FROM model WHERE name = ?`;
-        db.run(sql, model_name, function callback(err, row) {
+		var device_id = -1;
+		var sql = `SELECT id FROM device WHERE uid = ?`;
+        db.run(sql, device_uid, function callback(err, row) {
 			if (err) {
 				reject(err);
 			} else if (row) {
-				model_id = row.id;
+				device_id = row.id;
 			} else {
-				sql = `INSERT INTO model(name) VALUES(?)`
-				db.run(sql, model_name, function callback(err) {
-					if (err) {
-						reject(err);
-					} else {
-						model_id = this.lastID;
-					}
-				});
 			}
 		});
-		sql = `SELECT id FROM firmware WHERE model_id = ? AND version = ?`;
-		db.run(sql, model_id, firmware_version, function callback(err, row) {
-			if (err) {
-				reject(err);
-			} else if (row) {
-
-			} else if (model_id > 0) {
-				sql = `INSERT INTO firmware(model_id, version) VALUES(?, ?)`
-				db.run(sql, model_id, firmware_version, function callback(err) {
-					if (err) {
-						reject(err);
-					}
-				});
-			}
-		});
-		sql = `INSERT INTO device(uid, name, model_name, firmware_version) VALUES(?, ?, ?, ?)`
+		if (device_id > 0) {
+			sql = `SELECT id FROM component where device_id = ? AND model_name = ? AND type = ? AND builtin = ?`;
+			db.run(sql, device_id, model_name, type, builtin, function callback(err, row) {
+				if (err) {
+					reject(err);
+				} else if (row) {
+					resolve({ data : `{ "error" : "Component already registered" }`, statusCode: 500 });
+				}
+			});
+		}
+		sql = `INSERT INTO component(device_id, model_name, type, builtin, active) VALUES(?, ?, ?, ?, ?)`
 		// Run the SQL (note: must use named callback to get properties of the resulting Statement)
-		db.run(sql, uid, name, model_name, firmware_version, function callback(err) {
+		db.run(sql, device_id, model_name, type, builtin, active, function callback(err) {
 			if (err) {
 				reject(err);
 			} else {
@@ -92,11 +79,11 @@ function findAll() {
 }
 
 /**
- * Find the device for the specified id
+ * Find the component for the specified id
  */
  function findById(id) {
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM device WHERE id = ?`;
+        const sql = `SELECT * FROM component WHERE id = ?`;
         db.get(sql, id, (err, row) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
@@ -112,15 +99,15 @@ function findAll() {
 }
 
 /**
- * Find the device for the specified uid
+ * Find the component for the specified id
  */
- function findByUid(uid) {
+ function findByDeviceId(device_id) {
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM device WHERE uid = ?`;
-        db.get(sql, uid, (err, row) => {
+        const sql = `SELECT * FROM component WHERE device_id = ?`;
+        db.get(sql, device_id, (err, row) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
-                logger.error(message, 'findById()');
+                logger.error(message, 'findByDeviceId()');
                 reject(message);
             } else if (row) {
                 resolve({ data : JSON.stringify(row), statusCode: 200 });
@@ -132,71 +119,55 @@ function findAll() {
 }
 
 /**
- * Find devices by the specified manufacturer
+ * Find the component for the specified id
  */
-function findByManufacturer(manufacturer) {
+ function findByType(type) {
     return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM model WHERE manufacturer like ?`;
-		var models = [];
-		var devices = [];
-        db.get(sql, manufacturer, (err, rows) => {
+        const sql = `SELECT * FROM component WHERE type = ?`;
+        db.get(sql, type, (err, row) => {
+            if (err) {
+                let message = `Error reading from the database: ${err.message}`;
+                logger.error(message, 'findByType()');
+                reject(message);
+            } else if (row) {
+                resolve({ data : JSON.stringify(row), statusCode: 200 });
+            } else {
+                resolve({ data : '{}', statusCode: 404 });
+            }
+        });
+    });
+}
+
+/**
+ * Find components by the specified model_name
+ */
+function findByModelName(model_name) {
+    return new Promise((resolve, reject) => {
+		var devices;
+        const sql = `SELECT * FROM component WHERE model_name = ?`;
+        db.get(sql, model_name, (err, rows) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
                 logger.error(message, 'findByManufacturer()');
                 reject(message);
             } else if (rows) {
-				models = rows;
-            } else {
-                logger.error('Not found : ' + manufacturer + "in ", 'findByManufacturer()');
-            }
-        });
-        const sql = `SELECT * FROM device WHERE model_id = ?`;
-		for (var i = 0; i < models.length; i++) {
-			db.get(sql, manufacturer, (err, rows) => {
-				if (err) {
-					let message = `Error reading from the database: ${err.message}`;
-					logger.error(message, 'findByManufacturer()');
-					reject(message);
-				} else if (rows) {
-					devices.push(rows);
-				}
-			});
-		}
-		if (devices) {
-			logger.info("FOUND devices", 'findByManufacturer()');
-		}
-    });
-}
-
-/**
- * Find the device  for the specified name
- */
-function findByName(name) {
-    return new Promise((resolve, reject) => {
-        const sql = `SELECT * FROM device WHERE name = ?`;
-        db.get(sql, name, (err, row) => {
-            if (err) {
-                let message = `Error reading from the database: ${err.message}`;
-                logger.error(message, 'findByName()');
-                reject(message);
-            } else if (row) {
                 resolve({ data : JSON.stringify(row), statusCode: 200 });
             } else {
-                resolve({ data : '{}', statusCode: 404 });
+                logger.error('Not found : ' + model_name + "in ", 'findByModelName()');
             }
         });
     });
 }
 
 /**
- * Update the device with the specified id
+ * Update the component with the specified id
  * with new field values
  */
-function update(id, name, firmware_version, active) {
+function update(id, name, firmware_version) {
     return new Promise((resolve, reject) => {
-        const sql = `UPDATE device SET name = ?, firmware_version = ?, active = ? when_modified = datetime('now') WHERE id = ?`;
+        const sql = `UPDATE component SET name = ?,  = ?, when_modified = datetime('now') WHERE id = ?`;
         // Run the SQL (note: must use named callback to get properties of the resulting Statement)
-        db.run(sql, name, firmware_version, active, id, function callback(err) {
+        db.run(sql, name, description, manufacturer, datasheet, id, function callback(err) {
             if (err) {
                 reject(err);
             } else {
@@ -207,12 +178,12 @@ function update(id, name, firmware_version, active) {
 }
 
 /**
- * Delete the device with the specified id
+ * Delete the component with the specified id
  * with new field values
  */
 function del(id) {
     return new Promise((resolve, reject) => {
-        const sql = `DELETE device WHERE id = ?`;
+        const sql = `DELETE component WHERE id = ?`;
         // Run the SQL (note: must use named callback to get properties of the resulting Statement)
         db.run(sql, id,  function callback(err) {
             if (err) {
@@ -230,7 +201,6 @@ module.exports.update = update;
 module.exports.del = del;
 module.exports.findAll = findAll;
 module.exports.findById = findById;
-module.exports.findByUid = findByUid;
-module.exports.findByName = findByName;
-module.exports.registerComponent = registerComponent;
-module.exports.findByManufacturer = findByManufacturer;
+module.exports.findByDeviceId = findByDeviceId;
+module.exports.findByType = findByType;
+module.exports.findByModelName = findByModelName;

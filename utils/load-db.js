@@ -91,7 +91,7 @@ function createDbFixtures(db) {
 			logger.info('Dropping all tables...', 'createDbFixtures()');
 			db.run('DROP TABLE IF EXISTS firmware');
 			db.run('DROP TABLE IF EXISTS device');
-			db.run('DROP TABLE IF EXISTS device_component');
+			db.run('DROP TABLE IF EXISTS component');
 			db.run('DROP TABLE IF EXISTS model');
 			logger.info('Dropping all tables, done.', 'createDbFixtures()');
 			resolve();
@@ -106,11 +106,11 @@ function createDbFixtures(db) {
 			logger.info('Creating device table... \n' + deviceSql, 'createDbFixtures()');
 			db.run(deviceSql);
 			logger.info('Creating device table, done.', 'createDbFixtures()');
-			return loadFile(appSettings.create_sql.device_component);
+			return loadFile(appSettings.create_sql.component);
 		}).then((deviceComponentSql) => {
-			logger.info('Creating device_component table... \n' + deviceComponentSql, 'createDbFixtures()');
+			logger.info('Creating component table... \n' + deviceComponentSql, 'createDbFixtures()');
 			db.run(deviceComponentSql);
-			logger.info('Creating device_component table, done.', 'createDbFixtures()');
+			logger.info('Creating component table, done.', 'createDbFixtures()');
 			return loadFile(appSettings.create_sql.firmware);
 		}).then((firmwareSql) => {
 			logger.info('Creating firmware table...', 'createDbFixtures()');
@@ -220,14 +220,14 @@ function handleDeviceRowForSqlDb(db, fields) {
 */
 function handleDeviceComponentRowForSqlDb(db, fields) {
 	// Model ID
-	logger.error('Handling device component Row for SQL'); 
+	logger.error('Handling component Row for SQL'); 
 	let device_id = fields[1];
 	let model_name = fields[2];
 	let type = fields[3];
 	let builtin = fields[4];
 	let active = fields[5];
 	// Insert the row
-	db.run('INSERT INTO device_component (device_id, model_name, type, builtin, active) VALUES (?, ?, ?, ?, ?)', 
+	db.run('INSERT INTO component (device_id, model_name, type, builtin, active) VALUES (?, ?, ?, ?, ?)', 
 		device_id, model_name, type, builtin, active,
 		(err) => {
 			if (err) {

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS device_component (
+CREATE TABLE IF NOT EXISTS component (
 	id					INTEGER PRIMARY KEY NOT NULL,
 	device_id			INTEGER NOT NULL,
 	model_name			TEXT NOT NULL,

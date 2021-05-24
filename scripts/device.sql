@@ -4,5 +4,6 @@ CREATE TABLE IF NOT EXISTS device(
 	model_name			TEXT NOT NULL,
 	firmware_version	REAL NOT NULL,
 	name				TEXT,
+	active				INTEGER DEFAULT 1,
 	when_created		INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

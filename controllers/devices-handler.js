@@ -106,7 +106,8 @@ function handleDevicesUpdate(request, resolve, reject, id) {
         devicesDao.update(
 			id,
 			requestBodyJson.name,
-			requestBodyJson.firmware_version).then((result) => {
+			requestBodyJson.firmware_version,
+			requestBodyJson.active).then((result) => {
             resolve(result);
         }).catch((err) => {
             reject(err);

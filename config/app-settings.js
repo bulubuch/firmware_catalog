@@ -23,12 +23,12 @@ const appSettings = {
     create_sql : {
         model : './scripts/model.sql',
         device : './scripts/device.sql',
-        device_component : './scripts/device_component.sql',
+        component : './scripts/component.sql',
         firmware : './scripts/firmware.sql',
     },
     model_file_name : './data/models.csv',
     device_file_name : './data/devices.csv',
-    device_component_file_name : './data/device_components.csv',
+    component_file_name : './data/components.csv',
     firmware_file_name : './data/firmwares.csv',
 
     server_host : '0.0.0.0',
