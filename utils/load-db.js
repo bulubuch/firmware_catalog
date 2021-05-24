@@ -152,6 +152,7 @@ function handleModelRowForSqlDb(db, fields) {
     let manufacturer = (fields[3]) ? fields[3] : null;
     // Website (optional)
     let datasheet = (fields[4]) ? fields[4] : null;
+	logger.error('Hamdling model Rowfor SQL'); 
     // Insert the row
     db.run('INSERT INTO model (name, description, manufacturer, datasheet) VALUES (?, ?, ?, ?)', 
         name, description, manufacturer, datasheet,
