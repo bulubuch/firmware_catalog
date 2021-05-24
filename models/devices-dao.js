@@ -67,7 +67,6 @@ module.exports.findAll = findAll;
 module.exports.register = register;
 module.exports.update = update;
 module.exports.del = del;
-module.exports.registerComponent = registerComponent;
 module.exports.findById = findById;
 module.exports.findByName = findByName;
 module.exports.findByManufacturer = findByManufacturer;
