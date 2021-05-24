@@ -117,7 +117,7 @@ function loadData(db, fileName, handleTableRow) {
         logger.info('Loading data files...', 'loadData()');
         // Read the model data
         const readableStream = fs.createReadStream(fileName, { highWaterMark : 64*1024 });
-        logger.info('READEABLE STREAM...', 'loadData()');
+        logger.info('READEABLE STREAM... ' + fileName, 'loadData()');
         readableStream.on('open', (fd) => {
             logger.info('Opened file: ' + fileName, 'loadData():readableStream.on(open)');
         }).on('data', (chunk) => {
