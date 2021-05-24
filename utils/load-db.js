@@ -246,31 +246,31 @@ function handleFirmwareRowForSqlDb(db, fields) {
     let db = new database.Database(appSettings.db_file_name);
     // Create db fixtures (e.g., tables, if applicable)
     let returnPromise = createDbFixtures(db);
-    returnPromise.then(() => {
-		db.run('SELECT * FROM model',
-        (err, rows) => {
-            if (err) {
-                logger.error('Error occurred while inserting this record: model_id = ' + model_id + ', version = ' + version + ', description = ' + description + ', url = ' + firmwareUrl, 'db.run()');
-            } else {
-                logger.info('MODEL ROWS ');
-                console.log(rows);
-			}
-        });
-        logger.info('Loading data for model...', 'mainline:createDbFixtures(resolved Promise)');
-        loadData(db, appSettings.model_file_name, handleModelRowForSqlDb).then(() => {
-            logger.info('Loading model data, done.', 'mainline:createDbFixtures(resolved Promise)');
-            logger.info('Loading data for firmware...', 'mainline:createDbFixtures(resolved Promise)');
-            loadData(db, appSettings.firmware_file_name, handleFirmwareRowForSqlDb).then(() => {
-                logger.info('Loading firmware data, done.', 'mainline:createDbFixtures(resolved Promise)');
-				// loadData(db, appSettings.device_file_name, handleDeviceRowForSqlDb).then(() => {
-				// 	logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
-					logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
-				// });
-			});
-        });
-    }).catch((err) => {
-        logger.error('Better luck next time: ' + err.message, 'mainline():createDbFixtures(rejected Promise)');
-    });
+    // returnPromise.then(() => {
+	// 	db.run('SELECT * FROM model',
+    //     (err, rows) => {
+    //         if (err) {
+    //             logger.error('Error occurred while inserting this record: model_id = ' + model_id + ', version = ' + version + ', description = ' + description + ', url = ' + firmwareUrl, 'db.run()');
+    //         } else {
+    //             logger.info('MODEL ROWS ');
+    //             console.log(rows);
+	// 		}
+    //     });
+    //     logger.info('Loading data for model...', 'mainline:createDbFixtures(resolved Promise)');
+    //     loadData(db, appSettings.model_file_name, handleModelRowForSqlDb).then(() => {
+    //         logger.info('Loading model data, done.', 'mainline:createDbFixtures(resolved Promise)');
+    //         logger.info('Loading data for firmware...', 'mainline:createDbFixtures(resolved Promise)');
+    //         loadData(db, appSettings.firmware_file_name, handleFirmwareRowForSqlDb).then(() => {
+    //             logger.info('Loading firmware data, done.', 'mainline:createDbFixtures(resolved Promise)');
+	// 			// loadData(db, appSettings.device_file_name, handleDeviceRowForSqlDb).then(() => {
+	// 			// 	logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
+	// 				logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
+	// 			// });
+	// 		});
+    //     });
+    // }).catch((err) => {
+    //     logger.error('Better luck next time: ' + err.message, 'mainline():createDbFixtures(rejected Promise)');
+    // });
 
     process.on('exit', (code) => {
         db.close((err) => {
