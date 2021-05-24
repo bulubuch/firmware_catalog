@@ -64,8 +64,6 @@ function createDbFixtures(db) {
         return new Promise((resolve, reject) => {
             logger.info('Dropping all tables...', 'createDbFixtures()');
             db.run('DROP TABLE IF EXISTS firmware');
-            db.run('DROP TABLE IF EXISTS device');
-            db.run('DROP TABLE IF EXISTS device_component');
             db.run('DROP TABLE IF EXISTS model');
             logger.info('Dropping all tables, done.', 'createDbFixtures()');
             resolve();
@@ -75,16 +73,6 @@ function createDbFixtures(db) {
             logger.info('Creating model table...', 'createDbFixtures()');
             db.run(modelSql);
             logger.info('Creating model table, done.', 'createDbFixtures()');
-            return loadFile(appSettings.create_sql.device);
-        }).then((deviceSql) => {
-            logger.info('Creating device table...', 'createDbFixtures()');
-            db.run(deviceSql);
-            logger.info('Creating device table, done.', 'createDbFixtures()');
-            return loadFile(appSettings.create_sql.device_component);
-        }).then((deviceComponentSql) => {
-            logger.info('Creating device_component table...', 'createDbFixtures()');
-            db.run(deviceComponentSql);
-            logger.info('Creating device_component table, done.', 'createDbFixtures()');
             return loadFile(appSettings.create_sql.firmware);
         }).then((firmwareSql) => {
             logger.info('Creating firmware table...', 'createDbFixtures()');
@@ -117,7 +105,6 @@ function loadData(db, fileName, handleTableRow) {
         logger.info('Loading data files...', 'loadData()');
         // Read the model data
         const readableStream = fs.createReadStream(fileName, { highWaterMark : 64*1024 });
-        logger.info('READEABLE STREAM... ' + fileName, 'loadData()');
         readableStream.on('open', (fd) => {
             logger.info('Opened file: ' + fileName, 'loadData():readableStream.on(open)');
         }).on('data', (chunk) => {
@@ -145,7 +132,6 @@ function loadData(db, fileName, handleTableRow) {
  * using the specified DB module
  */
 function handleModelRowForSqlDb(db, fields) {
-	logger.error('Handling model Row for SQL'); 
     // Model description
     let name = fields[1];
     // Manufacturer (optional)
@@ -169,8 +155,7 @@ function handleModelRowForSqlDb(db, fields) {
  * Handles firmware table: inserts a single row into the table
  * using the specified DB module and the fields provided
  */
- function handleFirmwareRowForSqlDb(db, fields) {
-	logger.error('Handling firmware  Row for SQL'); 
+function handleFirmwareRowForSqlDb(db, fields) {
     // Model ID
     let model_id = fields[1];
     // Model version
@@ -189,31 +174,6 @@ function handleModelRowForSqlDb(db, fields) {
         });
 }
 
-
-/**
- * Handles device table: inserts a single row into the table
- * using the specified DB module and the fields provided
- */
- function handleDeviceRowForSqlDb(db, fields) {
-    // Model ID
-	logger.error('Handling device Row for SQL'); 
-    let uid = fields[1];
-    // Model version
-    let model_name = fields[2];
-    // Firmware description
-    let firmware_version = fields[3];
-    // Firmware url
-    let name = fields[4];
-    // Insert the row
-    db.run('INSERT INTO device (uid, model_name, firmware_version, name) VALUES (?, ?, ?, ?)', 
-        uid, model_name, firmware_version, name,
-        (err) => {
-            if (err) {
-                logger.error('Error occurred while inserting this record: uid = ' + uid + ', model_name = ' + model_name + ', firmware_version = ' + firmware_version + ', name = ' + name, 'db.run()');
-            }
-        });
-}
-
 /**
  * This is.... the mainline!
  */
@@ -226,17 +186,14 @@ function handleModelRowForSqlDb(db, fields) {
     let returnPromise = createDbFixtures(db);
     returnPromise.then(() => {
         logger.info('Loading data for model...', 'mainline:createDbFixtures(resolved Promise)');
-        // loadData(db, appSettings.model_file_name, handleModelRowForSqlDb).then(() => {
-        //     logger.info('Loading model data, done.', 'mainline:createDbFixtures(resolved Promise)');
-        //     logger.info('Loading data for firmware...', 'mainline:createDbFixtures(resolved Promise)');
-        //     loadData(db, appSettings.firmware_file_name, handleFirmwareRowForSqlDb).then(() => {
-        //         logger.info('Loading firmware data, done.', 'mainline:createDbFixtures(resolved Promise)');
-		// 		loadData(db, appSettings.device_file_name, handleDeviceRowForSqlDb).then(() => {
-		// 			logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
-		// 			logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
-		// 		});
-		// 	});
-        // });
+        loadData(db, appSettings.model_file_name, handleModelRowForSqlDb).then(() => {
+            logger.info('Loading model data, done.', 'mainline:createDbFixtures(resolved Promise)');
+            logger.info('Loading data for firmware...', 'mainline:createDbFixtures(resolved Promise)');
+            loadData(db, appSettings.firmware_file_name, handleFirmwareRowForSqlDb).then(() => {
+                logger.info('Loading firmware data, done.', 'mainline:createDbFixtures(resolved Promise)');
+                logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
+            });
+        });
     }).catch((err) => {
         logger.error('Better luck next time: ' + err.message, 'mainline():createDbFixtures(rejected Promise)');
     });
