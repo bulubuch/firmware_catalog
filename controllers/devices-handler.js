@@ -123,9 +123,9 @@ function handleDevicesUpdate(request, resolve, reject, id) {
  * 
  * Call devicesDao.create() after getting body using utils.processRequestBody()
  */
-function handleDevicesCreate(request, resolve, reject) {
+function handleDevicesRegister(request, resolve, reject) {
     utils.processRequestBody(request).then((requestBody) => {
-        logger.debug(`Calling devicesDao.create() with request: ${requestBody}`, 'handleDevicesCreate()');
+        logger.debug(`Calling devicesDao.create() with request: ${requestBody}`, 'handleDevicesRegister()');
         let requestBodyJson = JSON.parse(requestBody);
         devicesDao.create(
         requestBodyJson.name, 
@@ -137,7 +137,7 @@ function handleDevicesCreate(request, resolve, reject) {
             reject(err);
         });
     }).catch((err) => {
-        logger.error(`Error processing request body: ${err.message}`, 'handleDevicesCreate()');
+        logger.error(`Error processing request body: ${err.message}`, 'handleDevicesRegister()');
         reject(err);
     });
 }
@@ -158,7 +158,7 @@ function handleDevicesDelete(request, resolve, reject, id) {
 
 
 // TODO: Make sure to export the functions you want to be visible to the rest of the app
-module.exports.handleDevicesCreate = handleDevicesCreate;
+module.exports.handleDevicesRegister = handleDevicesRegister;
 module.exports.handleDevicesUpdate = handleDevicesUpdate;
 module.exports.handleDevicesDelete = handleDevicesDelete;
 module.exports.handleDevicesFindAll = handleDevicesFindAll;
