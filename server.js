@@ -56,6 +56,14 @@ http.createServer(((request, response) => {
         }).catch((rejectReason) => {
             utils.writeServerResponse(response, rejectReason, 400);
         });
+    } else if (parsedUrl.pathname.startsWith('/components')) {
+        logger.debug(`Greetings from pathname: ${parsedUrl.pathname}`, 'http.createServer:on(request)');
+        // Route /components URL
+        routes.routeModelsRequest(request, parsedUrl).then((results) => {
+            utils.writeServerJsonResponse(response, results.data, results.statusCode);
+        }).catch((rejectReason) => {
+            utils.writeServerResponse(response, rejectReason, 400);
+        });
     } else if (parsedUrl.pathname.startsWith('/devices')) {
         logger.debug(`Greetings from pathname: ${parsedUrl.pathname}`, 'http.createServer:on(request)');
         // Route /device URL
