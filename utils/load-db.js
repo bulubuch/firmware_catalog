@@ -106,11 +106,11 @@ function createDbFixtures(db) {
 			logger.info('Creating device table... \n' + deviceSql, 'createDbFixtures()');
 			db.run(deviceSql);
 			logger.info('Creating device table, done.', 'createDbFixtures()');
-		// 	return loadFile(appSettings.create_sql.device_component);
-		// }).then((deviceComponentSql) => {
-		// 	logger.info('Creating device_component table... \n' + deviceComponentSql, 'createDbFixtures()');
-		// 	db.run(deviceComponentSql);
-		// 	logger.info('Creating device_component table, done.', 'createDbFixtures()');
+			return loadFile(appSettings.create_sql.device_component);
+		}).then((deviceComponentSql) => {
+			logger.info('Creating device_component table... \n' + deviceComponentSql, 'createDbFixtures()');
+			db.run(deviceComponentSql);
+			logger.info('Creating device_component table, done.', 'createDbFixtures()');
 			return loadFile(appSettings.create_sql.firmware);
 		}).then((firmwareSql) => {
 			logger.info('Creating firmware table...', 'createDbFixtures()');
@@ -194,25 +194,49 @@ function handleModelRowForSqlDb(db, fields) {
 * using the specified DB module and the fields provided
 */
 function handleDeviceRowForSqlDb(db, fields) {
-   // Model ID
-   logger.error('Handling device Row for SQL'); 
-   let uid = fields[1];
-   // Model version
-   let model_name = fields[2];
-   // Firmware description
-   let firmware_version = fields[3];
-   // Firmware url
-   let name = fields[4];
-   // Insert the row
-   db.run('INSERT INTO device (uid, model_name, firmware_version, name) VALUES (?, ?, ?, ?)', 
-	   uid, model_name, firmware_version, name,
-	   (err) => {
-		   if (err) {
-			   logger.error('Error occurred while inserting this record: uid = ' + uid + ', model_name = ' + model_name + ', firmware_version = ' + firmware_version + ', name = ' + name, 'db.run()');
-		   }
-	   });
+	// Model ID
+	logger.error('Handling device Row for SQL'); 
+	let uid = fields[1];
+	// Model version
+	let model_name = fields[2];
+	// Firmware description
+	let firmware_version = fields[3];
+	// Firmware url
+	let name = fields[4];
+	// Insert the row
+	db.run('INSERT INTO device (uid, model_name, firmware_version, name) VALUES (?, ?, ?, ?)', 
+		uid, model_name, firmware_version, name,
+		(err) => {
+			if (err) {
+				logger.error('Error occurred while inserting this record: uid = ' + uid + ', model_name = ' + model_name + ', firmware_version = ' + firmware_version + ', name = ' + name, 'db.run()');
+			}
+		}
+	);
 }
 
+/**
+* Handles device table: inserts a single row into the table
+* using the specified DB module and the fields provided
+*/
+function handleDeviceComponentRowForSqlDb(db, fields) {
+	// Model ID
+	logger.error('Handling device component Row for SQL'); 
+	let device_id = fields[1];
+	let model_name = fields[2];
+	let type = fields[3];
+	let builtin = fields[4];
+	let active = fields[5];
+	// Insert the row
+	db.run('INSERT INTO device_component (device_id, model_name, type, builtin, active) VALUES (?, ?, ?, ?, ?)', 
+		device_id, model_name, type, builtin, active,
+		(err) => {
+			if (err) {
+				logger.error('Error occurred while inserting this record: uid = ' + uid + ', model_name = ' + model_name + ', firmware_version = ' + firmware_version + ', name = ' + name, 'db.run()');
+			}
+		}
+	);
+}
+ 
 /**
  * Handles firmware table: inserts a single row into the table
  * using the specified DB module and the fields provided
@@ -253,10 +277,13 @@ function handleFirmwareRowForSqlDb(db, fields) {
             logger.info('Loading data for firmware...', 'mainline:createDbFixtures(resolved Promise)');
             loadData(db, appSettings.firmware_file_name, handleFirmwareRowForSqlDb).then(() => {
                 logger.info('Loading firmware data, done.', 'mainline:createDbFixtures(resolved Promise)');
-				// loadData(db, appSettings.device_file_name, handleDeviceRowForSqlDb).then(() => {
-				// 	logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
-					logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
-				// });
+				loadData(db, appSettings.device_file_name, handleDeviceRowForSqlDb).then(() => {
+					logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
+					loadData(db, appSettings.device_file_name, handleDeviceComponentRowForSqlDb).then(() => {
+						logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
+						logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
+					});
+				});
 			});
         });
     }).catch((err) => {
