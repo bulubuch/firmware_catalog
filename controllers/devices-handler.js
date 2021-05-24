@@ -125,13 +125,13 @@ function handleDevicesUpdate(request, resolve, reject, id) {
  */
 function handleDevicesRegister(request, resolve, reject) {
     utils.processRequestBody(request).then((requestBody) => {
-        logger.debug(`Calling devicesDao.create() with request: ${requestBody}`, 'handleDevicesRegister()');
+        logger.debug(`Calling devicesDao.register() with request: ${requestBody}`, 'handleDevicesRegister()');
         let requestBodyJson = JSON.parse(requestBody);
         devicesDao.register(
-        requestBodyJson.name, 
-        requestBodyJson.description, 
-        requestBodyJson.manufacturer, 
-        requestBodyJson.datasheet).then((result) => {
+		requestBodyJson.uid,
+		requestBodyJson.name,
+        requestBodyJson.model_name,
+        requestBodyJson.firmware_version).then((result) => {
             resolve(result);
         }).catch((err) => {
             reject(err);

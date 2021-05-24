@@ -64,6 +64,8 @@ function createDbFixtures(db) {
         return new Promise((resolve, reject) => {
             logger.info('Dropping all tables...', 'createDbFixtures()');
             db.run('DROP TABLE IF EXISTS firmware');
+            db.run('DROP TABLE IF EXISTS device');
+            db.run('DROP TABLE IF EXISTS device_component');
             db.run('DROP TABLE IF EXISTS model');
             logger.info('Dropping all tables, done.', 'createDbFixtures()');
             resolve();
@@ -73,6 +75,16 @@ function createDbFixtures(db) {
             logger.info('Creating model table...', 'createDbFixtures()');
             db.run(modelSql);
             logger.info('Creating model table, done.', 'createDbFixtures()');
+            return loadFile(appSettings.create_sql.device);
+        }).then((deviceSql) => {
+            logger.info('Creating device table...', 'createDbFixtures()');
+            db.run(deviceSql);
+            logger.info('Creating device table, done.', 'createDbFixtures()');
+            return loadFile(appSettings.create_sql.device_component);
+        }).then((deviceComponentSql) => {
+            logger.info('Creating device_component table...', 'createDbFixtures()');
+            db.run(deviceComponentSql);
+            logger.info('Creating device_component table, done.', 'createDbFixtures()');
             return loadFile(appSettings.create_sql.firmware);
         }).then((firmwareSql) => {
             logger.info('Creating firmware table...', 'createDbFixtures()');
