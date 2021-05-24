@@ -47,6 +47,54 @@ function handleComponentsFindById(request, resolve, reject, id) {
  * Handle (that is, resolve() or reject()) request for components
  * to find by Id (e.g., GET /components/123)
  * 
+ * Call componentsDao.findByDeviceId()
+ */
+function handleComponentsFindByDeviceId(request, resolve, reject, devicd_id) {
+    // Call componentsDao.findByDeviceId()
+    logger.debug(`Calling componentsDao.findByDeviceId(${devicd_id})`, 'handleComponentsFindByDeviceId()');
+    componentsDao.findByDeviceId(devicd_id).then((result) => {
+        resolve(result);
+    }).catch((err) => {
+        reject(err)
+    });
+}
+
+/**
+ * Handle (that is, resolve() or reject()) request for components
+ * to find by Id (e.g., GET /components/123)
+ * 
+ * Call componentsDao.findByType()
+ */
+ function handleComponentsFindByType(request, resolve, reject, type) {
+    // Call componentsDao.findByType()
+    logger.debug(`Calling componentsDao.findByType(${type})`, 'handleComponentsFindByType()');
+    componentsDao.findByType(type).then((result) => {
+        resolve(result);
+    }).catch((err) => {
+        reject(err)
+    });
+}
+
+/**
+ * Handle (that is, resolve() or reject()) request for components
+ * to find by Id (e.g., GET /components/123)
+ * 
+ * Call componentsDao.findByModelName()
+ */
+ function handleComponentsFindByModelName(request, resolve, reject, model_name) {
+    // Call componentsDao.findByModelName()
+    logger.debug(`Calling componentsDao.findByModelName(${model_name})`, 'handleComponentsFindByModelName()');
+    componentsDao.findByModelName(model_name).then((result) => {
+        resolve(result);
+    }).catch((err) => {
+        reject(err)
+    });
+}
+
+/**
+ * Handle (that is, resolve() or reject()) request for components
+ * to find by Id (e.g., GET /components/123)
+ * 
  * Call componentsDao.findByModelName()
  */
 function handleComponentsFindByModelName(request, resolve, reject, model_name) {
@@ -148,5 +196,6 @@ module.exports.handleComponentsUpdate = handleComponentsUpdate;
 module.exports.handleComponentsDelete = handleComponentsDelete;
 module.exports.handleComponentsFindAll = handleComponentsFindAll;
 module.exports.handleComponentsFindById = handleComponentsFindById;
-module.exports.handleComponentsFindByName = handleComponentsFindByName;
-module.exports.handleComponentsFindByManufacturer = handleComponentsFindByManufacturer;
+module.exports.handleComponentsFindByDeviceId = handleComponentsFindByDeviceId;
+module.exports.handleComponentsFindByType = handleComponentsFindByType;
+module.exports.handleComponentsFindByModelName = handleComponentsFindByModelName;
