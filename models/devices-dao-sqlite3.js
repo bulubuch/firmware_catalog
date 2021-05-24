@@ -44,7 +44,7 @@ function findAll() {
 /**
  * Create a device with the specified values
  */
-function register(uid, name, model_name, firmware_version) {
+ function register(uid, name, model_name, firmware_version) {
     return new Promise((resolve, reject) => {
 		var model_id = -1;
 		var sql = `SELECT id FROM model WHERE name = ?`;
@@ -82,6 +82,48 @@ function register(uid, name, model_name, firmware_version) {
 		sql = `INSERT INTO device(uid, name, model_name, firmware_version) VALUES(?, ?, ?, ?)`
 		// Run the SQL (note: must use named callback to get properties of the resulting Statement)
 		db.run(sql, uid, name, model_name, firmware_version, function callback(err) {
+			if (err) {
+				reject(err);
+			} else {
+				resolve({ data : `{ "createdId" : ${this.lastID} }`, statusCode: 201 });
+			}
+		});
+	})
+}
+
+/**
+ * registers a device componnet
+ */
+ function registerComponent(device_uid, model_name, type, builtin, active) {
+    return new Promise((resolve, reject) => {
+		var device_id = 0;
+		var device_component_id = 0;
+		var sql = `SELECT id FROM device WHERE uid = ?`;
+        db.run(sql, device_uid, function callback(err, row) {
+			if (err) {
+				reject(err);
+			} else if (row) {
+				device_id = row.id;
+			} else {
+				console.log("Could not fine device wih uid " + device_uid);
+				resolve({ data : `{ "error" : "Could not find device with uid : ${this.lastID} }`, statusCode: 500 });
+			}
+		});
+		if (device_id) {
+			sql = `SELECT id FROM device_component WHERE device_id = ? AND model_name = ? AND type = ? AND builtin = ?`;
+			db.run(sql, device_id, model_name, type, builtin, function callback(err, row) {
+				if (err) {
+					reject(err);
+				} else if (row) {
+					console.log("Component is already registered id " + row.id);
+					device_component_id = row.id;
+					resolve({ data : `{ "error" : "Component is already registered id : ${row.id} }`, statusCode: 500 });
+				}
+			});
+		}
+		sql = `INSERT INTO device_component(device_id, model_name, type, builtin, active) VALUES(?, ?, ?, ?, ?)`;
+		// Run the SQL (note: must use named callback to get properties of the resulting Statement)
+		db.run(sql, device_id, model_name, type, builtin, active, function callback(err) {
 			if (err) {
 				reject(err);
 			} else {
@@ -232,4 +274,5 @@ module.exports.findAll = findAll;
 module.exports.findById = findById;
 module.exports.findByUid = findByUid;
 module.exports.findByName = findByName;
+module.exports.registerComponent = registerComponent;
 module.exports.findByManufacturer = findByManufacturer;

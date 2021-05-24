@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS device_component (
+	id					INTEGER PRIMARY KEY NOT NULL,
+	device_id			INTEGER NOT NULL,
+	model_name			VARCHAR 32 NOT NULL,
+	type				VARCHAR 32,
+	builtin				INTEGER DEFAULT 0,
+	active				INTEGER DEFAULT 0,
+	when_created		INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	FOREIGN KEY (device_id) REFERENCES device(id)
+);

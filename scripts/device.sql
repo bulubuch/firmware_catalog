@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS device (
 	id					INTEGER PRIMARY KEY NOT NULL,
 	uid					VARCHAR 16 UNIQUE NOT NULL,
-	model_name			INTEGER NOT NULL,
-	firmware_version	INTEGER NOT NULL,
+	model_name			VARCHAR 32 NOT NULL,
+	firmware_version	REAL NOT NULL,
 	name				VARCHAR 32,
 	when_created		INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );

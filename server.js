@@ -28,22 +28,24 @@ const utils = require('./utils/utils');
 const appSettings = require('./config/app-settings');
 // Routing
 const routes = require('./controllers/routes');
+
 var mqtt    = require('mqtt');
-var count =0;
-var client  = mqtt.connect("mqtt://localhost",{clientId:"mqttjs01"});
+var client  = mqtt.connect("mqtt://localhost",{clientId:"modulabsrv01"});
 console.log("connected flag  " + client.connected);
 
 //handle incoming messages
 client.on('message',function(topic, message, packet){
 	console.log("message is "+ message);
 	console.log("topic is "+ topic);
+	if (topic == "telemetry") {
+		
+	}
 });
 
-
 client.on("connect",function(){	
-console.log("connected  "+ client.connected);
-
+	console.log("connected  "+ client.connected);
 })
+
 //handle errors
 client.on("error",function(error){
 	console.log("Can't connect" + error);
@@ -62,11 +64,10 @@ function publish(topic,msg,options){
 	}
 }
 
-//////////////
-
 var options={
-retain:true,
-qos:1};
+	retain:true,
+	qos:1
+};
 var topic="testtopic";
 var message="test message";
 var topic_list=["topic2","topic3","topic4"];

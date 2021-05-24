@@ -5,8 +5,15 @@ const devicesDao = require('./devices-dao-sqlite3');
 /**
  * Create a device with the specified values
  */
-function register(uid, name, model_name, firmware_version) {
-    return devicesDao.create(uid, name, model_name, firmware_version);
+ function register(uid, name, model_name, firmware_version) {
+    return devicesDao.register(uid, name, model_name, firmware_version);
+}
+
+/**
+ * Register a device componnet
+ */
+ function registerComponent(device_uid, model_name, type, builtin, active) {
+    return devicesDao.registerComponent(device_uid, model_name, type, builtin, active);
 }
 
 /**
@@ -67,6 +74,7 @@ module.exports.findAll = findAll;
 module.exports.register = register;
 module.exports.update = update;
 module.exports.del = del;
+module.exports.registerComponent = registerComponent;
 module.exports.findById = findById;
 module.exports.findByName = findByName;
 module.exports.findByManufacturer = findByManufacturer;
