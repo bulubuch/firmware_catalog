@@ -36,6 +36,7 @@ function getDevice(uid) {
 	// Run the SQL (note: must use named callback to get properties of the resulting Statement)
 	db.run(sql, uid, function callback(err, row) {
 		if (err) {
+			console.log("Error: " + err);
 			return 0;
 		} else if (row) {
 			console.log("Row: " + row);
