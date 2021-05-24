@@ -107,6 +107,8 @@ function process(message) {
 	var device_id;
 	var components;
 
+	console.log("Processing message:");
+	console.log(message);
 	if ((uid = getUid(message))) {
 		if ((device_id = getDevice(uid))) {
 			if ((components = getComponents(device_id))) {
