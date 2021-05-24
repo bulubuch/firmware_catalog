@@ -127,7 +127,7 @@ function handleDevicesRegister(request, resolve, reject) {
     utils.processRequestBody(request).then((requestBody) => {
         logger.debug(`Calling devicesDao.create() with request: ${requestBody}`, 'handleDevicesRegister()');
         let requestBodyJson = JSON.parse(requestBody);
-        devicesDao.create(
+        devicesDao.register(
         requestBodyJson.name, 
         requestBodyJson.description, 
         requestBodyJson.manufacturer, 
