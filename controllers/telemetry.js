@@ -57,6 +57,7 @@ function getComponents(device_id) {
 }
 
 function getValue(message, key) {
+	console.log("GET value of " + key + " in message : " + message);
 	var parts = message.split(",");
 	var n = -1;
 	var result = null;
@@ -67,7 +68,18 @@ function getValue(message, key) {
 			break;
 		}
 	}
+	console.log("Found : " + result);
 	return result;
+}
+
+
+function getUid(message) {
+	var parts = message.split(",");
+	console.log("GET UID in message : " + message);
+	if (parts.length > 1) {
+		return parts[0];
+	}
+	return null;
 }
 
 
@@ -95,7 +107,7 @@ function process(message) {
 	var device_id;
 	var components;
 
-	if ((uid = getValue(message, "uid"))) {
+	if ((uid = getUid(message))) {
 		if ((device_id = getDevice(uid))) {
 			if ((components = getComponents(device_id))) {
 				for (var i = 0; i < components.length; i ++) {
