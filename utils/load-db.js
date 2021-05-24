@@ -144,6 +144,7 @@ function loadData(db, fileName, handleTableRow) {
  * using the specified DB module
  */
 function handleModelRowForSqlDb(db, fields) {
+	logger.error('Handling model Row for SQL'); 
     // Model description
     let name = fields[1];
     // Manufacturer (optional)
@@ -152,7 +153,6 @@ function handleModelRowForSqlDb(db, fields) {
     let manufacturer = (fields[3]) ? fields[3] : null;
     // Website (optional)
     let datasheet = (fields[4]) ? fields[4] : null;
-	logger.error('Handling model Rowfor SQL'); 
     // Insert the row
     db.run('INSERT INTO model (name, description, manufacturer, datasheet) VALUES (?, ?, ?, ?)', 
         name, description, manufacturer, datasheet,
@@ -169,6 +169,7 @@ function handleModelRowForSqlDb(db, fields) {
  * using the specified DB module and the fields provided
  */
  function handleFirmwareRowForSqlDb(db, fields) {
+	logger.error('Handling firmware  Row for SQL'); 
     // Model ID
     let model_id = fields[1];
     // Model version
@@ -194,6 +195,7 @@ function handleModelRowForSqlDb(db, fields) {
  */
  function handleDeviceRowForSqlDb(db, fields) {
     // Model ID
+	logger.error('Handling device Row for SQL'); 
     let uid = fields[1];
     // Model version
     let model_name = fields[2];
