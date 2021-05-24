@@ -279,7 +279,7 @@ function handleFirmwareRowForSqlDb(db, fields) {
                 logger.info('Loading firmware data, done.', 'mainline:createDbFixtures(resolved Promise)');
 				loadData(db, appSettings.device_file_name, handleDeviceRowForSqlDb).then(() => {
 					logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
-					loadData(db, appSettings.device_file_name, handleDeviceComponentRowForSqlDb).then(() => {
+					loadData(db, appSettings.component_file_name, handleDeviceComponentRowForSqlDb).then(() => {
 						logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
 						logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
 					});
