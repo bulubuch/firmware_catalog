@@ -236,7 +236,7 @@ function handleModelRowForSqlDb(db, fields) {
 		// 			logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
 		// 		});
 		// 	});
-        });
+        // });
     }).catch((err) => {
         logger.error('Better luck next time: ' + err.message, 'mainline():createDbFixtures(rejected Promise)');
     });
