@@ -31,6 +31,7 @@ logger.setLogLevel(logger.Level.DEBUG);
 // Route Handlers
 const modelsHandler = require('./models-handler');
 const firmwaresHandler = require('./firmwares-handler');
+const devicesHandler = require('./devices-handler');
 
 /**
  * Handle request for all supported /devices paths
