@@ -199,14 +199,14 @@ function handleFirmwareRowForSqlDb(db, fields) {
     let returnPromise = createDbFixtures(db);
     returnPromise.then(() => {
         logger.info('Loading data for model...', 'mainline:createDbFixtures(resolved Promise)');
-        loadData(db, appSettings.model_file_name, handleModelRowForSqlDb).then(() => {
-            logger.info('Loading model data, done.', 'mainline:createDbFixtures(resolved Promise)');
-            logger.info('Loading data for firmware...', 'mainline:createDbFixtures(resolved Promise)');
-            loadData(db, appSettings.firmware_file_name, handleFirmwareRowForSqlDb).then(() => {
-                logger.info('Loading firmware data, done.', 'mainline:createDbFixtures(resolved Promise)');
-                logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
-            });
-        });
+        // loadData(db, appSettings.model_file_name, handleModelRowForSqlDb).then(() => {
+        //     logger.info('Loading model data, done.', 'mainline:createDbFixtures(resolved Promise)');
+        //     logger.info('Loading data for firmware...', 'mainline:createDbFixtures(resolved Promise)');
+        //     loadData(db, appSettings.firmware_file_name, handleFirmwareRowForSqlDb).then(() => {
+        //         logger.info('Loading firmware data, done.', 'mainline:createDbFixtures(resolved Promise)');
+        //         logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
+        //     });
+        // });
     }).catch((err) => {
         logger.error('Better luck next time: ' + err.message, 'mainline():createDbFixtures(rejected Promise)');
     });
