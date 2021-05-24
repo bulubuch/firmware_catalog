@@ -28,31 +28,6 @@ const utils = require('./utils/utils');
 const appSettings = require('./config/app-settings');
 // Routing
 const routes = require('./controllers/routes');
-const telemetry = require('./controllers/telemetry');
-
-var mqtt    = require('mqtt');
-var client  = mqtt.connect("mqtt://localhost",{clientId:"modulabSubscriber"});
-
-//handle incoming messages
-client.on('message',function(topic, message, packet){
-	console.log("message is "+ message);
-	console.log("topic is "+ topic);
-	if (topic == "telemetry") {
-		telemetry.process(message);
-	}
-});
-
-client.on("connect",function(){	
-	console.log("connected  "+ client.connected);
-})
-
-//handle errors
-client.on("error",function(error){
-	console.log("Can't connect" + error);
-});
-
-client.subscribe("telemetry",{qos:1});
-
 /**
  * Creates an HTTP server that acts as the entry point
  * to the REST services:
