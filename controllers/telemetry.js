@@ -31,13 +31,14 @@ logger.setLogLevel(logger.Level.DEBUG);
 const db = require('../utils/utils').getDatabase();
 
 function getDevice(uid) {
-	console.log("Getting device qith uid: " + uid);
+	console.log("Getting device with uid: " + uid);
 	const sql = `SELECT id from device WHERE uid = ?`
 	// Run the SQL (note: must use named callback to get properties of the resulting Statement)
 	db.run(sql, uid, function callback(err, row) {
 		if (err) {
 			return 0;
 		} else if (row) {
+			console.log("Row: " + row);
 			return row.id;
 		}
 	})
