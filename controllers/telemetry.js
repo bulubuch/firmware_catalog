@@ -41,6 +41,8 @@ function getDevice(uid) {
 		} else if (row) {
 			console.log("Row: " + row);
 			return row.id;
+		} else {
+			console.log("Not found: ");
 		}
 	})
 }
