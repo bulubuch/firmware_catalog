@@ -266,3 +266,4 @@ function routeModelsWithId(request, resolve, reject, parsedUrl, id) {
 // What's exported
 module.exports.routeFirmwaresRequest = routeFirmwaresRequest;
 module.exports.routeModelsRequest = routeModelsRequest;
+module.exports.routeDevicesRequest = routeDevicesRequest;
