@@ -106,16 +106,16 @@ function createDbFixtures(db) {
 			logger.info('Creating model table...', 'createDbFixtures()');
 			db.run(modelSql);
 			logger.info('Creating model table, done.', 'createDbFixtures()');
-			return loadFile(appSettings.create_sql.device);
-		}).then((deviceSql) => {
-			logger.info('Creating device table...', 'createDbFixtures()');
-			db.run(deviceSql);
-			logger.info('Creating device table, done.', 'createDbFixtures()');
-			return loadFile(appSettings.create_sql.device_component);
-		}).then((deviceComponentSql) => {
-			logger.info('Creating device_component table...', 'createDbFixtures()');
-			db.run(deviceComponentSql);
-			logger.info('Creating device_component table, done.', 'createDbFixtures()');
+		// 	return loadFile(appSettings.create_sql.device);
+		// }).then((deviceSql) => {
+		// 	logger.info('Creating device table...', 'createDbFixtures()');
+		// 	db.run(deviceSql);
+		// 	logger.info('Creating device table, done.', 'createDbFixtures()');
+		// 	return loadFile(appSettings.create_sql.device_component);
+		// }).then((deviceComponentSql) => {
+		// 	logger.info('Creating device_component table...', 'createDbFixtures()');
+		// 	db.run(deviceComponentSql);
+		// 	logger.info('Creating device_component table, done.', 'createDbFixtures()');
 			return Promise.resolve();
 		}).catch((err) => {
 			logger.error('Something has gone horribly wrong: ' + err.message);
