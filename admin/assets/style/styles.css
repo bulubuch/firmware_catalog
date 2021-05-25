@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800,900&display=swap');
+*
+{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-size: 20px;
+	font-family: 'Poppins', sans-serif;
+}
+
+body
+{
+	overflow-x: hidden;
+}
+
+.container
+{
+	position: relative;
+	width: 100%;
+}
+
+.navigation {
+	position: fixed;
+	width: 300px;
+	height: 100%;
+	transition: 0.5s;
+	overflow: hidden;
+	background-color: darkcyan;
+	color: white;
+}
+
+.navigation.active 
+{
+	width: 60px;
+}
+
+.navigation ul
+{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+}
+.navigation ul li
+{
+	position: relative;
+	width: 100%;
+	list-style: none;
+}
+
+.navigation ul li:hover
+{
+	background-color: turquoise;
+
+}
+
+.navigation ul li:nth-child(1):hover
+{
+	background-color: transparent;
+}
+.navigation ul li a
+{
+	position: relative;
+	display: flex;
+	width: 100%;
+	line-height: 60px;
+	text-decoration: none;
+	color: white;
+}
+
+.navigation ul li a .icon
+{
+	position: relative;
+	display: block;
+	min-width: 60px;
+	height: 60px;
+	line-height	: 60px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.topbar
+{
+	width: calc(100% - 300px);
+}
+
+
+.main
+{
+	position: absolute;
+	width: calc(100% - 300px);
+	left: 300px;
+	min-height: 100vh;
+	background-color: whitesmoke;
+	transition: 0.5s;
+}
+
+.toggle
+{
+	padding-top: 14px;
+	position: relative;
+	width: 60px;
+	height: 60px;
+	cursor: pointer;
+	text-align: center;
+}
+
+.toggle::before
+{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	line-height: 60px;
+	font-size: 20px;
+	text-align: center;
+	color: black;
+}
+
+.main .topbar{
+	width: 100%;
+	background-color: whitesmoke;
+	height: 60px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.main .toggle
+{
+	position: relative;
+	width: 60px;
+	height: 60px;
+}
+
+.main.active
+{
+	width: calc(100% - 60px);
+	left: 60px;
+	transition: 0.5s;
+}
