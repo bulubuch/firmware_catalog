@@ -114,7 +114,7 @@ function routeComponentsWithId(request, resolve, reject, parsedUrl, id) {
     switch (param) {
         case 'by_device_uid':
             // find by device id
-            componentsHandler.handleComponentsFindByDeviceId(request, resolve, reject, value);
+            componentsHandler.handleComponentsFindByDeviceUid(request, resolve, reject, value);
             break;
         case 'by_type':
             // update device
