@@ -81,9 +81,9 @@ function getValue(message, key) {
 	
 	console.log("GET value of " + key + " in message : " + str);
 	for (i = 0; i < parts.length; i++) {
-		n = str.search(key + "=");
+		n = parts[i].search(key + "=");
 		if (n == 0) {
-			result = str.slice(key.length + 1);
+			result = parts[i].slice(key.length + 1);
 			console.log("Found : " + result);
 			return result;
 		}
