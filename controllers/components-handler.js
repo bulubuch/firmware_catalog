@@ -49,10 +49,20 @@ function handleComponentsFindById(request, resolve, reject, id) {
  * 
  * Call componentsDao.findByDeviceId()
  */
-function handleComponentsFindByDeviceId(request, resolve, reject, devicd_id) {
+ function handleComponentsFindByDeviceId(request, resolve, reject, devicd_id) {
     // Call componentsDao.findByDeviceId()
     logger.debug(`Calling componentsDao.findByDeviceId(${devicd_id})`, 'handleComponentsFindByDeviceId()');
     componentsDao.findByDeviceId(devicd_id).then((result) => {
+        resolve(result);
+    }).catch((err) => {
+        reject(err)
+    });
+}
+
+function handleComponentsFindByDeviceUid(request, resolve, reject, devicd_uid) {
+    // Call componentsDao.findByDeviceUid()
+    logger.debug(`Calling componentsDao.findByDeviceUid(${devicd_uid})`, 'handleComponentsFindByDeviceUid()');
+    componentsDao.findByDeviceUid(devicd_uid).then((result) => {
         resolve(result);
     }).catch((err) => {
         reject(err)
@@ -197,5 +207,6 @@ module.exports.handleComponentsDelete = handleComponentsDelete;
 module.exports.handleComponentsFindAll = handleComponentsFindAll;
 module.exports.handleComponentsFindById = handleComponentsFindById;
 module.exports.handleComponentsFindByDeviceId = handleComponentsFindByDeviceId;
+module.exports.handleComponentsFindByDeviceUid = handleComponentsFindByDeviceUid;
 module.exports.handleComponentsFindByType = handleComponentsFindByType;
 module.exports.handleComponentsFindByModelName = handleComponentsFindByModelName;

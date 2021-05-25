@@ -119,6 +119,35 @@ function findAll() {
 }
 
 /**
+ * Find the component for the specified device uid
+ */
+ function findByDeviceUid(device_uid) {
+    return new Promise((resolve, reject) => {
+        const sql = `SELECT * FROM device WHERE uid = ?`;
+        db.get(sql, device_uid, (err, row) => {
+            if (err) {
+                let message = `Error reading from the database: ${err.message}`;
+                logger.error(message, 'findByDeviceUid()');
+                reject(message);
+            } else if (row) {
+				sql = `SELECT * FROM components WHERE device_id = ?`;
+		        db.get(sql, row.id, (err, rows) => {
+					if (err) {
+						let message = `Error reading from the database: ${err.message}`;
+						logger.error(message, 'findByDeviceUid()');
+						reject(message);
+					} else if (rows) {
+						resolve({ data : rows, statusCode: 200 });
+					}
+				});
+            } else {
+                resolve({ data : '{}', statusCode: 404 });
+            }
+        });
+    });
+}
+
+/**
  * Find the component for the specified id
  */
  function findByType(type) {
@@ -202,5 +231,6 @@ module.exports.del = del;
 module.exports.findAll = findAll;
 module.exports.findById = findById;
 module.exports.findByDeviceId = findByDeviceId;
+module.exports.findByDeviceUid = findByDeviceUid;
 module.exports.findByType = findByType;
 module.exports.findByModelName = findByModelName;

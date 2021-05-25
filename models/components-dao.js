@@ -30,6 +30,14 @@ function findByDeviceId(device_id) {
 	return componentsDao.findByDeviceId(device_id);
 }
 
+
+/**
+ * Find the component with the specified device_uid
+ */
+function findByDeviceUid(device_uid) {
+	return componentsDao.findByDeviceUid(device_uid);
+}
+
 /**
  * Find the component with the specified type
  */
@@ -74,5 +82,6 @@ module.exports.del = del;
 module.exports.findAll = findAll;
 module.exports.findById = findById;
 module.exports.findByDeviceId = findByDeviceId;
+module.exports.findByDeviceUid = findByDeviceUid;
 module.exports.findByType = findByType;
 module.exports.findByModelName = findByModelName;
