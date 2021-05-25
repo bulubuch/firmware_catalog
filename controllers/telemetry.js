@@ -18,6 +18,26 @@
 // Node HTTP & HTTPS module
 const http = require('http');
 const https = require('https')
+const Influx = require('influx')
+const influx = new Influx.InfluxDB({
+	host: 'localhost',
+	database: 'modulab',
+	schema: [
+		{
+			measurement: 'telemetry',
+			fields: {
+				air_temperature: Influx.FieldType.INTEGER,
+				air_humidity: Influx.FieldType.INTEGER,
+				soil_temperature: Influx.FieldType.INTEGER,
+				soil_moisture: Influx.FieldType.INTEGER,
+				battery: Influx.FieldType.INTEGER
+			},
+			tags: [
+				'device_uid'
+			]
+		}
+	]
+})
 
 // Utilities
 const utils = require('../utils/utils');
@@ -54,14 +74,21 @@ function apiGet(path) {
 
 function getValue(message, key) {
 	var str = "" + message;
-	console.log("GET value of " + key + " in message : " + str);
+	var parts = str.split(",");
 	var result = "";
-	var n = str.search(key + "=");
-	if (n > 0) {
-		result = str.slice(key.length + 1);
+	var n = -1;
+	var i;
+	
+	console.log("GET value of " + key + " in message : " + str);
+	for (i = 0; i < parts.length; i++) {
+		n = str.search(key + "=");
+		if (n == 0) {
+			result = str.slice(key.length + 1);
+			console.log("Found : " + result);
+			return result;
+		}
 	}
-	console.log("Found : " + result);
-	return result;
+	return (null);
 }
 
 
@@ -79,20 +106,20 @@ function getMessageUid(message) {
 
 
 function processComponent(component, message) {
-	var result;
-	var value;
+	var result = null;
+	var value = null;
 
 	console.log("Processing component:");
 	console.log(component);
 	value = getValue(message, component.type)
 	if (value != null) {
-		result = component.type + ",";
-		result += "device_id=" + component.device_id;
-		result += ",value=" + value;
+		result = component.type + "=" + value;
 		console.log("DONE");
+		return (result);
 	} else {
 		console.log("Telemetry for not registered component.");
 	}
+	return (result);
 }
 
 /**
@@ -100,6 +127,8 @@ function processComponent(component, message) {
  */
 function process(message) {
 	var uid;
+	var field = null;
+	var fields = {};
 
 	console.log("Processing message:");
 	if ((uid = getMessageUid(message))) {
@@ -109,7 +138,10 @@ function process(message) {
 			.then(components => {
 				if (components) {
 					for (var i = 0; i < components.length; i ++) {
-						processComponent(components[i], message);
+						field = processComponent(components[i], message);
+						if (field) {
+							fields[components[i].type] = getValue(message, components[i].type);
+						}
 					}			
 				}					
 			})
@@ -117,6 +149,12 @@ function process(message) {
 				logger.error(error, "telemetry process");
 			})
 		}
+		influx.WriteMeasurement('telemetry', [
+			{
+				tags: { device_uid: uid },
+				fields: fields
+			}
+		]);
 	}
 }
 
