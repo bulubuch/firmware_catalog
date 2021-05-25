@@ -105,8 +105,12 @@ function process(message) {
 
 	console.log("Processing message:");
 	if ((uid = getMessageUid(message))) {
-		if ((device = apiGet("/devices/by_uid/" + uid))) {
-			if ((components = apiGet("/devices/components/" + device.id))) {
+		console.log("GETTING DEVICE:");
+		device = apiGet("/devices/by_uid/" + uid);
+		if (device) {
+		console.log("GETTING COMPONENTS:");
+		components = apiGet("/devices/components/" + device.id);
+			if (components) {
 				for (var i = 0; i < components.length; i ++) {
 					processComponent(device_id, components[i], message);
 				}			
