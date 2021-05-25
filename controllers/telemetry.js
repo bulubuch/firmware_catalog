@@ -56,7 +56,7 @@ function getValue(message, key) {
 	var str = "" + message;
 	console.log("GET value of " + key + " in message : " + str);
 	var result = "";
-	n = str.search(key + "=");
+	var n = str.search(key + "=");
 	if (n > 0) {
 		result = str.slice(key.length + 1);
 	}
