@@ -41,6 +41,7 @@ function apiGet(path) {
 				console.log("Getting data...");
 				res = JSON.parse(d);
 				console.log(res);
+				resolve(res);
 			})
 		});
 		req.on('error', error => {
@@ -48,7 +49,6 @@ function apiGet(path) {
 			reject(error);
 		});
 		req.end();
-		resolve(res);
 	});
 }
 
