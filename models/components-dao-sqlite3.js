@@ -123,7 +123,7 @@ function findAll() {
  */
  function findByDeviceUid(device_uid) {
     return new Promise((resolve, reject) => {
-        val sql = `SELECT * FROM device WHERE uid = ?`;
+        var sql = `SELECT * FROM device WHERE uid = ?`;
         db.get(sql, device_uid, (err, row) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
