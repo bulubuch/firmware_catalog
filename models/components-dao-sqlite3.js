@@ -104,13 +104,13 @@ function findAll() {
  function findByDeviceId(device_id) {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM component WHERE device_id = ?`;
-        db.get(sql, device_id, (err, row) => {
+        db.get(sql, device_id, (err, rows) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
                 logger.error(message, 'findByDeviceId()');
                 reject(message);
-            } else if (row) {
-                resolve({ data : JSON.stringify(row), statusCode: 200 });
+            } else if (rows) {
+                resolve({ data : JSON.stringify(rows), statusCode: 200 });
             } else {
                 resolve({ data : '{}', statusCode: 404 });
             }
