@@ -118,7 +118,6 @@ function process(message) {
 	var components;
 
 	console.log("Processing message:");
-	console.log(message);
 	if ((uid = getMessageUid(message))) {
 		if ((device_id = apiGet("/devices/by_uid/" + uid))) {
 			if ((components = apiGet("/devices/components/" + device_id))) {
