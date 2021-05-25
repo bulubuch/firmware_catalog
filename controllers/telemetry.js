@@ -109,7 +109,7 @@ function process(message) {
 	console.log("Processing message:");
 	if ((uid = getMessageUid(message))) {
 		console.log("GETTING DEVICE:");
-		if (device) {
+		if (uid) {
 			apiGet("/components/by_device_uid/" + uid)
 			.then(components => {
 				if (components) {
