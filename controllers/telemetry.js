@@ -39,7 +39,7 @@ function apiGet(path) {
 		res.on('data', d => {
 			console.log("Getting data...");
 			console.log(d);
-			res = d;
+			res = JSON.parse(d);
 		})
 	});
 	req.on('error', error => {
