@@ -137,7 +137,7 @@ function findAll() {
 						logger.error(message, 'findByDeviceUid()');
 						reject(message);
 					} else if (rows) {
-						resolve({ data : rows, statusCode: 200 });
+						resolve({ data : JSON.stringify(rows), statusCode: 200 });
 					}
 				});
             } else {
