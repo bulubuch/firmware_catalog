@@ -26,27 +26,30 @@ const logger = require('../utils/logger');
 logger.setLogLevel(logger.Level.DEBUG);
 
 function apiGet(path) {
-	var options = {
-		hostname: 'localhost',
-		port: 8000,
-		path: path,
-		method: 'GET'
-	}
-	var res = null;
-	console.log("API get path : " + path);
-	const req = http.request(options, res => {
-		console.log(`statusCode: ${res.statusCode}`);
-		res.on('data', d => {
-			console.log("Getting data...");
-			res = JSON.parse(d);
-			console.log(res);
-		})
+	return new Promise((resolve, reject) => {
+		var options = {
+			hostname: 'localhost',
+			port: 8000,
+			path: path,
+			method: 'GET'
+		}
+		var res = null;
+		console.log("API get path : " + path);
+		const req = http.request(options, res => {
+			console.log(`statusCode: ${res.statusCode}`);
+			res.on('data', d => {
+				console.log("Getting data...");
+				res = JSON.parse(d);
+				console.log(res);
+			})
+		});
+		req.on('error', error => {
+			console.log(error);
+			reject(error);
+		});
+		req.end();
+		resolve(res);
 	});
-	req.on('error', error => {
-		console.log(error);
-	});
-	req.end();
-	return res;
 }
 
 function getValue(message, key) {
