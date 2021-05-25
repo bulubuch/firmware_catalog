@@ -28,7 +28,7 @@ logger.setLogLevel(logger.Level.DEBUG);
 function apiGet(path) {
 	var options = {
 		hostname: 'localhost',
-		port: 8080,
+		port: 8000,
 		path: path,
 		method: 'GET'
 	}
