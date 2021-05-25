@@ -131,7 +131,7 @@ function findAll() {
                 reject(message);
             } else if (row) {
 				sql = `SELECT * FROM component WHERE device_id = ?`;
-		        db.get(sql, row.id, (err, rows) => {
+		        db.all(sql, row.id, (err, rows) => {
 					if (err) {
 						let message = `Error reading from the database: ${err.message}`;
 						logger.error(message, 'findByDeviceUid()');
@@ -153,7 +153,7 @@ function findAll() {
  function findByType(type) {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM component WHERE type = ?`;
-        db.get(sql, type, (err, row) => {
+        db.all(sql, type, (err, row) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
                 logger.error(message, 'findByType()');
@@ -174,7 +174,7 @@ function findByModelName(model_name) {
     return new Promise((resolve, reject) => {
 		var devices;
         const sql = `SELECT * FROM component WHERE model_name = ?`;
-        db.get(sql, model_name, (err, rows) => {
+        db.all(sql, model_name, (err, rows) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
                 logger.error(message, 'findByManufacturer()');

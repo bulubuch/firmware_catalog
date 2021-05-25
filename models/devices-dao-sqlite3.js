@@ -48,7 +48,7 @@ function findAll() {
     return new Promise((resolve, reject) => {
 		var model_id = -1;
 		var sql = `SELECT id FROM model WHERE name = ?`;
-        db.run(sql, model_name, function callback(err, row) {
+        db.get(sql, model_name, function callback(err, row) {
 			if (err) {
 				reject(err);
 			} else if (row) {
@@ -65,10 +65,10 @@ function findAll() {
 			}
 		});
 		sql = `SELECT id FROM firmware WHERE model_id = ? AND version = ?`;
-		db.run(sql, model_id, firmware_version, function callback(err, row) {
+		db.all(sql, model_id, firmware_version, function callback(err, rows) {
 			if (err) {
 				reject(err);
-			} else if (row) {
+			} else if (rows) {
 
 			} else if (model_id > 0) {
 				sql = `INSERT INTO firmware(model_id, version) VALUES(?, ?)`
@@ -139,7 +139,7 @@ function findByManufacturer(manufacturer) {
         const sql = `SELECT * FROM model WHERE manufacturer like ?`;
 		var models = [];
 		var devices = [];
-        db.get(sql, manufacturer, (err, rows) => {
+        db.all(sql, manufacturer, (err, rows) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
                 logger.error(message, 'findByManufacturer()');
@@ -174,13 +174,13 @@ function findByManufacturer(manufacturer) {
 function findByName(name) {
     return new Promise((resolve, reject) => {
         const sql = `SELECT * FROM device WHERE name = ?`;
-        db.get(sql, name, (err, row) => {
+        db.all(sql, name, (err, rows) => {
             if (err) {
                 let message = `Error reading from the database: ${err.message}`;
                 logger.error(message, 'findByName()');
                 reject(message);
-            } else if (row) {
-                resolve({ data : JSON.stringify(row), statusCode: 200 });
+            } else if (rows) {
+                resolve({ data : JSON.stringify(rows), statusCode: 200 });
             } else {
                 resolve({ data : '{}', statusCode: 404 });
             }
