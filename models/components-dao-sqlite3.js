@@ -130,7 +130,7 @@ function findAll() {
                 logger.error(message, 'findByDeviceUid()');
                 reject(message);
             } else if (row) {
-				sql = `SELECT * FROM components WHERE device_id = ?`;
+				sql = `SELECT * FROM component WHERE device_id = ?`;
 		        db.get(sql, row.id, (err, rows) => {
 					if (err) {
 						let message = `Error reading from the database: ${err.message}`;
