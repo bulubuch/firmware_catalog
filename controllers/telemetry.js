@@ -36,7 +36,6 @@ function apiGet(path) {
 	console.log("API get path : " + path);
 	const req = http.request(options, res => {
 		console.log(`statusCode: ${res.statusCode}`);
-		console.log(res);
 		res.on('data', d => {
 			console.log("Getting data...");
 			console.log(d);
@@ -48,19 +47,6 @@ function apiGet(path) {
 	});
 	req.end();
 	return res;
-}
-
-function getComponents(device_id) {
-	const sql = `SELECT * FROM component WHERE device_id = ?`
-	// Run the SQL (note: must use named callback to get properties of the resulting Statement)
-	console.log("Getting components with device_id: " + device_id);
-	db.run(sql, device_id, function callback(err, rows) {
-		if (err) {
-			return 0;
-		} else if (rows) {
-			return rows;
-		}
-	})
 }
 
 function getValue(message, key) {
