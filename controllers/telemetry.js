@@ -59,7 +59,6 @@ function getValue(message, key) {
 	n = str.search(key + "=");
 	if (n > 0) {
 		result = str.slice(key.length + 1);
-		break;
 	}
 	console.log("Found : " + result);
 	return result;
@@ -85,8 +84,6 @@ function processComponent(component, message) {
 
 	console.log("Processing component:");
 	console.log(component);
-	console.log("Mesasge:");
-	console.log(message);
 	value = getValue(message, component.type)
 	if (value != null) {
 		result = component.type + ",";
