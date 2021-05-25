@@ -16,9 +16,7 @@
 'use strict'
 
 // Logger
-const logger = require('./utils/logger');
-logger.setLogLevel(logger.Level.DEBUG);
-const telemetry = require('./controllers/telemetry');
+const telemetry = require('./components/telemetry.js');
 
 var mqtt    = require('mqtt');
 var client  = mqtt.connect("mqtt://localhost",{clientId:"modulabSubscriber"});

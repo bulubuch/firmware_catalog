@@ -39,12 +39,6 @@ const influx = new Influx.InfluxDB({
 	]
 })
 
-// Utilities
-const utils = require('../utils/utils');
-// Logger
-const logger = require('../utils/logger');
-logger.setLogLevel(logger.Level.DEBUG);
-
 function apiGet(path) {
 	return new Promise((resolve, reject) => {
 		var options = {
@@ -152,7 +146,7 @@ function process(message) {
 				}
 			})
 			.catch(error => {
-				logger.error(error, "telemetry process");
+				console.log(error, "telemetry process");
 			})
 		}
 	}
