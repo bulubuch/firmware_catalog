@@ -143,18 +143,18 @@ function process(message) {
 							fields[components[i].type] = field;
 						}
 					}
+					influx.writeMeasurement('telemetry', [
+						{
+							tags: { device_uid: uid },
+							fields: fields
+						}
+					]);
 				}
 			})
 			.catch(error => {
 				logger.error(error, "telemetry process");
 			})
 		}
-		influx.writeMeasurement('telemetry', [
-			{
-				tags: { device_uid: uid },
-				fields: fields
-			}
-		]);
 	}
 }
 
