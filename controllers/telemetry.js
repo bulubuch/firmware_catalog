@@ -113,7 +113,7 @@ function processComponent(component, message) {
 	console.log(component);
 	value = getValue(message, component.type)
 	if (value != null) {
-		result = component.type + "=" + value;
+		result = value;
 		console.log("DONE");
 		return (result);
 	} else {
@@ -138,9 +138,9 @@ function process(message) {
 			.then(components => {
 				if (components) {
 					for (var i = 0; i < components.length; i ++) {
-						field = processComponent(components[i], message);
+						field = getValue(message, components[i].type);
 						if (field) {
-							fields[components[i].type] = getValue(message, components[i].type);
+							fields[components[i].type] = field;
 						}
 					}
 				}
