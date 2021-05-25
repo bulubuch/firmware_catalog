@@ -54,7 +54,7 @@ function apiGet(path) {
 
 function getValue(message, key) {
 	var str = "" + message;
-	console.log("GET value of " + key + " in message : " + message);
+	console.log("GET value of " + key + " in message : " + str);
 	var result = "";
 	n = str.search(key + "=");
 	if (n > 0) {
@@ -83,13 +83,13 @@ function processComponent(component, message) {
 	var result;
 	var value;
 
+	console.log("Processing component");
 	value = getValue(message, component.type)
 	if (value != null) {
 		result = component.type + ",";
 		result += "device_id=" + component.device_id;
 		result += ",value=" + value;
-		console.log("Processes component ");
-		console.log(component);
+		console.log("DONE");
 	} else {
 		console.log("Telemetry for not registered component.");
 	}
