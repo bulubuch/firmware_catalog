@@ -38,8 +38,8 @@ function apiGet(path) {
 		console.log(`statusCode: ${res.statusCode}`);
 		res.on('data', d => {
 			console.log("Getting data...");
-			console.log(d);
 			res = JSON.parse(d);
+			console.log(res);
 		})
 	});
 	req.on('error', error => {
