@@ -109,28 +109,19 @@ function process(message) {
 	console.log("Processing message:");
 	if ((uid = getMessageUid(message))) {
 		console.log("GETTING DEVICE:");
-		apiGet("/devices/by_uid/" + uid)
-		.then(device => {
-			console.log("GOT DEVICE ID:" + device.id);
-			if (device) {
-				apiGet("/devices/components/" + device.id)
-				.then(components => {
-					if (components) {
-						for (var i = 0; i < components.length; i ++) {
-							processComponent(device_id, components[i], message);
-						}			
-					}					
-				})
-				.catch(error => {
-					logger.error(error, "telemetry process");
-				})
-			} else {
-
-			}
-		})
-		.catch(error => {
-			logger.error(error, "telemetry process");
-		})
+		if (device) {
+			apiGet("/components/by_device_uid/" + uid)
+			.then(components => {
+				if (components) {
+					for (var i = 0; i < components.length; i ++) {
+						processComponent(device_id, components[i], message);
+					}			
+				}					
+			})
+			.catch(error => {
+				logger.error(error, "telemetry process");
+			})
+		}
 	}
 }
 
