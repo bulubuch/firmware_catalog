@@ -142,14 +142,14 @@ function process(message) {
 						if (field) {
 							fields[components[i].type] = getValue(message, components[i].type);
 						}
-					}			
-				}					
+					}
+				}
 			})
 			.catch(error => {
 				logger.error(error, "telemetry process");
 			})
 		}
-		influx.WriteMeasurement('telemetry', [
+		influx.writeMeasurement('telemetry', [
 			{
 				tags: { device_uid: uid },
 				fields: fields
