@@ -82,14 +82,14 @@ function getMessageUid(message) {
 }
 
 
-function processComponent(device_id, component, message) {
+function processComponent(component, message) {
 	var result;
 	var value;
 
 	value = getValue(message, component.type)
 	if (value != null) {
 		result = component.type + ",";
-		result += "device_id=" + device_id;
+		result += "device_id=" + component.device_id;
 		result += ",value=" + value;
 		console.log("Processes component ");
 		console.log(component);
@@ -114,7 +114,7 @@ function process(message) {
 			.then(components => {
 				if (components) {
 					for (var i = 0; i < components.length; i ++) {
-						processComponent(device_id, components[i], message);
+						processComponent(components[i], message);
 					}			
 				}					
 			})
