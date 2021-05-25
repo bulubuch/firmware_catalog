@@ -107,6 +107,8 @@ function process(message) {
 	if ((uid = getMessageUid(message))) {
 		console.log("GETTING DEVICE:");
 		device = apiGet("/devices/by_uid/" + uid);
+		console.log("GOT:");
+		console.log(device);
 		if (device) {
 		console.log("GETTING COMPONENTS:");
 		components = apiGet("/devices/components/" + device.id);
