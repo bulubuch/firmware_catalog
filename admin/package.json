@@ -1,0 +1,20 @@
+{
+  "name": "modulab-admin",
+  "version": "1.0.0",
+  "description": "Admin dashboard for modulab devices",
+  "main": "start.js",
+  "scripts": {
+    "start": "node start.js",
+    "start-dev": "nodemon start.js",
+  },
+  "keywords": [
+    "node",
+    "npm"
+  ],
+  "author": "Michel Buch",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "node-static": "^0.7.11",
+    "nodemon": "^2.0.7"
+  }
+}

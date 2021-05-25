@@ -1,0 +1,20 @@
+{
+  "name": "modulab-telemetry",
+  "version": "1.0.0",
+  "description": "Telemetry for modulab devices",
+  "main": "server.js",
+  "scripts": {
+    "start": "node telemetry.js",
+    "start-dev": "nodemon telemetry.js"
+  },
+  "keywords": [
+    "node",
+    "npm"
+  ],
+  "author": "Michel Buch",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "influx": "^5.9.0",
+    "mqtt": "^4.2.6"
+  }
+}
