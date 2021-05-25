@@ -83,7 +83,10 @@ function processComponent(component, message) {
 	var result;
 	var value;
 
-	console.log("Processing component");
+	console.log("Processing component:");
+	console.log(component);
+	console.log("Mesasge:");
+	console.log(message);
 	value = getValue(message, component.type)
 	if (value != null) {
 		result = component.type + ",";
@@ -100,8 +103,6 @@ function processComponent(component, message) {
  */
 function process(message) {
 	var uid;
-	var p_device;
-	var p_components;
 
 	console.log("Processing message:");
 	if ((uid = getMessageUid(message))) {
