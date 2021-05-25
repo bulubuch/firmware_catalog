@@ -48,6 +48,9 @@ const componentsHandler = require('./components-handler');
             case 2:
                 routeComponentsWithId(request, resolve, reject, parsedUrl, urlPath[1]);
                 break;
+            case 3:
+                routeComponentsWithParam(request, resolve, reject, parsedUrl, urlPath[1], urlPath[2]);
+                break;
             default:
                 var message = `Invalid path: ${parsedUrl} for method: ${request.method}`;
                 logger.error(message, 'routeComponentsRequest()');
@@ -103,6 +106,32 @@ function routeComponentsWithId(request, resolve, reject, parsedUrl, id) {
             break;
     }
 }
+
+/**
+ * Routes request for GET for component with id (e.g., /component/by_uid/uid)
+ */
+ function routeComponentsWithParam(request, resolve, reject, parsedUrl, param, value) {
+    switch (param) {
+        case 'by_device_uid':
+            // find by device id
+            componentsHandler.handleComponentsFindByDeviceId(request, resolve, reject, value);
+            break;
+        case 'by_type':
+            // update device
+            componentsHandler.handleComponentsFindByType(request, resolve, reject, value);
+            break;
+        case 'by_model':
+            // Delete device
+            componentsHandler.handleComponentsFindByModelName(request, resolve, reject, value);
+            break;
+        default:
+            var message = `HTTP Method ${request.method} is not supported for ${parsedUrl.pathname}`;
+            logger.error(message, 'routeComponentsRequest()');
+            reject(message);
+            break;
+    }
+}
+
 /**
  * Handle request for all supported /devices paths
  */
@@ -116,6 +145,9 @@ function routeComponentsWithId(request, resolve, reject, parsedUrl, id) {
                 break;
             case 2:
                 routeDevicesWithId(request, resolve, reject, parsedUrl, urlPath[1]);
+                break;
+            case 3:
+                routeDevicesWithParam(request, resolve, reject, parsedUrl, urlPath[1], urlPath[2]);
                 break;
             default:
                 var message = `Invalid path: ${parsedUrl} for method: ${request.method}`;
@@ -172,22 +204,16 @@ function routeDevicesWithId(request, resolve, reject, parsedUrl, id) {
     }
 }
 
-
 /**
- * Routes request for GET for devices with id (e.g., /devices/123)
+ * Routes request for GET for devices with id (e.g., /devices/by_uid/uid)
  */
-function routeDevicesWithOption(request, resolve, reject, parsedUrl, option, id) {
-    switch (option) {
-        case 'component_register':
-            devicesHandler.handleDevicesFindById(request, resolve, reject, id);
+function routeDevicesWithParam(request, resolve, reject, parsedUrl, param, value) {
+    switch (param) {
+        case 'components':
+            componentsHandler.handleComponentsFindByDeviceId(request, resolve, reject, value);
             break;
-        case 'PUT':
-            // update device
-            devicesHandler.handleDevicesUpdate(request, resolve, reject, id);
-            break;
-        case 'DELETE':
-            // Delete device
-            devicesHandler.handleDevicesDelete(request, resolve, reject, id);
+        case 'by_uid':
+            devicesHandler.handleDevicesFindByUid(request, resolve, reject, value);
             break;
         default:
             var message = `HTTP Method ${request.method} is not supported for ${parsedUrl.pathname}`;

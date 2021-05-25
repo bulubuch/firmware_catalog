@@ -14,10 +14,6 @@
    limitations under the License.
  */
 'use strict'
-// Node HTTP module
-const http = require('http');
-// Node URL module
-const url = require('url');// To avoid confusion
 
 // Logger
 const logger = require('./utils/logger');

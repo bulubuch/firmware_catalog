@@ -24,6 +24,13 @@ function findById(id) {
 }
 
 /**
+ * Find the device with the specified id
+ */
+function findByUid(id) {
+	return devicesDao.findByUid(id);
+}
+
+/**
  * Find the device with the specified name
  * and return all items associated with it
  */
@@ -68,5 +75,6 @@ module.exports.register = register;
 module.exports.update = update;
 module.exports.del = del;
 module.exports.findById = findById;
+module.exports.findByUid = findByUid;
 module.exports.findByName = findByName;
 module.exports.findByManufacturer = findByManufacturer;

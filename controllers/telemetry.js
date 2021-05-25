@@ -15,38 +15,40 @@
  */
 'use strict'
 
-/**
- * This module handles all routes supported by the application.
- * You should use it as-is with no changes. If you find yourself
- * making changes to this module (unless to fix a bug, in which case
- * please log an issue), you have probably gone off the tracks
- * somewhere.
- */
+// Node HTTP & HTTPS module
+const http = require('http');
+const https = require('https')
+
 // Utilities
 const utils = require('../utils/utils');
 // Logger
 const logger = require('../utils/logger');
 logger.setLogLevel(logger.Level.DEBUG);
 
-const db = require('../utils/utils').getDatabase();
-
-function getDevice(uid) {
-	console.log("Getting device with uid: " + uid);
-	const sql = `SELECT id from device`
-	// Run the SQL (note: must use named callback to get properties of the resulting Statement)
-	db.run(sql, function callback(err, row) {
-		if (err) {
-			console.log("Error: " + err);
-			return 0;
-		} else if (row) {
-			console.log("Row: " + row);
-			return row.id;
-		} else {
-			console.log("Not found: ");
-		}
-	})
+function apiGet(path) {
+	var options = {
+		hostname: 'localhost',
+		port: 8080,
+		path: path,
+		method: 'GET'
+	}
+	var res = null;
+	console.log("API get path : " + path);
+	const req = http.request(options, res => {
+		console.log(`statusCode: ${res.statusCode}`);
+		console.log(res);
+		res.on('data', d => {
+			console.log("Getting data...");
+			console.log(d);
+			res = d;
+		})
+	});
+	req.on('error', error => {
+		console.log(error);
+	});
+	req.end();
+	return res;
 }
-
 
 function getComponents(device_id) {
 	const sql = `SELECT * FROM component WHERE device_id = ?`
@@ -78,7 +80,7 @@ function getValue(message, key) {
 }
 
 
-function getUid(message) {
+function getMessageUid(message) {
 	var str = "" + message;
 	var parts = str.split(",");
 	console.log("GET UID in message : " + message);
@@ -117,9 +119,9 @@ function process(message) {
 
 	console.log("Processing message:");
 	console.log(message);
-	if ((uid = getUid(message))) {
-		if ((device_id = getDevice(uid))) {
-			if ((components = getComponents(device_id))) {
+	if ((uid = getMessageUid(message))) {
+		if ((device_id = apiGet("devices/by_uid/" + uid))) {
+			if ((components = apiGet("devices/components/" + device_id))) {
 				for (var i = 0; i < components.length; i ++) {
 					processComponent(device_id, components[i], message);
 				}			

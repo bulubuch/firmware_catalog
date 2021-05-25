@@ -33,10 +33,26 @@ const devicesDao = require('../models/devices-dao');
  * 
  * Call devicesDao.findById()
  */
-function handleDevicesFindById(request, resolve, reject, id) {
+ function handleDevicesFindById(request, resolve, reject, id) {
     // Call devicesDao.findById()
     logger.debug(`Calling devicesDao.findById(${id})`, 'handleDevicesFindById()');
     devicesDao.findById(id).then((result) => {
+        resolve(result);
+    }).catch((err) => {
+        reject(err)
+    });
+}
+
+/**
+ * Handle (that is, resolve() or reject()) request for devices
+ * to find by Id (e.g., GET /devices/123)
+ * 
+ * Call devicesDao.findById()
+ */
+ function handleDevicesFindByUid(request, resolve, reject, id) {
+    // Call devicesDao.findByUid()
+    logger.debug(`Calling devicesDao.findByUid(${id})`, 'handleDevicesFindByUid()');
+    devicesDao.findByUid(id).then((result) => {
         resolve(result);
     }).catch((err) => {
         reject(err)
@@ -164,5 +180,6 @@ module.exports.handleDevicesUpdate = handleDevicesUpdate;
 module.exports.handleDevicesDelete = handleDevicesDelete;
 module.exports.handleDevicesFindAll = handleDevicesFindAll;
 module.exports.handleDevicesFindById = handleDevicesFindById;
+module.exports.handleDevicesFindByUid = handleDevicesFindByUid;
 module.exports.handleDevicesFindByName = handleDevicesFindByName;
 module.exports.handleDevicesFindByManufacturer = handleDevicesFindByManufacturer;
