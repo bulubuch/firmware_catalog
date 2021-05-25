@@ -53,16 +53,13 @@ function apiGet(path) {
 }
 
 function getValue(message, key) {
+	var str = "" + message;
 	console.log("GET value of " + key + " in message : " + message);
-	var parts = message.split(",");
-	var n = -1;
-	var result = null;
-	for (var i = 0; i < parts.length; i++) {
-		n = message.search(key + "=");
-		if (n == 0) {
-			result = message.slice(key.length + 1);
-			break;
-		}
+	var result = "";
+	n = str.search(key + "=");
+	if (n > 0) {
+		result = str.slice(key.length + 1);
+		break;
 	}
 	console.log("Found : " + result);
 	return result;
