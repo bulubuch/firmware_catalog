@@ -3,17 +3,17 @@
 	<head>
 		<meta name="viewport" content="width=device-width,initial-scale=1.0">
 		<title>ModulLab - Admin Dashboard</title>
-		<link rel="stylesheet" type="text/css" href="style/styles.css">
-		<link rel="stylesheet" type="text/css" href="afonts/css/all.css">
+		<link rel="stylesheet" type="text/css" href="css/styles.css">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 	</head>
 	<body>
-		<div class="container">
+		<div class="main-container">
 			<div class="navigation">
 				<ul>
 					<li>
 						<a href="#">
 							<span class="icon">
-								<img src="../assets/img/logo-small.png" style="width:20px"/>
+								<img src="img/logo-small.png" style="width:20px"/>
 							</span>
 							<span class="title">ModuLab</span>
 						</a>
@@ -74,55 +74,14 @@
 						<i class="fa fa-user"></i>
 					</div>
 				</div>
-				<div class="cardBox">
-					<div class="card">
-						<div>
-							<div class="numbers">42</div>
-							<div class="cardName">Views</div>
-						</div>
-						<div class="iconBox">
-							<i class="fa fa-eye" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div class="card">
-						<div>
-							<div class="numbers">16</div>
-							<div class="cardName">Devices</div>
-						</div>
-						<div class="iconBox">
-							<i class="fa fa-microchip" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div class="card">
-						<div>
-							<div class="numbers">5</div>
-							<div class="cardName">Tasks</div>
-						</div>
-						<div class="iconBox">
-							<i class="fa fa-tasks" aria-hidden="true"></i>
-						</div>
-					</div>
-					<div class="card">
-						<div>
-							<div class="numbers">9856</div>
-							<div class="cardName">Saved</div>
-						</div>
-						<div class="iconBox">
-							<i class="fa fa-euro-sign" aria-hidden="true"></i>
-						</div>
-					</div>
+				<div class="page-container">
+					{{{body}}}
 				</div>
 			</div>
 		</div>
-		<script src="script/client.js"></script>
-		<script src="script/cookies.js"></script>
-		<script>
-			function toggleMenu() {
-				let main = document.querySelector('.main');
-				let navigation = document.querySelector('.navigation');
-				main.classList.toggle('active');
-				navigation.classList.toggle('active');
-			}
-		</script>
+		<script src="js/client.js"></script>
+		<script src="js/utils.js"></script>
+		<script src="js/cookies.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 	</body>
 </html>

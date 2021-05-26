@@ -1,9 +1,0 @@
-CREATE TABLE IF NOT EXISTS device(
-	id					INTEGER PRIMARY KEY NOT NULL,
-	uid					TEXT UNIQUE NOT NULL,
-	model_name			TEXT NOT NULL,
-	firmware_version	REAL NOT NULL,
-	name				TEXT,
-	active				INTEGER DEFAULT 1,
-	when_created		INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP
-);

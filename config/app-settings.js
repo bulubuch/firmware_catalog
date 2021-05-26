@@ -21,10 +21,10 @@
 const appSettings = {
     db_file_name : './data/esp_catalog.db',
     create_sql : {
-        model : './scripts/model.sql',
-        device : './scripts/device.sql',
-        component : './scripts/component.sql',
-        firmware : './scripts/firmware.sql',
+        model : './sql/model.sql',
+        device : './sql/device.sql',
+        component : './sql/component.sql',
+        firmware : './sql/firmware.sql',
     },
     model_file_name : './data/models.csv',
     device_file_name : './data/devices.csv',
@@ -33,6 +33,7 @@ const appSettings = {
 
     server_host : '0.0.0.0',
     server_listen_port : 8000,
+	private_key: "ModuLabPrivateKey"
 };
 
 module.exports = appSettings;

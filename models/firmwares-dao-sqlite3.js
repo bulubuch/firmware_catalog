@@ -22,11 +22,11 @@
  */
 
 const sqlite3 = require('sqlite3').verbose();
-const logger = require('../utils/logger');
+const logger = require('../src/utils/logger');
 
 const appSettings = require('../config/app-settings');
 
-const db = require('../utils/utils').getDatabase();
+const db = require('../src/utils/utils').getDatabase();
 
 /**
  * All of the SELECTs in this module look the same
@@ -35,7 +35,7 @@ const SELECT = `SELECT firmware.id as firmware_id,
     firmware.description as firmware_description,
     firmware.version, 
     firmware.url, 
-    firmware.when_created, 
+    firmware.created_at, 
     model.id as model_id, 
     model.name as model,
     model.description as model_description, 

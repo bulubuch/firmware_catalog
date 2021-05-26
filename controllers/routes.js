@@ -23,9 +23,9 @@
  * somewhere.
  */
 // Utilities
-const utils = require('../utils/utils');
+const utils = require('../src/utils/utils');
 // Logger
-const logger = require('../utils/logger');
+const logger = require('../src/utils/logger');
 logger.setLogLevel(logger.Level.DEBUG);
 
 // Route Handlers
@@ -33,11 +33,63 @@ const modelsHandler = require('./models-handler');
 const firmwaresHandler = require('./firmwares-handler');
 const devicesHandler = require('./devices-handler');
 const componentsHandler = require('./components-handler');
+const usersHandler = require('./components-handler');
 
+
+/**
+ * Handle request for all supported /users paths
+ */
+function routeUsersRequest(request, parsedUrl) {
+	return new Promise((resolve, reject) => {
+		logger.debug('Cracking message', 'routeUsersRequest()');
+		let urlPath = utils.parseUrl(parsedUrl.pathname).pathUsers;
+		switch (urlPath.length) {
+			case 1:
+				routeUsersOnly(request, resolve, reject, parsedUrl);
+				break;
+			case 2:
+				if (urlPath[1] == 'login')
+				routeUserLogin(request, resolve, reject, parsedUrl);
+				break;
+			case 3:
+				routeUsersWithParam(request, resolve, reject, parsedUrl, urlPath[1], urlPath[2]);
+				break;
+			default:
+				var message = `Invalid path: ${parsedUrl} for method: ${request.method}`;
+				logger.error(message, 'routeUsersRequest()');
+				reject(message);
+				break;
+		}    
+	});
+}
+
+function routeUserOnly(request, resolve, reject, parsedUrl) {
+		switch (request.method) {
+			case 'GET':
+				// list all users
+				componentsHandler.handleComponentsFindAll(request, resolve, reject, parsedUrl);
+				break;
+			case 'POST':
+				// create user
+				componentsHandler.handleComponentsRegister(request, resolve, reject);
+				break;
+			default:
+				var message = `HTTP Method ${request.method} is not supported for ${parsedUrl.pathname}`;
+				logger.error(message, 'routeComponentsRequest()');
+				reject(message);
+				break;
+		}
+	}
+}
+
+function routeUserLogin(request, parsedUrl) {
+
+
+}
 /**
  * Handle request for all supported /components paths
  */
- function routeComponentsRequest(request, parsedUrl) {
+function routeComponentsRequest(request, parsedUrl) {
     return new Promise((resolve, reject) => {
         logger.debug('Cracking message', 'routeComponentsRequest()');
         let urlPath = utils.parseUrl(parsedUrl.pathname).pathComponents;
@@ -59,7 +111,6 @@ const componentsHandler = require('./components-handler');
         }    
     });
 }
-
 
 /**
  * Routes request for GET for component only (e.g., /component)
@@ -387,5 +438,6 @@ function routeModelsWithId(request, resolve, reject, parsedUrl, id) {
 // What's exported
 module.exports.routeFirmwaresRequest = routeFirmwaresRequest;
 module.exports.routeModelsRequest = routeModelsRequest;
+module.exports.routeUsersRequest = routeUsersRequest;
 module.exports.routeDevicesRequest = routeDevicesRequest;
 module.exports.routeComponentsRequest = routeComponentsRequest;

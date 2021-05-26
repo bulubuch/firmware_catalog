@@ -20,10 +20,10 @@ const http = require('http');
 const url = require('url');// To avoid confusion
 
 // Logger
-const logger = require('./utils/logger');
+const logger = require('./src/utils/logger');
 logger.setLogLevel(logger.Level.DEBUG);
 // Utilities
-const utils = require('./utils/utils');
+const utils = require('./src/utils/utils');
 // App settings
 const appSettings = require('./config/app-settings');
 // Routing
@@ -78,6 +78,14 @@ http.createServer(((request, response) => {
         logger.debug(`Greetings from pathname: ${parsedUrl.pathname}`, 'http.createServer:on(request)');
         // Route /firmwares URL
         routes.routeFirmwaresRequest(request, parsedUrl).then((results) => {
+            utils.writeServerJsonResponse(response, results.data, results.statusCode);
+        }).catch((rejectReason) => {
+            utils.writeServerResponse(response, rejectReason, 400);
+        });
+    } else if (parsedUrl.pathname.startsWith('/users')) {
+        logger.debug(`Greetings from pathname: ${parsedUrl.pathname}`, 'http.createServer:on(request)');
+        // Route /users URL
+        routes.routeUsersRequest(request, parsedUrl).then((results) => {
             utils.writeServerJsonResponse(response, results.data, results.statusCode);
         }).catch((rejectReason) => {
             utils.writeServerResponse(response, rejectReason, 400);
