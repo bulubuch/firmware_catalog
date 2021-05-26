@@ -113,14 +113,29 @@ class DAO {
     static insert({data}) {
 		return new Promise((resolve, reject) => {
 			console.log("Inserting " + this.TABLE_NAME);
-			console.log(data);
-			let baseQuery = `INSERT INTO ${this.TABLE_NAME} SET `
+			let baseQuery = `INSERT INTO ${this.TABLE_NAME}(`
+			let values = ' VALUES(';
 			let params = [];
-			for (const key in this.type.fields) {
-				baseQuery += `${key} = ?`
+			let key;
+
+			for (let i = 0; i < Object.keys(data).length; i++) {
+				key = Object.keys(data)[i];
+				// console.log("DATA KEY");
+				// console.log(data[key]);
+				// console.log("Obj KEYs");
+				// console.log(Object.keys(data));
+				baseQuery += `${key}`
+				values += "?"
 				params.push(data[key])
-				if (index + 1 !== Object.keys(data).length) baseQuery += " AND "
+				if (i + 1 !== Object.keys(data).length) {
+					baseQuery += ", "
+					values += ", "
+				}
 			}
+			baseQuery += ")";
+			values += ")";
+			baseQuery += values;
+			console.log(baseQuery);
 				// Run the SQL (note: must use named callback to get properties of the resulting Statement)
 			db.run(baseQuery, params, function callback(err) {
 				if (err) {
