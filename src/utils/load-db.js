@@ -38,7 +38,7 @@ const logger = require('./logger');
 // Simple utils
 const utils = require('./utils');
 
-const appSettings = require('./config/app-settings');
+const appSettings = require('../../config/app-settings');
 
 /**
  * Loads the specified file name and returns its contents
