@@ -15,11 +15,10 @@
  */
 'use strict'
 
-// Logger
-const telemetry = require('./components/telemetry.js');
+const telemetry = require('./controllers/telemetry.js');
 
 var mqtt    = require('mqtt');
-var client  = mqtt.connect("mqtt://localhost",{clientId:"modulabSubscriber"});
+var client  = mqtt.connect("mqtt://localhost",{clientId:"modulabTelemetry"});
 
 //handle incoming messages
 client.on('message',function(topic, message, packet){

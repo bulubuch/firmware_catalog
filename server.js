@@ -28,12 +28,19 @@ const utils = require('./utils/utils');
 const appSettings = require('./config/app-settings');
 // Routing
 const routes = require('./controllers/routes');
+
+/**
+ * Handles Telemetry from devices saves them in influxdb
+ */
+
+
 /**
  * Creates an HTTP server that acts as the entry point
  * to the REST services:
  * 
- * - Firmwares requests (e.g., /firmwares?id=123)
+ * - Firmwares requests (e.g., /firmwares/123)
  * - Models requests (e.g., /lists/123, lists/123/firmwares/567)
+ * - Devices requests (e.g., /devices/123)
  */
 http.createServer(((request, response) => {
 //    file.serve(request.response);
