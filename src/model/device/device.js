@@ -1,5 +1,6 @@
 const DAO = require('../../lib/dao')
 const config = require('../../../config/app-settings');
+const type = require('./type.js');
 
 class Device extends DAO {
 
@@ -9,6 +10,10 @@ class Device extends DAO {
     static get TABLE_NAME() {
         return 'device'
     }
+
+	static get type() {
+		return type
+	}
 
     /**
      * Returns a model_name by its ID
@@ -61,7 +66,6 @@ class Device extends DAO {
 					firmware_version,
                     sta_ssid,
                     sta_pass,
-                    user_id
                 }
             })
             return this.getByID(_, {id: _result.insertId})

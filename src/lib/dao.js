@@ -1,6 +1,5 @@
 const { sqlConstants } = require('../utils/sqlConstants')
 const db = require('../utils/utils').getDatabase();
-
 class DAO {
 
     /**
@@ -35,9 +34,9 @@ class DAO {
      * Retrieves all entries on the extending class' table
      */
     static findAll() {
-		console.log("FINDING ALL");
+		console.log("FINDING ALL " + this.TABLE_NAME);
 		return new Promise((resolve, reject) => {
-			const sql = 'SELECT * FROM ?';
+			const sql = 'SELECT * FROM ' + this.TABLE_NAME;
 			db.all(sql, this.TABLE_NAME, (err, row) => {
 				if (err) {
 					reject(err);
@@ -112,7 +111,26 @@ class DAO {
      * @param {Object} data - The fields which will populate the new entry
      */
     static insert({data}) {
-        return mysql.createTransactionalQuery({
+		return new Promise((resolve, reject) => {
+			console.log("Inserting " + this.TABLE_NAME);
+			console.log(data);
+			const baseQuery = `INSERT INTO ${this.TABLE_NAME} SET ?`
+			const params = [];
+			this.type.forEach((key, index) => {
+				baseQuery += `${key} = ?`
+				params.push(data[key])
+				if (index + 1 !== Object.keys(data).length) baseQuery += " AND "
+			})
+				// Run the SQL (note: must use named callback to get properties of the resulting Statement)
+			db.run(baseQuery, data, function callback(err) {
+				if (err) {
+					reject(err);
+				} else {
+					resolve({ data : `{ "createdId" : ${this.lastID} }`, statusCode: 201 });
+				}
+			})
+		});
+		return mysql.createTransactionalQuery({
             query: `INSERT INTO ${this.TABLE_NAME}
                     SET ?;`,
             params: [data],

@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
 		type:"test"
 	}
 	console.log(obj);
-	res.send(schema.register.resolve(req.body));
+	res.send(schema.register.resolve(res, req.body));
 });
 
 module.exports = router
