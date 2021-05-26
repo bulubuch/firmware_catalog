@@ -37,8 +37,8 @@ class DAO {
     static findAll() {
 		console.log("FINDING ALL");
 		return new Promise((resolve, reject) => {
-			const sql = 'SELECT * FROM devices';
-			db.all(sql, (err, row) => {
+			const sql = 'SELECT * FROM ?';
+			db.all(sql, this.TABLE_NAME, (err, row) => {
 				if (err) {
 					reject(err);
 				} else {
