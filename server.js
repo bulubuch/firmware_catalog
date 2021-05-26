@@ -29,9 +29,35 @@ const appSettings = require('./config/app-settings');
 // Routing
 const routes = require('./controllers/routes');
 
+const telemetry = require('./controllers/telemetry.js');
+
+var mqtt    = require('mqtt');
+var client  = mqtt.connect("mqtt://localhost",{clientId:"modulabTelemetry"});
+
+
 /**
  * Handles Telemetry from devices saves them in influxdb
  */
+
+//handle incoming messages
+client.on('message',function(topic, message, packet){
+	console.log("message is "+ message);
+	console.log("topic is "+ topic);
+	if (topic == "telemetry") {
+		telemetry.process(message);
+	}
+});
+
+client.on("connect",function(){	
+	console.log("connected  "+ client.connected);
+})
+
+//handle errors
+client.on("error",function(error){
+	console.log("Can't connect" + error);
+});
+
+client.subscribe("telemetry",{qos:1});
 
 
 /**
@@ -41,6 +67,7 @@ const routes = require('./controllers/routes');
  * - Firmwares requests (e.g., /firmwares/123)
  * - Models requests (e.g., /lists/123, lists/123/firmwares/567)
  * - Devices requests (e.g., /devices/123)
+ * - Components requests (e.g., /components/123)
  */
 http.createServer(((request, response) => {
 //    file.serve(request.response);

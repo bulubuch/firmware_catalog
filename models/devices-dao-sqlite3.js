@@ -150,7 +150,7 @@ function findByManufacturer(manufacturer) {
                 logger.error('Not found : ' + manufacturer + "in ", 'findByManufacturer()');
             }
         });
-        const sql = `SELECT * FROM device WHERE model_id = ?`;
+        sql = `SELECT * FROM device WHERE model_id = ?`;
 		for (var i = 0; i < models.length; i++) {
 			db.get(sql, manufacturer, (err, rows) => {
 				if (err) {
