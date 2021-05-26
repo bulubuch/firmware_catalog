@@ -10,6 +10,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
 	console.log(" DEVICE ROUTE REQ");
+	console.log(req.body);
 	res.send(schema.register.resolve(req.body));
 });
 
