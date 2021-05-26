@@ -116,13 +116,13 @@ class DAO {
 			console.log(data);
 			const baseQuery = `INSERT INTO ${this.TABLE_NAME} SET `
 			const params = [];
-			for (const key in this.type.fields)
+			for (const key in this.type.fields) {
 				baseQuery += `${key} = ?`
 				params.push(data[key])
 				if (index + 1 !== Object.keys(data).length) baseQuery += " AND "
-			})
+			}
 				// Run the SQL (note: must use named callback to get properties of the resulting Statement)
-			db.run(baseQuery, data, function callback(err) {
+			db.run(baseQuery, params, function callback(err) {
 				if (err) {
 					reject(err);
 				} else {
