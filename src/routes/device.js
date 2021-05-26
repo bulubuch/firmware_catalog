@@ -11,6 +11,11 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
 	console.log(" DEVICE ROUTE REQ");
 	console.log(req.body);
+	let obj = {
+		name:"Yolo",
+		type:"test"
+	}
+	console.log(obj);
 	res.send(schema.register.resolve(req.body));
 });
 
