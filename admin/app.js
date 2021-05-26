@@ -1,5 +1,5 @@
 const express = require('express');
-const exphbs = require('express-handlebars')
+const exphbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 
 require('dotenv').config();
@@ -18,13 +18,16 @@ app.use(bodyParser.json());
 app.use(express.static('assets'))
 
 // Templating Engine
-app.engine('hbs', exphbs({ extname: '.hbs' }));
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }));
 app.set('view engine', 'hbs');
 
 // Routes
-app.get('/', (res, req) => {
-	res.render('home');
-});
+app.route('/')
+	.get(function(req, res)
+	{
+		res.render('home');
+	});
+
 
 // Start server
 const server = app.listen(port, () => {
