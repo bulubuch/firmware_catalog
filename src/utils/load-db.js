@@ -32,13 +32,13 @@ const fs = require('fs');
 const database = require('sqlite3').verbose();
 
 // Logger
-const logger = require('../utils/logger');
+const logger = require('./logger');
 //logger.setLogLevel(logger.Level.DEBUG);
 
 // Simple utils
-const utils = require('../utils/utils');
+const utils = require('./utils');
 
-const appSettings = require('../config/app-settings');
+const appSettings = require('./config/app-settings');
 
 /**
  * Loads the specified file name and returns its contents
