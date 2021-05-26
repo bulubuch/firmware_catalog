@@ -58,5 +58,3 @@ function delCookie(key)
 	}
 	document.cookie = cookie;
 }
-
-let cookies = new Cookies();
