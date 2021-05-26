@@ -1,5 +1,3 @@
-const cookies = require('scripts/cookies.js')
-
 function			loadClient()
 {
 	let userBox = document.querySelector('.user');
