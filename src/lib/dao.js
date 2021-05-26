@@ -114,9 +114,9 @@ class DAO {
 		return new Promise((resolve, reject) => {
 			console.log("Inserting " + this.TABLE_NAME);
 			console.log(data);
-			const baseQuery = `INSERT INTO ${this.TABLE_NAME} SET ?`
+			const baseQuery = `INSERT INTO ${this.TABLE_NAME} SET `
 			const params = [];
-			this.type.forEach((key, index) => {
+			for (const key in this.type.fields)
 				baseQuery += `${key} = ?`
 				params.push(data[key])
 				if (index + 1 !== Object.keys(data).length) baseQuery += " AND "
