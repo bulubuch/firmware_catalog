@@ -1,4 +1,4 @@
-class cookies
+class Cookies
 {
 	get(key) {
 		let c  = document.cookie;
@@ -61,3 +61,5 @@ class cookies
 		document.cookie = cookie;
 	}
 }
+
+let cookies = Cookies();
