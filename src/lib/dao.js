@@ -114,8 +114,8 @@ class DAO {
 		return new Promise((resolve, reject) => {
 			console.log("Inserting " + this.TABLE_NAME);
 			console.log(data);
-			const baseQuery = `INSERT INTO ${this.TABLE_NAME} SET `
-			const params = [];
+			let baseQuery = `INSERT INTO ${this.TABLE_NAME} SET `
+			let params = [];
 			for (const key in this.type.fields) {
 				baseQuery += `${key} = ?`
 				params.push(data[key])
