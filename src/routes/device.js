@@ -5,12 +5,12 @@ const schema = require('../schema/device')
 
 router.get('/', (req, res) => {
 	console.log(" DEVICE ROUTE REQ");
-	if (req.method == "GET") {
-		res.send(schema.all.resolve(req.body));
-	} else if (req.method == "POST") {
-		res.send(schema.all.resolve(req.body));
-	}
-	// console.log(req);
+	res.send(schema.all.resolve());
+});
+
+router.post('/', (req, res) => {
+	console.log(" DEVICE ROUTE REQ");
+	res.send(schema.register.resolve(req.body));
 });
 
 module.exports = router
