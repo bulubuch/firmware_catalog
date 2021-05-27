@@ -19,6 +19,7 @@
  * appSettings - all relative to the project root
  */
 const appSettings = {
+	app_name: "modulabAPI",
     db_file_name : './data/esp_catalog.db',
     create_sql : {
         model : './sql/model.sql',
@@ -31,6 +32,8 @@ const appSettings = {
     component_file_name : './data/components.csv',
     firmware_file_name : './data/firmwares.csv',
 
+    mqtt_broker : '0.0.0.0',
+    mqtt_client_id : 'modulabAPI',
     server_host : '0.0.0.0',
     server_listen_port : 8000,
 	private_key: "ModuLabPrivateKey"

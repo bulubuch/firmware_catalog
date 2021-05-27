@@ -2,9 +2,8 @@ const express = require('express');
 const Routes = require('./routes');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const telemetry = require('../controllers/telemetry.js');
-const register = require('../controllers/register.js');
-const mqtt = require('mqtt');
+const appSettings = require('../config/app-settings');
+const mqtt = require('./lib/mqttclient');
 
 class App {
     
@@ -22,7 +21,7 @@ class App {
                 return process.env.PORT || 7000
             }
         }
-		this.mqttClient = mqtt.connect("mqtt://localhost",{clientId:"modulabAPI"});
+		this.mqttClient = new mqtt(`mqtt://${appSettings.mqtt_broker}`,{clientId:appSettings.mqtt_client_id});
 
     }
     /**
@@ -37,7 +36,6 @@ class App {
         // this.expressApp.use(apolloUploadExpress({uploadDir: "../firmware"}))
         this.expressApp.use(bodyParser.json())
         this.expressApp.use(cors())
-        const app = this.expressApp
         // Registers the routes used by the app
         new Routes(this.expressApp)
     }
@@ -57,28 +55,6 @@ class App {
             console.log("Express server running project on port " + this.configs.port + ".")
             console.log(`Environment: ${process.env.STAGE || "development"}`)
         })
-		this.mqttClient.on('message',function(topic, message, packet){
-			console.log("message is "+ message);
-			console.log("topic is "+ topic);
-			if (topic == "telemetry") {
-				telemetry.process(message);
-			}
-			if (topic == "register") {
-				register.process(message);
-			}
-		});
-		
-		this.mqttClient.on("connect",function(){	
-			console.log("connected ");
-		})
-		
-		//handle errors
-		this.mqttClient.on("error",function(error){
-			console.log("Can't connect" + error);
-		});
-		
-		this.mqttClient.subscribe("telemetry",{qos:1});
-		this.mqttClient.subscribe("register",{qos:1});
     }
 }
 

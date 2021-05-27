@@ -22,11 +22,11 @@
  */
 
 const sqlite3 = require('sqlite3').verbose();
-const logger = require('../utils/logger');
+const logger = require('../src/utils/logger');
 
 const appSettings = require('../config/app-settings');
 
-const db = require('../utils/utils').getDatabase();
+const db = require('../src/utils/utils').getDatabase();
 
 function findAll() {
     return new Promise((resolve, reject) => {

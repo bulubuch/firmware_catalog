@@ -23,8 +23,8 @@
  */
 
 // TODO: Figure out what require()s you need here
-const logger = require('../utils/logger');
-const utils = require('../utils/utils');
+const logger = require('../src/utils/logger');
+const utils = require('../src/utils/utils');
 
 const modelsDao = require('../models/models-dao');
 /**
