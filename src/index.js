@@ -55,6 +55,7 @@ class App {
             console.log("Express server running project on port " + this.configs.port + ".")
             console.log(`Environment: ${process.env.STAGE || "development"}`)
         })
+		this.mqttClient.start();
     }
 }
 
