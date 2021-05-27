@@ -39,23 +39,19 @@ class Device extends DAO {
         console.log("DELETED Device")
         try {
             let _result = await this.delete(id)
-            if (_result.affectedRows > 0)
-            {
-                console.log("DELETED Device SUCCESS")
-                console.log(_result)
-                return String(id)
-            }
-            return 0
-        } finally {
+			return _result
+		} catch(error) {
+			return error
+		} finally {
             // Releases the connection
-            if (connection != null) connection.release()
+			console.log("Device Deleted");
         }
     }
 
     /**
      * Register device at first connection
      */
-    static async registerDevice(_, {name = 'UnregisteredDevice', model_name = "Unknown", uid, firmware_version, sta_ssid, sta_pass}) {
+    static async registerDevice(_, {name = 'UnregisteredDevice', model_name = "Unknown", uid, firmware_version}) {
         console.log("REGISTER Device")
         try {
             let _result = await this.insert({
@@ -63,13 +59,13 @@ class Device extends DAO {
                     name,
                     uid,
                     model_name,
-					firmware_version,
-                    sta_ssid,
-                    sta_pass,
+					firmware_version
                 }
             })
             return this.getByID(_, {id: _result.insertId})
-        } finally {
+        } catch {
+			return ({error: "Could not register device", statusCode: 500})
+		} finally {
 			console.log("Registered device");
         }
     }
@@ -77,23 +73,23 @@ class Device extends DAO {
     /**
      * Updates a device 
      */
-    static async updateEntry(_, {id, name, model_name, uid, firmware_version, sta_ssid, sta_pass, status}) {
+    static async updateEntry(_, {id, name, model_name, firmware_version, status}) {
         console.log("Device Update...")
         try {
-            await this.update(connection, {
+            await this.update({
                 id,
                 data: {
                     name,
                     model_name,
-                    uid,
                     firmware_version,
-                    sta_ssid,
-                    sta_pass,
 					status
                 }
-            })
+			});
 
             return this.getByID(_, {id})
+		} catch (error) {
+			console.log(error);
+			return (error);
         } finally {
 			console.log("Updated device");
         }

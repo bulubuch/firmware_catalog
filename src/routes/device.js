@@ -4,19 +4,36 @@ const deviceMutations = require('../model/device/mutations')
 const schema = require('../schema/device')
 
 router.get('/', (req, res) => {
-	console.log(" DEVICE ROUTE REQ");
-	res.send(schema.all.resolve());
+	console.log(" DEVICE ROUTE GET");
+	let query = schema.all.resolve(res, req.body);
+	query.then((result) => {
+		res.send(result);
+	});
 });
 
 router.post('/', (req, res) => {
-	console.log(" DEVICE ROUTE REQ");
-	console.log(req.body);
-	let obj = {
-		name:"Yolo",
-		type:"test"
-	}
-	console.log(obj);
-	res.send(schema.register.resolve(res, req.body));
+	console.log(" DEVICE ROUTE POST");
+	let query = schema.register.resolve(res, req.body);
+	query.then((result) => {
+		res.send(result);
+	});
+});
+
+router.delete('/', (req, res) => {
+	console.log(" DEVICE ROUTE DELETE");
+	let query = schema.delete.resolve(res, req.body);
+	query.then((result) => {
+		console.log(result);
+		res.send(result);
+	});
+});
+
+router.put('/', (req, res) => {
+	console.log(" DEVICE ROUTE PUT");
+	let query = schema.update.resolve(res, req.body);
+	query.then((result) => {
+		res.send(result);
+	});
 });
 
 module.exports = router

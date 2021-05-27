@@ -11,19 +11,13 @@ devices: {
 		name: {
 			type: String
 		},
-		model: {
+		model_name: {
 			type: String
 		},
-		mac: {
+		uid: {
 			type: String
 		},
 		firmware: {
-			type: String
-		},
-		sta_ssid: {
-			type: String
-		},
-		sta_pass: {
 			type: String
 		},
 		created_at: {

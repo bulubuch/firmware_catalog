@@ -15,14 +15,13 @@ class DAO {
      */
     static async find(id) {
 		return new Promise((resolve, reject) => {
-			const sql = `SELECT * FROM device WHERE id = ?`;
+			const sql = `SELECT * FROM ${this.TABLE_NAME} WHERE id = ?`;
 			db.get(sql, id, (err, row) => {
 				if (err) {
 					let message = `Error reading from the database: ${err.message}`;
-					logger.error(message, 'findById()');
 					reject(message);
 				} else if (row) {
-					resolve({ data : JSON.stringify(row), statusCode: 200 });
+					resolve({ data : row, statusCode: 200 });
 				} else {
 					resolve({ data : '{}', statusCode: 404 });
 				}
@@ -34,16 +33,25 @@ class DAO {
      * Retrieves all entries on the extending class' table
      */
     static findAll() {
-		console.log("FINDING ALL " + this.TABLE_NAME);
+		console.log(`FINDING ALL ${this.TABLE_NAME}`);
 		return new Promise((resolve, reject) => {
-			const sql = 'SELECT * FROM ' + this.TABLE_NAME;
-			db.all(sql, this.TABLE_NAME, (err, row) => {
+			const sql = `SELECT * FROM ${this.TABLE_NAME}`;
+			db.all(sql, (err, row) => {
 				if (err) {
 					reject(err);
 				} else {
-					resolve({ data : JSON.stringify(row), statusCode: 200 });
+					resolve({ data : row, statusCode: 200 });
 				}
 			});
+		}).then((result) => {
+			console.log("Got all " + this.TABLE_NAME);
+			console.log(result);
+			return result
+
+		}, (error) => {
+			console.log("Error finding all " + this.TABLE_NAME);
+			console.log(error);
+			return error
 		});
 	}
 
@@ -55,7 +63,7 @@ class DAO {
      */
     static findByFields({fields, limit, order}) {
 		return new Promise((resolve, reject) => {
-			const baseQuery = `SELECT * FROM ? WHERE `;
+			const baseQuery = `SELECT * FROM ${this.TABLE_NAME} WHERE `;
 			let params = [this.TABLE_NAME]
 
 	        Object.keys(fields).forEach((key, index) => {
@@ -90,18 +98,45 @@ class DAO {
      * @param {Number} id - The ID of the entry to be updated
      * @param {Object} data - The data fields which will be updated
      */
-    static update(id, data) {
+    static update({id, data}) {
 		return new Promise((resolve, reject) => {
-			const sql = `UPDATE ? SET ? WHERE ?? = ?`;
-			let params = [this.TABLE_NAME];
-			// Run the SQL (note: must use named callback to get properties of the resulting Statement)
-			db.run(sql, name, description, manufacturer, datasheet, id, function callback(err) {
-				if (err) {
-					reject(err);
+
+			let baseQuery = `UPDATE ${this.TABLE_NAME} SET `
+			let values = ' VALUES(';
+			let params = [];
+			let key;
+			let item = this.find(id).then((res) => {
+				if (item) {
+					console.log(data)
+					for (let i = 0; i < Object.keys(data).length; i++) {
+						key = Object.keys(data)[i];
+						baseQuery += `${key} = ?`;
+						if (data[key]) {
+							params.push(data[key])
+						} else {
+							params.push(res.data[key])
+						}
+						if (i + 1 !== Object.keys(data).length) {
+							baseQuery += ", "
+						}
+					}
+					baseQuery += ` WHERE id = ${id}`;
+						// Run the SQL (note: must use named callback to get properties of the resulting Statement)
+					db.run(baseQuery, params, function callback(err) {
+						if (err) {
+							reject(err);
+						} else {
+							resolve({ insertId : this.lastID , statusCode: 201 });
+						}
+					})
 				} else {
-					resolve({ data : `{ "rowsAffected" : ${this.changes} }`, statusCode: 200 });
+					reject(`${this.TABLE_NAME} with id ${id} not found.`);
 				}
+	
+			},(err) => {
+				reject(err);
 			});
+
 		});
     }
 
@@ -112,7 +147,6 @@ class DAO {
      */
     static insert({data}) {
 		return new Promise((resolve, reject) => {
-			console.log("Inserting " + this.TABLE_NAME);
 			let baseQuery = `INSERT INTO ${this.TABLE_NAME}(`
 			let values = ' VALUES(';
 			let params = [];
@@ -120,10 +154,6 @@ class DAO {
 
 			for (let i = 0; i < Object.keys(data).length; i++) {
 				key = Object.keys(data)[i];
-				// console.log("DATA KEY");
-				// console.log(data[key]);
-				// console.log("Obj KEYs");
-				// console.log(Object.keys(data));
 				baseQuery += `${key}`
 				values += "?"
 				params.push(data[key])
@@ -135,22 +165,15 @@ class DAO {
 			baseQuery += ")";
 			values += ")";
 			baseQuery += values;
-			console.log(baseQuery);
 				// Run the SQL (note: must use named callback to get properties of the resulting Statement)
 			db.run(baseQuery, params, function callback(err) {
 				if (err) {
 					reject(err);
 				} else {
-					resolve({ data : `{ "createdId" : ${this.lastID} }`, statusCode: 201 });
+					resolve({ insertId : this.lastID , statusCode: 201 });
 				}
 			})
 		});
-		return mysql.createTransactionalQuery({
-            query: `INSERT INTO ${this.TABLE_NAME}
-                    SET ?;`,
-            params: [data],
-            connection
-        })
     }
 
     /**
@@ -159,17 +182,19 @@ class DAO {
      * @param {Number} id - The ID of the entry to be deleted
      */
     static delete({id}) {
-	    return new Promise((resolve, reject) => {
-	        const sql = `DELETE FROM ? WHERE id = ?`;
-	        // Run the SQL (note: must use named callback to get properties of the resulting Statement)
-	        db.run(sql, this.TABLE_NAME, id,  function callback(err) {
-	            if (err) {
-	                reject(err);
-	            } else {
-	                resolve({ data : `{ "rowsAffected" : ${this.changes} }`, statusCode: 200 });
-	            }
-	        });
-	    });
+		return new Promise((resolve, reject) => {
+			const sql = `DELETE FROM ${this.TABLE_NAME} WHERE id = ?`;
+			// Run the SQL (note: must use named callback to get properties of the resulting Statement)
+			db.run(sql, id,  function callback(err, row) {
+				if (err) {
+					reject(err);
+				} else if (row) {
+					resolve({ data : { affectedRows: this.changes} , statusCode: 200 });
+				} else {
+					reject({ error : "Can not delete, entry not found." , statusCode: 500 });
+				}
+			});
+		});
     }
 }
 

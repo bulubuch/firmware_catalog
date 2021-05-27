@@ -19,12 +19,6 @@ module.exports = {
         firmware_version: {
             type: String
         },
-        sta_ssid: {
-            type: String
-        },
-        sta_pass: {
-            type: String
-        },
         created_at: {
             type: Number
         },

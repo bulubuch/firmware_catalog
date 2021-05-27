@@ -10,9 +10,7 @@ module.exports = {
 			name:				{ type: String },
 			model_name:			{ type: String },
 			uid:				{ type: String },
-			firmware_version:	{ type: Number },
-			sta_ssid: 			{ type: String },
-			sta_pass: 			{ type: String }
+			firmware_version:	{ type: Number }
 		},
 		resolve: Device.registerDevice.bind(Device)
 	},
@@ -21,7 +19,6 @@ module.exports = {
 		args: {
 			id:					{ type: Number },
 			name:				{ type: String },
-			uid:				{ type: String },
 			model_name:			{ type: String },
 			firmware_version:	{ type: Number },
 			sta_ssid:			{ type: String },

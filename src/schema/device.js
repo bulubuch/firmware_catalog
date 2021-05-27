@@ -4,9 +4,11 @@ const componentMutations = require('../model/component/mutations')
 const componentQueries = require('../model/component/queries')
 
 module.exports = {
-	register: deviceMutations.registerDevice,
-	components: deviceQueries.components,
-	search: deviceQueries.devices,
 	all: deviceQueries.devices,
+	register: deviceMutations.registerDevice,
+	delete: deviceMutations.deleteDevice,
+	update: deviceMutations.updateDevice,
+	search: deviceQueries.devices,
+	components: deviceQueries.components,
 	by_uid: deviceQueries.by_uid,
 }
