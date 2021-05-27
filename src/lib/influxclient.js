@@ -1,10 +1,10 @@
 const Influx = require('influx')
 
 class influxClient {
-	static _host
-	static _database
-	static _schema
-	static _db
+	 _host
+	 _database
+	 _schema
+	 _db
 
 	static init(host, database, schema) {
 		this._host = host;
