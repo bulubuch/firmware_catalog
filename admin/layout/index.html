@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0">
+		<title>ModulLab - Admin Dashboard</title>
+		<link rel="stylesheet" type="text/css" href="../assets/style/styles.css">
+		<link rel="stylesheet" type="text/css" href="../assets/afonts/css/all.css">
+	</head>
+	<body>
+		<div class="container">
+			<div class="navigation">
+				<ul>
+					<li>
+						<a href="#">
+							<span class="icon">
+								<img src="../assets/img/logo-small.png" style="width:20px"/>
+							</span>
+							<span class="title">ModuLab</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="icon">
+								<i class="fa fa-home" aria-hidden="true"></i>
+							</span>
+							<span class="title">Dashboard</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="icon">
+								<i class="fa fa-microchip" aria-hidden="true"></i>
+							</span>
+							<span class="title">Devices</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="icon">
+								<i class="fa fa-calendar" aria-hidden="true"></i>
+							</span>
+							<span class="title">Schedule</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="icon">
+								<i class="fa fa-tasks" aria-hidden="true"></i>
+							</span>
+							<span class="title">Tasks</span>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="icon">
+								<i class="fa fa-map" aria-hidden="true"></i>
+							</span>
+							<span class="title">Plan</span>
+						</a>
+					</li>
+				</ul>
+			</div>
+			<div class="main">
+				<div class="topbar">
+					<div class="toggle" onclick="toggleMenu()">
+						<i class="fa fa-bars" aria-hidden="true"></i>
+					</div>
+					<div class="search">
+						<label>
+							<input type="text" placeholder="Search here">
+						</label>
+					</div>
+					<div class="user">
+						<img src="../assets/img/">
+					</div>
+				</div>
+				<div class="cardBox">
+					<div class="card">
+						<div>
+							<div class="numbers">42</div>
+							<div class="cardName">Views</div>
+						</div>
+						<div class="iconBox">
+							<i class="fa fa-eye" aria-hidden="true"></i>
+						</div>
+					</div>
+					<div class="card">
+						<div>
+							<div class="numbers">16</div>
+							<div class="cardName">Devices</div>
+						</div>
+						<div class="iconBox">
+							<i class="fa fa-microchip" aria-hidden="true"></i>
+						</div>
+					</div>
+					<div class="card">
+						<div>
+							<div class="numbers">5</div>
+							<div class="cardName">Tasks</div>
+						</div>
+						<div class="iconBox">
+							<i class="fa fa-tasks" aria-hidden="true"></i>
+						</div>
+					</div>
+					<div class="card">
+						<div>
+							<div class="numbers">9856</div>
+							<div class="cardName">Saved</div>
+						</div>
+						<div class="iconBox">
+							<i class="fa fa-euro-sign" aria-hidden="true"></i>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script>
+			function toggleMenu() {
+				let main = document.querySelector('.main');
+				let navigation = document.querySelector('.navigation');
+				main.classList.toggle('active');
+				navigation.classList.toggle('active');
+			}
+		</script>
+	</body>
+</html>
