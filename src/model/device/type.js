@@ -19,14 +19,14 @@ module.exports = {
         firmware_version: {
             type: String
         },
+		status: {
+			type: String
+		},
         created_at: {
             type: Number
         },
         updated_at: {
             type: Number
-        },
-        token: {
-            type: String
         },
     }
 }

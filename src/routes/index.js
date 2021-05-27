@@ -1,5 +1,6 @@
 const firmwareRoutes = require('./firmware')
 const componentRoutes = require('./component')
+const telemetryRoutes = require('./telemetry')
 const deviceRoutes = require('./device')
 const express = require('express')
 const path = require('path');
@@ -40,6 +41,7 @@ module.exports = class Routes {
 		app.use('/device', deviceRoutes )
 		app.use('/firmware', firmwareRoutes )
 		app.use('/component', componentRoutes )
+		app.use('/telemetry', telemetryRoutes )
 	}
 
 }

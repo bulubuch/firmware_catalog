@@ -1,8 +1,8 @@
-const DAO = require('../../lib/dao')
 const config = require('../../../config/app-settings');
+const influxClient = require('../../lib/influxclient');
 const type = require('./type.js');
 
-class Firmware extends DAO {
+class Telemetry {
 
     /**
      * Overrides TABLE_NAME with this class' backing table at MySQL
@@ -23,36 +23,46 @@ class Firmware extends DAO {
     }
 
     /**
-     * Returns a list of models matching the passed fields
+     * Returns a list of measurement matching the passed fields
      * @param {*} fields - Fields to be matched
      */
-    static async findMatching(_, fields) {
-        // Returns early with all models if no criteria was passed
-        if (Object.keys(fields).length === 0) return this.findAll()
-        
-        // Find matching models
-        return this.findByFields({
-            fields
-        })
-    }
+	 static async query(_, measurement, where) {
+		console.log("INFLUX QUERY");
+        // Returns early with all measurement if no criteria was passed
+        if (where.length === 0) return influxClient.findAll(measurement);
+		let query = `SELECT * FROM ${measurement} WHERE ${where}`;
+        // Find matching measurement
+		return influxClient.run(query);
+	}
 
-    static async deleteFirmware(_, {id}) {
-        console.log("DELETED Firmware")
+    /**
+     * Returns a list of measurement matching the passed fields
+     * @param {*} fields - Fields to be matched
+     */
+    static async findMatching(_, measurement, fields) {
+        // Returns early with all measurement if no criteria was passed
+        if (Object.keys(fields).length === 0) return await influxClient.findAll(measurement)
+        // Find matching measurement
+		return await influxClient.select(measurement, fields);
+	}
+
+    static async deleteTelemetry(_, {id}) {
+        console.log("DELETED Telemetry")
         try {
             let _result = await this.delete(id)
 			return _result
 		} catch(err) {
 			return err
 		} finally {
-			console.log("Firmware Deleted");
+			console.log("Telemetry Deleted");
         }
     }
 
     /**
      * Uploads a new firmware
      */
-    static async uploadFirmware(_, {model_name, version, description, url, status}) {
-        console.log("Upload Firmware")
+    static async uploadTelemetry(_, {model_name, version, description, url, status}) {
+        console.log("Upload Telemetry")
         try {
             let _result = await this.insert({
                 data: {
@@ -75,7 +85,7 @@ class Firmware extends DAO {
      * Updates a firmware 
      */
 	 static async updateEntry(_, {id, model_name, version, description, url, status}) {
-        console.log("Firmware Update...")
+        console.log("Telemetry Update...")
         try {
             await this.update({
                 id,
@@ -98,4 +108,4 @@ class Firmware extends DAO {
     }
 }
 
-module.exports = Firmware
+module.exports = Telemetry

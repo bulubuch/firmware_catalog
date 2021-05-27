@@ -1,22 +1,31 @@
 // Defines the type
 module.exports = {
-    name: 'Firmware',
-    description: 'Device firmware',
+    name: 'User',
+    description: 'User profile',
     fields: {
         id: {
             type: Number,
 			non_null: true,
         },
-        model_name: {
+        first_name: {
             type: String
         },
-        version: {
-            type: Number
-        },
-        description: {
+        last_name: {
             type: String
         },
-        url: {
+        email: {
+            type: String
+        },
+        phone: {
+            type: String
+        },
+        comments: {
+            type: String
+        },
+        status: {
+            type: String
+        },
+        role: {
             type: String
         }
     }

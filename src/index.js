@@ -4,6 +4,8 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const appSettings = require('../config/app-settings');
 const mqtt = require('./lib/mqttclient');
+const Influx = require('influx')
+const influx = require('./lib/influxclient');
 
 class App {
     
@@ -21,8 +23,8 @@ class App {
                 return process.env.PORT || 7000
             }
         }
-		this.mqttClient = new mqtt(`mqtt://${appSettings.mqtt_broker}`,{clientId:appSettings.mqtt_client_id});
-
+		this.influxClient = null;
+		this.mqttClient = mqtt.init(`mqtt://${appSettings.mqtt_broker}`,{clientId:appSettings.mqtt_client_id});
     }
     /**
      * 
@@ -36,6 +38,33 @@ class App {
         // this.expressApp.use(apolloUploadExpress({uploadDir: "../firmware"}))
         this.expressApp.use(bodyParser.json())
         this.expressApp.use(cors())
+		this.influxClient = new Promise((resolve, reject) => {
+			let client = influx.init(appSettings.influx_host, appSettings.influx_database, [
+			{
+				measurement: 'telemetry',
+				fields: {
+					air_temperature: Influx.FieldType.INTEGER,
+					air_humidity: Influx.FieldType.INTEGER,
+					soil_temperature: Influx.FieldType.INTEGER,
+					soil_moisture: Influx.FieldType.INTEGER,
+					battery: Influx.FieldType.INTEGER
+				},
+				tags: [
+					'device_uid'
+				]
+			}]);
+			if (client) {
+				resolve(client);
+			} else {
+				reject(client);
+			}
+		})
+		this.influxClient.then(res => {
+			mqtt.start(res);
+			return res;
+		}).catch(err => {
+
+		});
         // Registers the routes used by the app
         new Routes(this.expressApp)
     }
@@ -55,7 +84,6 @@ class App {
             console.log("Express server running project on port " + this.configs.port + ".")
             console.log(`Environment: ${process.env.STAGE || "development"}`)
         })
-		this.mqttClient.start();
     }
 }
 

@@ -1,23 +1,20 @@
 // Defines the type
 module.exports = {
-    name: 'Firmware',
-    description: 'Device firmware',
+    name: 'Telemetry',
+    description: 'Device telemetry',
     fields: {
         id: {
             type: Number,
 			non_null: true,
         },
-        model_name: {
+        device_uid: {
             type: String
         },
-        version: {
-            type: Number
+        measurement: {
+			type: String
         },
-        description: {
-            type: String
-        },
-        url: {
-            type: String
-        }
+		value: {
+			type: Number
+		}
     }
 }

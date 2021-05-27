@@ -32,8 +32,10 @@ const appSettings = {
     component_file_name : './data/components.csv',
     firmware_file_name : './data/firmwares.csv',
 
-    mqtt_broker : '0.0.0.0',
+    mqtt_broker : '192.168.1.137',
     mqtt_client_id : 'modulabAPI',
+    influx_host : '192.168.1.137',
+    influx_database : 'modulab',
     server_host : '0.0.0.0',
     server_listen_port : 8000,
 	private_key: "ModuLabPrivateKey"

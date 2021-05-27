@@ -86,17 +86,6 @@ function getValue(message, key) {
 }
 
 
-function getMessageUid(message) {
-	var str = "" + message;
-	var parts = str.split(",");
-	console.log("GET UID in message : " + message);
-	if (parts.length > 1) {
-		console.log("Parts " + parts.length);
-		console.log("UID: " + parts[0]);
-		return parts[0];
-	}
-	return null;
-}
 
 
 function processComponent(component, message) {

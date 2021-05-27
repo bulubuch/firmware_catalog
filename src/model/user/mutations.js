@@ -1,6 +1,6 @@
 
 const type = require('./type')
-const Firmware = require('./firmware')
+const Firmware = require('./user')
 
 // Defines the mutations
 module.exports = {

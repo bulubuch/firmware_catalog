@@ -1,5 +1,6 @@
 const telemetryQueries = require('../model/telemetry/queries')
 
 module.exports = {
-	search: telemetryQueries.telemetrys,
+	search: telemetryQueries.measurements,
+	query: telemetryQueries.query
 }
