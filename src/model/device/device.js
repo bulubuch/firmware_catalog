@@ -42,13 +42,12 @@ class Device extends DAO {
             fields
         })
     }
+
     static async deleteDevice(_, id) {
         console.log("DELETED Device")
         try {
             let _result = await this.delete(id)
 			return _result
-		} catch(err) {
-			return err
 		} finally {
 			console.log("Device Deleted");
         }
@@ -68,9 +67,7 @@ class Device extends DAO {
 					firmware_version
                 }
             })
-            return this.getByID(_, {id: _result.insertId})
-        } catch (err) {
-			return (err)
+            return this.getByID(_, {id: _result})
 		} finally {
 			console.log("Registered device");
         }
@@ -93,9 +90,6 @@ class Device extends DAO {
 			});
 
             return this.getByID(_, {id})
-		} catch (err) {
-			console.log(err);
-			return (err);
         } finally {
 			console.log("Updated device");
         }

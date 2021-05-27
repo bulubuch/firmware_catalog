@@ -39,8 +39,6 @@ class Component extends DAO {
         try {
             let _result = await this.delete(id)
 			return _result;
-		} catch (err) {
-			return (err);
         } finally {
 			console.log("Component Deleted");
         }
@@ -62,8 +60,6 @@ class Component extends DAO {
                 }
             })
             return this.getByID(_, {id: _result.insertId})
-		} catch (err) {
-			return (err)
         } finally {
 			console.log("Registered component");
         }

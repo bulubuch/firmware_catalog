@@ -13,7 +13,11 @@ router.post('/', (req, res) => {
 	console.log(" DEVICE ROUTE POST");
 	schema.register.resolve(res, req.body)
 	.then((result) => {
-		res.send(result);
+		console.log("SUCCESS");
+		res.status(200).send(result);
+	}, (err) => {
+		console.log("FAIL");
+		res.status(400).send(err);
 	});
 });
 

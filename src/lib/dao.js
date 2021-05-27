@@ -21,9 +21,9 @@ class DAO {
 					let message = `Error reading from the database: ${err.message}`;
 					reject(message);
 				} else if (row) {
-					resolve({ data : row, statusCode: 200 });
+					resolve(row);
 				} else {
-					resolve({ data : {}, statusCode: 404 });
+					resolve({});
 				}
 			});
 		});
@@ -40,7 +40,7 @@ class DAO {
 				if (err) {
 					reject(err);
 				} else {
-					resolve({ data : row, statusCode: 200 });
+					resolve(row);
 				}
 			});
 		});
@@ -80,10 +80,8 @@ class DAO {
 			db.all(baseQuery, params, (err, rows) => {
 	            if (err) {
 	                reject(err);
-	            } else if (rows.length){
-	                resolve({ data : rows, statusCode: 200 });
-	            } else {
-	                resolve({ data : [], statusCode: 404 });
+				} else {
+	                resolve(rows);
 	            }
 	        });
 		});
@@ -162,9 +160,9 @@ class DAO {
 				// Run the SQL (note: must use named callback to get properties of the resulting Statement)
 			db.run(baseQuery, params, function callback(err) {
 				if (err) {
-					reject({ error: err, statusCode: 500});
+					reject(err);
 				} else {
-					resolve({ insertId : this.lastID , statusCode: 201 });
+					resolve(this.lastID);
 				}
 			})
 		});

@@ -41,8 +41,6 @@ class Firmware extends DAO {
         try {
             let _result = await this.delete(id)
 			return _result
-		} catch(err) {
-			return err
 		} finally {
 			console.log("Firmware Deleted");
         }
@@ -64,8 +62,6 @@ class Firmware extends DAO {
                 }
             })
             return this.getByID(_, {id: _result.insertId})
-        } catch (err) {
-			return (err)
 		} finally {
 			console.log("Registered device");
         }
@@ -89,9 +85,6 @@ class Firmware extends DAO {
 			});
 
             return this.getByID(_, {id})
-		} catch (err) {
-			console.log(err);
-			return (err);
         } finally {
 			console.log("Updated device");
         }
