@@ -46,6 +46,9 @@ client.on('message',function(topic, message, packet){
 	if (topic == "telemetry") {
 		telemetry.process(message);
 	}
+	if (topic == "register") {
+		telemetry.process(message);
+	}
 });
 
 client.on("connect",function(){	
@@ -58,6 +61,7 @@ client.on("error",function(error){
 });
 
 client.subscribe("telemetry",{qos:1});
+client.subscribe("register",{qos:1});
 
 
 /**
