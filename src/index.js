@@ -2,7 +2,9 @@ const express = require('express');
 const Routes = require('./routes');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-
+const telemetry = require('../controllers/telemetry.js');
+const register = require('../controllers/register.js');
+const mqtt = require('mqtt');
 
 class App {
     
@@ -20,6 +22,30 @@ class App {
                 return process.env.PORT || 7000
             }
         }
+		this.mqttClient = mqtt.connect("mqtt://localhost",{clientId:"modulabAPI"});
+
+		this.mqttClient.on('message',function(topic, message, packet){
+			console.log("message is "+ message);
+			console.log("topic is "+ topic);
+			if (topic == "telemetry") {
+				telemetry.process(message);
+			}
+			if (topic == "register") {
+				register.process(message);
+			}
+		});
+		
+		this.mqttClient.on("connect",function(){	
+			console.log("connected  "+ this.mqttClient.connected);
+		})
+		
+		//handle errors
+		this.mqttClient.on("error",function(error){
+			console.log("Can't connect" + error);
+		});
+		
+		this.mqttClient.subscribe("telemetry",{qos:1});
+		this.mqttClient.subscribe("register",{qos:1});
     }
     /**
      * 

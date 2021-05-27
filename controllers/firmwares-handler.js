@@ -15,7 +15,7 @@
  */
 'use strict'
 
-const logger = require('../utils/logger');
+const logger = require('../src/utils/logger');
 
 const firmwaresDao = require('../models/firmwares-dao');
 

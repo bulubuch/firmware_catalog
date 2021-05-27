@@ -1,11 +1,10 @@
 CREATE TABLE IF NOT EXISTS firmware (
 	id				INTEGER PRIMARY KEY NOT NULL,
-	model_id		INTEGER NOT NULL,
-	version			INTEGER DEFAULT 0,
+	model_name		TEXT NOT NULL,
+	version			REAL DEFAULT 0,
 	description		TEXT,
 	url				TEXT,
+	status			TEXT NOT NULL DEFAULT "new",
 	created_at	INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	FOREIGN KEY (model_id) REFERENCES model(id)
+	updated_at	INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
-
-CREATE INDEX firmware_idx1 ON firmware(version);

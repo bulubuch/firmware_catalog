@@ -1,3 +1,5 @@
+const firmwareRoutes = require('./firmware')
+const componentRoutes = require('./component')
 const deviceRoutes = require('./device')
 const express = require('express')
 const path = require('path');
@@ -33,12 +35,11 @@ module.exports = class Routes {
 		// });
 
 		console.log("ROUTER INDEX");
-		app.use('/', deviceRoutes)
 		app.use(express.static(path.join('public')))
 		// app.use('/user', user)
 		app.use('/device', deviceRoutes )
-		// app.use('/firmware', firmwareRoutes )
-		// app.use('/component', componentRoutes )
+		app.use('/firmware', firmwareRoutes )
+		app.use('/component', componentRoutes )
 	}
 
 }

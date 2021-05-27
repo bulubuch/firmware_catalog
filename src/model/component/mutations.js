@@ -7,26 +7,23 @@ module.exports = {
 	registerComponent: {
 		type,
 		args: {
-			name:				{ type: String },
+			device_id:			{ type: Number, non_null: true },
 			model_name:			{ type: String },
-			uid:				{ type: String },
-			firmware_version:	{ type: Number },
-			sta_ssid: 			{ type: String },
-			sta_pass: 			{ type: String }
+			type:				{ type: String },
+			builtin: 			{ type: Number },
+			status: 			{ type: String }
 		},
 		resolve: Component.registerComponent.bind(Component)
 	},
 	updateComponent: {
 		type,
 		args: {
-			id:					{ type: Number },
-			name:				{ type: String },
-			uid:				{ type: String },
+			id:					{ type: Number, non_null: true },
+			device_id:			{ type: Number },
 			model_name:			{ type: String },
-			firmware_version:	{ type: Number },
-			sta_ssid:			{ type: String },
-			sta_pass:			{ type: String },
-			status:				{ type: String }
+			type:				{ type: String },
+			builtin: 			{ type: Number },
+			status: 			{ type: String }
 		},
 		resolve: Component.updateEntry.bind(Component)
 	},

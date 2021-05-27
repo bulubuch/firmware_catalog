@@ -7,31 +7,20 @@ module.exports = {
             type: Number,
 			non_null: true,
         },
-        name: {
-            type: String
+        device_id: {
+            type: Number,
+			non_null: true,
         },
         model_name: {
             type: String
         },
-        uid: {
+        type: {
             type: String
         },
-        firmware_version: {
-            type: String
-        },
-        sta_ssid: {
-            type: String
-        },
-        sta_pass: {
-            type: String
-        },
-        created_at: {
+        builtin: {
             type: Number
         },
-        updated_at: {
-            type: Number
-        },
-        token: {
+        status: {
             type: String
         },
     }

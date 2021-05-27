@@ -23,7 +23,7 @@ class DAO {
 				} else if (row) {
 					resolve({ data : row, statusCode: 200 });
 				} else {
-					resolve({ data : '{}', statusCode: 404 });
+					resolve({ data : {}, statusCode: 404 });
 				}
 			});
 		});
@@ -43,15 +43,6 @@ class DAO {
 					resolve({ data : row, statusCode: 200 });
 				}
 			});
-		}).then((result) => {
-			console.log("Got all " + this.TABLE_NAME);
-			console.log(result);
-			return result
-
-		}, (error) => {
-			console.log("Error finding all " + this.TABLE_NAME);
-			console.log(error);
-			return error
 		});
 	}
 
@@ -63,8 +54,10 @@ class DAO {
      */
     static findByFields({fields, limit, order}) {
 		return new Promise((resolve, reject) => {
-			const baseQuery = `SELECT * FROM ${this.TABLE_NAME} WHERE `;
-			let params = [this.TABLE_NAME]
+			console.log("Find By Fields : ");
+			console.log(fields);
+			let baseQuery = `SELECT * FROM ${this.TABLE_NAME} WHERE `;
+			let params = [];
 
 	        Object.keys(fields).forEach((key, index) => {
 	            baseQuery += `${key} = ?`
@@ -82,12 +75,15 @@ class DAO {
 	            baseQuery += " LIMIT ?"
 	            params.push(limit)
 	        }
-
+			console.log(`SQL = ${baseQuery}`);
+			console.log(`PARAMS = ${params}`);
 			db.all(baseQuery, params, (err, rows) => {
 	            if (err) {
 	                reject(err);
+	            } else if (rows.length){
+	                resolve({ data : rows, statusCode: 200 });
 	            } else {
-	                resolve({ data : JSON.stringify(rows), statusCode: 200 });
+	                resolve({ data : [], statusCode: 404 });
 	            }
 	        });
 		});
@@ -116,15 +112,13 @@ class DAO {
 						} else {
 							params.push(res.data[key])
 						}
-						if (i + 1 !== Object.keys(data).length) {
-							baseQuery += ", "
-						}
+						baseQuery += ", "
 					}
-					baseQuery += ` WHERE id = ${id}`;
+					baseQuery += ` updated_at = datetime('now') WHERE id = ${id}`;
 						// Run the SQL (note: must use named callback to get properties of the resulting Statement)
 					db.run(baseQuery, params, function callback(err) {
 						if (err) {
-							reject(err);
+							reject({ error : err , statusCode: 500 });
 						} else {
 							resolve({ insertId : this.lastID , statusCode: 201 });
 						}
@@ -168,7 +162,7 @@ class DAO {
 				// Run the SQL (note: must use named callback to get properties of the resulting Statement)
 			db.run(baseQuery, params, function callback(err) {
 				if (err) {
-					reject(err);
+					reject({ error: err, statusCode: 500});
 				} else {
 					resolve({ insertId : this.lastID , statusCode: 201 });
 				}
@@ -187,11 +181,9 @@ class DAO {
 			// Run the SQL (note: must use named callback to get properties of the resulting Statement)
 			db.run(sql, id,  function callback(err, row) {
 				if (err) {
-					reject(err);
-				} else if (row) {
-					resolve({ data : { affectedRows: this.changes} , statusCode: 200 });
+					reject({ error: err, statusCode: 500});
 				} else {
-					reject({ error : "Can not delete, entry not found." , statusCode: 500 });
+					resolve({statusCode: 200 });
 				}
 			});
 		});

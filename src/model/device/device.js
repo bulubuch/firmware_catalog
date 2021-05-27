@@ -16,10 +16,17 @@ class Device extends DAO {
 	}
 
     /**
-     * Returns a model_name by its ID
+     * Returns a device by its ID
      */
     static async getByID(_, {id}) {
         return await this.find(id)
+    }
+
+	/**
+     * Returns a device by its UID
+     */
+	 static async getByUID(_, uid) {
+        return await this.findByFields({fields:{uid: uid}});
     }
 
     /**
@@ -40,10 +47,9 @@ class Device extends DAO {
         try {
             let _result = await this.delete(id)
 			return _result
-		} catch(error) {
-			return error
+		} catch(err) {
+			return err
 		} finally {
-            // Releases the connection
 			console.log("Device Deleted");
         }
     }
@@ -63,8 +69,8 @@ class Device extends DAO {
                 }
             })
             return this.getByID(_, {id: _result.insertId})
-        } catch {
-			return ({error: "Could not register device", statusCode: 500})
+        } catch (err) {
+			return (err)
 		} finally {
 			console.log("Registered device");
         }
@@ -87,9 +93,9 @@ class Device extends DAO {
 			});
 
             return this.getByID(_, {id})
-		} catch (error) {
-			console.log(error);
-			return (error);
+		} catch (err) {
+			console.log(err);
+			return (err);
         } finally {
 			console.log("Updated device");
         }

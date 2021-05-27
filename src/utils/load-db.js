@@ -220,18 +220,18 @@ function handleDeviceRowForSqlDb(db, fields) {
 */
 function handleDeviceComponentRowForSqlDb(db, fields) {
 	// Model ID
-	logger.error('Handling component Row for SQL'); 
+	logger.info('Handling component Row for SQL'); 
 	let device_id = fields[1];
 	let model_name = fields[2];
 	let type = fields[3];
 	let builtin = fields[4];
-	let active = fields[5];
+	let status = fields[5];
 	// Insert the row
-	db.run('INSERT INTO component (device_id, model_name, type, builtin, active) VALUES (?, ?, ?, ?, ?)', 
-		device_id, model_name, type, builtin, active,
+	db.run('INSERT INTO component (device_id, model_name, type, builtin, status) VALUES (?, ?, ?, ?, ?)', 
+		device_id, model_name, type, builtin, status,
 		(err) => {
 			if (err) {
-				logger.error('Error occurred while inserting this record: uid = ' + uid + ', model_name = ' + model_name + ', firmware_version = ' + firmware_version + ', name = ' + name, 'db.run()');
+				console.log('Error occurred while inserting this record');
 			}
 		}
 	);
@@ -243,16 +243,16 @@ function handleDeviceComponentRowForSqlDb(db, fields) {
  */
 function handleFirmwareRowForSqlDb(db, fields) {
     // Model ID
-    let model_id = fields[1];
+    let model_name = fields[1];
     // Model version
     let version = fields[2];
     // Firmware description
     let description = fields[3];
     // Firmware url
-    let firmwareUrl = fields[4];
+    let url = fields[4];
     // Insert the row
-    db.run('INSERT INTO firmware (model_id, version, description, url) VALUES (?, ?, ?, ?)', 
-        model_id, version, description, firmwareUrl,
+    db.run('INSERT INTO firmware (model_name, version, description, url) VALUES (?, ?, ?, ?)', 
+        model_name, version, description, url,
         (err) => {
             if (err) {
                 logger.error('Error occurred while inserting this record: model_id = ' + model_id + ', version = ' + version + ', description = ' + description + ', url = ' + firmwareUrl, 'db.run()');

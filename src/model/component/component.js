@@ -1,5 +1,6 @@
 const DAO = require('../../lib/dao')
 const config = require('../../../config/app-settings');
+const type = require('./type.js');
 
 class Component extends DAO {
 
@@ -10,6 +11,9 @@ class Component extends DAO {
         return 'component'
     }
 
+	static get type() {
+		return type
+	}
     /**
      * Returns a model_name by its ID
      */
@@ -34,39 +38,32 @@ class Component extends DAO {
         console.log("DELETED Component")
         try {
             let _result = await this.delete(id)
-            if (_result.affectedRows > 0)
-            {
-                console.log("DELETED Component SUCCESS")
-                console.log(_result)
-                return String(id)
-            }
-            return 0
+			return _result;
+		} catch (err) {
+			return (err);
         } finally {
-            // Releases the connection
-            if (connection != null) connection.release()
+			console.log("Component Deleted");
         }
     }
 
     /**
      * Register component at first connection
      */
-    static async registerComponent(_, {name = 'UnregisteredComponent', model_name = "Unknown", uid, firmware_version, sta_ssid, sta_pass}) {
+    static async registerComponent(_, {device_id, model_name = "Unknown", type, builtin, status}) {
         console.log("PREREGISTER Component")
-        let token = null;
-        console.log(token)
         try {
             let _result = await this.insert({
                 data: {
-                    name,
-                    uid,
+                    device_id,
                     model_name,
-					firmware_version,
-                    sta_ssid,
-                    sta_pass,
-                    user_id
+					type,
+                    builtin,
+                    status
                 }
             })
             return this.getByID(_, {id: _result.insertId})
+		} catch (err) {
+			return (err)
         } finally {
 			console.log("Registered component");
         }
@@ -75,18 +72,16 @@ class Component extends DAO {
     /**
      * Updates a component 
      */
-    static async updateEntry(_, {id, name, model_name, uid, firmware_version, sta_ssid, sta_pass, status}) {
+    static async updateEntry(_, {id, device_id, model_name = "Unknown", type, builtin, status}) {
         console.log("Component Update...")
         try {
             await this.update(connection, {
                 id,
                 data: {
-                    name,
-                    model_name,
-                    uid,
-                    firmware_version,
-                    sta_ssid,
-                    sta_pass,
+                    device_id,
+					model_name,
+					type,
+					builtin,
 					status
                 }
             })
