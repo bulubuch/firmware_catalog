@@ -69,7 +69,7 @@ class App {
 		});
 		
 		this.mqttClient.on("connect",function(){	
-			console.log("connected  "+ this.mqttClient.connected);
+			console.log("connected ");
 		})
 		
 		//handle errors
