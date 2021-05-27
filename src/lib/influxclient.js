@@ -1,7 +1,7 @@
 const Influx = require('influx')
 
 class influxClient {
-	static _initialized
+	static _initialized = null;
 	static _host
 	static _database
 	static _schema
