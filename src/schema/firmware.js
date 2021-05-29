@@ -1,9 +1,9 @@
-const userQueries = require('../model/user/queries')
-const userMutations = require('../model/user/mutations')
+const firmwareQueries = require('../model/firmware/queries')
+const firmwareMutations = require('../model/firmware/mutations')
 
 module.exports = {
-	upload: userMutations.uploadUser,
-	delete: userMutations.deleteUser,
-	update: userMutations.updateUser,
-	search: userQueries.users,
+	upload: firmwareMutations.uploadFirmware,
+	delete: firmwareMutations.deleteFirmware,
+	update: firmwareMutations.updateFirmware,
+	search: firmwareQueries.firmwares,
 }

@@ -2,13 +2,13 @@ const DAO = require('../../lib/dao')
 const config = require('../../../config/app-settings');
 const type = require('./type.js');
 
-class Firmware extends DAO {
+class User extends DAO {
 
     /**
      * Overrides TABLE_NAME with this class' backing table at MySQL
      */
     static get TABLE_NAME() {
-        return 'firmware'
+        return 'user'
     }
 
 	static get type() {
@@ -36,54 +36,58 @@ class Firmware extends DAO {
         })
     }
 
-    static async deleteFirmware(_, {id}) {
-        console.log("DELETED Firmware")
+    static async deleteUser(_, {id}) {
+        console.log("DELETED User")
         try {
             let _result = await this.delete(id)
 			return _result
 		} catch(err) {
 			return err
 		} finally {
-			console.log("Firmware Deleted");
+			console.log("User Deleted");
         }
     }
 
     /**
-     * Uploads a new firmware
+     * Register a new user
      */
-    static async uploadFirmware(_, {model_name, version, description, url, status}) {
-        console.log("Upload Firmware")
+    static async registerUser(_, {first_name, last_name, email, phone, comments, role, status}) {
+        console.log("Upload User")
         try {
             let _result = await this.insert({
                 data: {
-					model_name,
-					version,
-					description,
-					url,
+					first_name,
+					last_name,
+					email,
+					phone,
+					comments,
+					role,
 					status
-                }
+				}
             })
             return this.getByID(_, {id: _result.insertId})
         } catch (err) {
 			return (err)
 		} finally {
-			console.log("Registered device");
+			console.log("Registered User");
         }
     }
 	
     /**
-     * Updates a firmware 
+     * Updates a user 
      */
-	 static async updateEntry(_, {id, model_name, version, description, url, status}) {
-        console.log("Firmware Update...")
+	 static async updateEntry(_, {id, first_name, last_name, email, phone, comments, role, status}) {
+        console.log("User Update...")
         try {
             await this.update({
                 id,
                 data: {
-                    model_name,
-                    version,
-                    description,
-                    url,
+					first_name,
+					last_name,
+					email,
+					phone,
+					comments,
+					role,
 					status
                 }
 			});
@@ -93,9 +97,9 @@ class Firmware extends DAO {
 			console.log(err);
 			return (err);
         } finally {
-			console.log("Updated device");
+			console.log("Updated User");
         }
     }
 }
 
-module.exports = Firmware
+module.exports = User

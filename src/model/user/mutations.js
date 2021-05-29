@@ -1,37 +1,40 @@
-
 const type = require('./type')
-const Firmware = require('./user')
+const User = require('./user')
 
 // Defines the mutations
 module.exports = {
-	uploadFirmware: {
+	registerUser: {
 		type,
 		args: {
-			model_name:			{ type: String },
-			version:			{ type: Number },
-			description:		{ type: String },
-			url:				{ type: String },
+			first_name:			{ type: String },
+			last_name:			{ type: String },
+			email:				{ type: String },
+			phone:				{ type: String },
+			comments:			{ type: String },
+			role:				{ type: String },
 			status:				{ type: String }
 		},
-		resolve: Firmware.uploadFirmware.bind(Firmware)
+		resolve: User.registerUser.bind(User)
 	},
-	updateFirmware: {
+	updateUser: {
 		type,
 		args: {
 			id:					{ type: Number },
-			model_name:			{ type: String },
-			version:			{ type: Number },
-			description:		{ type: String },
-			url:				{ type: String },
+			first_name:			{ type: String },
+			last_name:			{ type: String },
+			email:				{ type: String },
+			phone:				{ type: String },
+			comments:			{ type: String },
+			role:				{ type: String },
 			status:				{ type: String }
 		},
-		resolve: Firmware.updateEntry.bind(Firmware)
+		resolve: User.updateEntry.bind(User)
 	},
-	deleteFirmware: {
+	deleteUser: {
 		type: String,
 		args: {
 			id:					{ type: Number }
 		},
-		resolve: Firmware.deleteFirmware.bind(Firmware)
+		resolve: User.deleteUser.bind(User)
 	}
 }

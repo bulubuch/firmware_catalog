@@ -20,7 +20,7 @@ class App {
         //Literal object containing the configurations
         this.configs = {
             get port() {
-                return process.env.PORT || 7000
+                return process.env.PORT || appSettings.server_listen_port
             }
         }
 		this.influxClient = null;

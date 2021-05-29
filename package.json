@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "load-db": "node ./src/utils/load-db",
-    "start": "node server.js",
+    "start": "node src/index.js",
     "start-dev": "nodemon src/index.js",
     "unit-test": "node ./test/unit-test",
     "test": "node ./test/functional-test"

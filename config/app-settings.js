@@ -26,18 +26,22 @@ const appSettings = {
         device : './sql/device.sql',
         component : './sql/component.sql',
         firmware : './sql/firmware.sql',
+        user : './sql/user.sql',
+        project : './sql/project.sql',
     },
     model_file_name : './data/models.csv',
     device_file_name : './data/devices.csv',
     component_file_name : './data/components.csv',
     firmware_file_name : './data/firmwares.csv',
+    user_file_name : './data/users.csv',
+    project_file_name : './data/projects.csv',
 
     mqtt_broker : '192.168.1.137',
     mqtt_client_id : 'modulabAPI',
     influx_host : '192.168.1.137',
     influx_database : 'modulab',
     server_host : '0.0.0.0',
-    server_listen_port : 8000,
+    server_listen_port : 7000,
 	private_key: "ModuLabPrivateKey"
 };
 

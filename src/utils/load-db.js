@@ -93,6 +93,8 @@ function createDbFixtures(db) {
 			db.run('DROP TABLE IF EXISTS device');
 			db.run('DROP TABLE IF EXISTS component');
 			db.run('DROP TABLE IF EXISTS model');
+			db.run('DROP TABLE IF EXISTS user');
+			db.run('DROP TABLE IF EXISTS project');
 			logger.info('Dropping all tables, done.', 'createDbFixtures()');
 			resolve();
 		}).then(() => {
@@ -111,6 +113,16 @@ function createDbFixtures(db) {
 			logger.info('Creating component table... \n' + deviceComponentSql, 'createDbFixtures()');
 			db.run(deviceComponentSql);
 			logger.info('Creating component table, done.', 'createDbFixtures()');
+			return loadFile(appSettings.create_sql.user);
+		}).then((userSql) => {
+			logger.info('Creating user table... \n' + userSql, 'createDbFixtures()');
+			db.run(userSql);
+			logger.info('Creating user table, done.', 'createDbFixtures()');
+			return loadFile(appSettings.create_sql.project);
+		}).then((projectSql) => {
+			logger.info('Creating project table... \n' + projectSql, 'createDbFixtures()');
+			db.run(projectSql);
+			logger.info('Creating project table, done.', 'createDbFixtures()');
 			return loadFile(appSettings.create_sql.firmware);
 		}).then((firmwareSql) => {
 			logger.info('Creating firmware table...', 'createDbFixtures()');
@@ -237,6 +249,56 @@ function handleDeviceComponentRowForSqlDb(db, fields) {
 	);
 }
  
+
+/**
+* Handles user table: inserts a single row into the table
+* using the specified DB module and the fields provided
+*/
+function handleUserRowForSqlDb(db, fields) {
+	logger.info('Handling user Row for SQL'); 
+	let first_name = fields[1];
+	let last_name = fields[2];
+	let email = fields[3];
+	let phone = fields[4];
+	let comments = fields[5];
+	let role = fields[6];
+	let status = fields[7];
+	// Insert the row
+	db.run('INSERT INTO user (first_name, last_name, email, phone, comments, role, status) VALUES (?, ?, ?, ?, ?, ?, ?)', 
+		first_name, last_name, email, phone, comments, role, status,
+		(err) => {
+			if (err) {
+				console.log('Error occurred while inserting this record');
+			}
+		}
+	);
+}
+
+/**
+* Handles project table: inserts a single row into the table
+* using the specified DB module and the fields provided
+*/
+function handleProjectRowForSqlDb(db, fields) {
+	logger.info('Handling project Row for SQL'); 
+	let user_id = fields[1];
+	let name = fields[2];
+	let description = fields[3];
+	let shape = fields[4];
+	let address = fields[5];
+	let longitude = fields[6];
+	let latitude = fields[7];
+	let status = fields[8];
+	// Insert the row
+	db.run('INSERT INTO project (user_id, name, description, shape, address, longitude, latitude, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)', 
+		user_id, name, description, shape, address, longitude, latitude, status,
+		(err) => {
+			if (err) {
+				console.log('Error occurred while inserting this record');
+			}
+		}
+	);
+}
+
 /**
  * Handles firmware table: inserts a single row into the table
  * using the specified DB module and the fields provided
@@ -280,8 +342,14 @@ function handleFirmwareRowForSqlDb(db, fields) {
 				loadData(db, appSettings.device_file_name, handleDeviceRowForSqlDb).then(() => {
 					logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
 					loadData(db, appSettings.component_file_name, handleDeviceComponentRowForSqlDb).then(() => {
-						logger.info('Loading device data, done.', 'mainline:createDbFixtures(resolved Promise)');
-						logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
+						logger.info('Loading device components, done.', 'mainline:createDbFixtures(resolved Promise)');
+						loadData(db, appSettings.user_file_name, handleUserRowForSqlDb).then(() => {
+							logger.info('Loading user data, done.', 'mainline:createDbFixtures(resolved Promise)');
+							loadData(db, appSettings.project_file_name, handleProjectRowForSqlDb).then(() => {
+								logger.info('Loading project data, done.', 'mainline:createDbFixtures(resolved Promise)');
+								logger.info('Script finished at: '+ new Date().toLocaleString(), 'mainline:createDbFixtures(resolvedPromise)');
+							});
+						});
 					});
 				});
 			});

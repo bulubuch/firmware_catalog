@@ -1,6 +1,9 @@
+const userRoutes = require('./user')
+const projectRoutes = require('./project')
 const firmwareRoutes = require('./firmware')
 const componentRoutes = require('./component')
 const telemetryRoutes = require('./telemetry')
+const objectRoutes = require('./object')
 const deviceRoutes = require('./device')
 const express = require('express')
 const path = require('path');
@@ -37,11 +40,14 @@ module.exports = class Routes {
 
 		console.log("ROUTER INDEX");
 		app.use(express.static(path.join('public')))
-		// app.use('/user', user)
+		app.use('/user', userRoutes)
+		app.use('/project', projectRoutes)
 		app.use('/device', deviceRoutes )
 		app.use('/firmware', firmwareRoutes )
 		app.use('/component', componentRoutes )
 		app.use('/telemetry', telemetryRoutes )
+		app.use('/object', objectRoutes )
+		// SCAFFOLD_PLACEHOLDER
 	}
 
 }

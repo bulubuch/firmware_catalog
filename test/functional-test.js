@@ -44,10 +44,10 @@ const assert = require('assert');
 // App settings
 const appSettings = require('../config/app-settings');
 // Logger
-const logger = require('../utils/logger');
+const logger = require('../src/utils/logger');
 
 // A slightly more helpful assertEqual than Node provides
-const { assertEqual } = require('../utils/utils');
+const { assertEqual } = require('../src/utils/utils');
 
 /**
  * Helper function:

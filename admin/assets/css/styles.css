@@ -53,7 +53,6 @@ body
 .navigation ul li:hover
 {
 	background-color: turquoise;
-
 }
 
 .navigation ul li:nth-child(1):hover
@@ -86,6 +85,10 @@ body
 	width: calc(100% - 300px);
 }
 
+.topbar i
+{
+	font-size: 42px;
+}
 
 .main
 {
@@ -100,7 +103,7 @@ body
 
 .toggle
 {
-	padding-top: 14px;
+	/* padding-top: 14px; */
 	position: relative;
 	width: 60px;
 	height: 60px;
@@ -123,7 +126,7 @@ body
 {
 	width: 60px;
 	height: 60px;
-
+	cursor: pointer;
 }
 
 .cardBox
@@ -147,6 +150,11 @@ body
 	box-shadow: 10px 10px 10px rgb(165, 165, 165);
 }
 
+.cardBox .card a
+{
+	text-decoration: none;
+	color: black;
+}
 .cardBox .card .numbers
 {
 	position: relative;
@@ -161,6 +169,9 @@ body
 
 .cardBox .card .iconBox i
 {
+	position: absolute;
+	top: 20px;
+	right: 35px;
 	font-size: 2.5em;
 	color: darkcyan;
 }
@@ -211,3 +222,36 @@ body
 		left: 300px;
 	}
 }
+
+.tableBox
+{
+	position: relative;
+	background-color: white;
+	padding: 20px;
+	margin: 20px;
+	display: block;
+	/* justify-content: space-between; */
+	cursor: pointer;
+	box-shadow: 10px 10px 10px rgb(165, 165, 165);
+	border-radius: 10px;
+}
+
+.tableBox .header
+{
+	width: 100%;
+	display: ;
+}
+
+.tableBox thead
+{
+	color: darkcyan;
+}
+	/* .table
+{
+	position: relative;
+	background-color: white;
+	padding: 20px;
+	display: flex;
+	justify-content: space-between;
+	cursor: pointer;
+} */

@@ -1,34 +1,22 @@
-
 const type = require('./type')
-const Firmware = require("./user")
+const User = require("./user")
 
 // Defines the queries
 module.exports = {
-	firmwares: {
+	users: {
 		type: Array,
 		args: {
-			model_name: {
-				type: String
-			},
-			version: {
-				type: String
-			},
-			url: {
-				type: String
-			},
-			status: {
-				type: String
-			},
-			created_at: {
-				type: Number
-			},
-			updated_at: {
-				type: Number
-			}
+			first_name:			{ type: String },
+			last_name:			{ type: String },
+			email:				{ type: String },
+			phone:				{ type: String },
+			comments:			{ type: String },
+			role:				{ type: String },
+			status:				{ type: String }
 		},
-		resolve: Firmware.findMatching.bind(Firmware)
+		resolve: User.findMatching.bind(User)
 	},
-	firmware: {
+	user: {
 		type,
 		args: {
 			id: {
@@ -36,6 +24,6 @@ module.exports = {
 				non_null: true
 			}
 		},
-		resolve: Firmware.getByID.bind(Firmware)
+		resolve: User.getByID.bind(User)
 	}
 }

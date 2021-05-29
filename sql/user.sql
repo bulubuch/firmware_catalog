@@ -3,10 +3,11 @@ CREATE TABLE IF NOT EXISTS user (
 	first_name		TEXT NOT NULL,
 	last_name		TEXT NOT NULL,
 	email			TEXT NOT NULL,
+	password		TEXT NOT NULL,
 	phone			TEXT,
 	comments		TEXT,
-	status			TEXT DEFAULT "active",
 	role			TEXT NOT NULL DEFAULT "user",
+	status			TEXT DEFAULT "active",
 	created_at	INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	updated_at	INTEGER NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
