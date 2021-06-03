@@ -9,7 +9,7 @@ const influx = require('./lib/influxclient');
 
 class App {
     
-    /**
+    /*
      * 
      * 
      * Sets the properties to be used by this class to create the server
@@ -26,7 +26,7 @@ class App {
 		this.influxClient = null;
 		this.mqttClient = mqtt.init(`mqtt://${appSettings.mqtt_broker}`,{clientId:appSettings.mqtt_client_id});
     }
-    /**
+    /*
      * 
      * 
      * Applies any middleware to be used by this app
@@ -69,7 +69,7 @@ class App {
         new Routes(this.expressApp)
     }
 
-    /**
+    /*
      * 
      * 
      * Runs the app

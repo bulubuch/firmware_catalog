@@ -22,7 +22,7 @@ module.exports = {
 		args: {
 			id: {
 				type: Number,
-				non_null: true
+				required: true
 			}
 		},
 		resolve: Project.getByID.bind(Project)

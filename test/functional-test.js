@@ -15,7 +15,7 @@
  */
 'use strict'
 
-/**
+/*
  * This test class has been provided for you so you know when you're
  * finished writing code. This is test-first, or test-driven, development
  * (or one of a hundred other names this technique goes by).
@@ -49,7 +49,7 @@ const logger = require('../src/utils/logger');
 // A slightly more helpful assertEqual than Node provides
 const { assertEqual } = require('../src/utils/utils');
 
-/**
+/*
  * Helper function:
  * Make a call to the specified requestPath, and when the
  * results are done, invoke the callback.
@@ -100,7 +100,7 @@ function request(requestMethod, requestPath, postData, resultsCallback) {
     }
 }
 
-/**
+/*
  * Functional tests for Shopping List MVP
  * 
  * Pre-requisites: 
@@ -124,7 +124,7 @@ function request(requestMethod, requestPath, postData, resultsCallback) {
     .then(() => { return testListsRemoveItem() });
 })();
 
-/**
+/*
  * THIS TEST DOESN'T DO ANYTHING. IT IS HERE SO THE TEST OUTPUT
  * IS CONSISTENT WITH THE LEARNING PATH CONTENT AT
  * https://developer.ibm.com/tutorials/learn-nodejs-your-first-node-application/.
@@ -143,7 +143,7 @@ function testItemFindById() {
     })
 }
 
-/**
+/*
  * Functional test - find all firmwares matching the specified partial description
  */
 function testItemFindByDescription() {
@@ -178,7 +178,7 @@ function testItemFindByDescription() {
     });
 }
 
-/**
+/*
  * Functional test - find the specific firmware by UPC
  */
 function testItemFindByUpc() {
@@ -217,7 +217,7 @@ function testItemFindByUpc() {
             }
         });
     });
-}/**
+}/*
  * Functional test - create a new shopping list
  */
 function testListsCreate() {
@@ -252,7 +252,7 @@ function testListsCreate() {
     });
 }
 
-/**
+/*
  * Functional test - find shopping list by id
  */
 function testListsFindById() {
@@ -288,7 +288,7 @@ function testListsFindById() {
     });
 }
 
-/**
+/*
  * Functional test - add firmware to shopping list
  */
 function testListsAddItem() {
@@ -327,7 +327,7 @@ function testListsAddItem() {
     });
 }
 
-/**
+/*
  * Functional test - find shopping list and return all items
  */
 function testListsFindByIdWithAllItems() {
@@ -364,7 +364,7 @@ function testListsFindByIdWithAllItems() {
     });
 }
 
-/**
+/*
  * Functional test - update shopping list
  */
 function testListsUpdate() {
@@ -401,7 +401,7 @@ function testListsUpdate() {
     });
 }
 
-/**
+/*
  * Functional test - update item in shopping list
  */
 function testListsUpdateItem() {
@@ -439,7 +439,7 @@ function testListsUpdateItem() {
     });
 }
 
-/**
+/*
  * Functional test - remove item from shopping list
  */
 function testListsRemoveItem() {

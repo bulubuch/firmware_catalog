@@ -1,10 +1,10 @@
-const DAO = require('../../lib/dao')
+const DAO = require('../../lib/dao/sqlite')
 const config = require('../../../config/app-settings');
 const type = require('./type.js');
 
 class Component extends DAO {
 
-    /**
+    /*
      * Overrides TABLE_NAME with this class' backing table at MySQL
      */
     static get TABLE_NAME() {
@@ -14,14 +14,14 @@ class Component extends DAO {
 	static get type() {
 		return type
 	}
-    /**
+    /*
      * Returns a model_name by its ID
      */
     static async getByID(_, {id}) {
         return await this.find(id)
     }
 
-    /**
+    /*
      * Returns a list of model_names matching the passed fields
      * @param {*} fields - Fields to be matched
      */
@@ -44,7 +44,7 @@ class Component extends DAO {
         }
     }
 
-    /**
+    /*
      * Register component at first connection
      */
     static async registerComponent(_, {device_id, model_name = "Unknown", type, builtin, status}) {
@@ -65,7 +65,7 @@ class Component extends DAO {
         }
     }
 
-    /**
+    /*
      * Updates a component 
      */
     static async updateEntry(_, {id, device_id, model_name = "Unknown", type, builtin, status}) {

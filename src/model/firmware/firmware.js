@@ -1,10 +1,10 @@
-const DAO = require('../../lib/dao')
+const DAO = require('../../lib/dao/sqlite')
 const config = require('../../../config/app-settings');
 const type = require('./type.js');
 
 class Firmware extends DAO {
 
-    /**
+    /*
      * Overrides TABLE_NAME with this class' backing table at MySQL
      */
     static get TABLE_NAME() {
@@ -15,14 +15,14 @@ class Firmware extends DAO {
 		return type
 	}
 
-    /**
+    /*
      * Returns a model by its ID
      */
     static async getByID(_, {id}) {
         return await this.find(id)
     }
 
-    /**
+    /*
      * Returns a list of models matching the passed fields
      * @param {*} fields - Fields to be matched
      */
@@ -46,7 +46,7 @@ class Firmware extends DAO {
         }
     }
 
-    /**
+    /*
      * Uploads a new firmware
      */
     static async uploadFirmware(_, {model_name, version, description, url, status}) {
@@ -67,7 +67,7 @@ class Firmware extends DAO {
         }
     }
 	
-    /**
+    /*
      * Updates a firmware 
      */
 	 static async updateEntry(_, {id, model_name, version, description, url, status}) {

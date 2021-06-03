@@ -4,7 +4,7 @@ const type = require('./type.js');
 
 class Telemetry {
 
-    /**
+    /*
      * Overrides TABLE_NAME with this class' backing table at MySQL
      */
     static get TABLE_NAME() {
@@ -15,14 +15,14 @@ class Telemetry {
 		return type
 	}
 
-    /**
+    /*
      * Returns a model by its ID
      */
     static async getByID(_, {id}) {
         return await this.find(id)
     }
 
-    /**
+    /*
      * Returns a list of measurement matching the passed fields
      * @param {*} fields - Fields to be matched
      */
@@ -35,7 +35,7 @@ class Telemetry {
 		return influxClient.run(query);
 	}
 
-    /**
+    /*
      * Returns a list of measurement matching the passed fields
      * @param {*} fields - Fields to be matched
      */
@@ -58,7 +58,7 @@ class Telemetry {
         }
     }
 
-    /**
+    /*
      * Uploads a new firmware
      */
     static async uploadTelemetry(_, {model_name, version, description, url, status}) {
@@ -81,7 +81,7 @@ class Telemetry {
         }
     }
 	
-    /**
+    /*
      * Updates a firmware 
      */
 	 static async updateEntry(_, {id, model_name, version, description, url, status}) {

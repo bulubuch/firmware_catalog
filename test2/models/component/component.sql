@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS component (
+undefineddevice_id undefined  NOT NULLmodel_name undefined  NOT NULLtype undefined  NOT NULLbuiltin undefined  NOT NULLstatus undefined  NOT NULLundefinedundefinedundefinedundefineddevice_id undefined  NOT NULLmodel_name undefined  NOT NULLtype undefined  NOT NULLbuiltin undefined  NOT NULLstatus undefined  NOT NULLundefinedundefinedundefined)

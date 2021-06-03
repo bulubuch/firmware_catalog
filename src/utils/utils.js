@@ -25,7 +25,7 @@ const sqlite3 = require('sqlite3');
 const logger = require('./logger');
 // Application settings
 const appSettings = require('../../config/app-settings');
-/**
+/*
  * Write the response from the server.
  * 
  * @param response - the response object from the HTTP request callback
@@ -43,7 +43,7 @@ function writeServerResponse(response, responseMessage, statusCode) {
     response.end();
 }
 
-/**
+/*
  * Write the response from the server.
  * 
  * @param response - the response object from the HTTP request callback
@@ -62,7 +62,7 @@ function writeServerJsonResponse(response, responseJson, statusCode) {
     response.end();
 }
 
-/**
+/*
  * Helper function to process request body
  * 
  * @param request - The request object from the HTTP request
@@ -86,7 +86,7 @@ function processRequestBody(request) {
     });
 }
 
-/**
+/*
  * Processes a chunk of data using the specified handler for
  * each row, which is specific to a particular table.
  * 
@@ -111,7 +111,7 @@ function transformChunkIntoLines(chunk) {
     return ret;
 }
 
-/**
+/*
  * Parses the specified URL into its components pieces using
  * Node's url module.
  * 
@@ -139,14 +139,14 @@ function parseUrl(urlString) {
     return parsedUrl;
 }
 
-/**
+/*
  * A better assert.equal()
  */
 function assertEqual(actual, expected) {
     assert.equal(actual, expected, `Assert failed: actual => ${actual}, expected => ${expected}`);
 }
 
-/**
+/*
  * The DB connection variable
  */
 var db;
@@ -157,7 +157,7 @@ function getDatabase() {
     }
     return db;
 }
-/**
+/*
  * Initializes the module:
  * - DB connection. An on(exit) handler is registered to close the DB connection
  * when Node terminates.

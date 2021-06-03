@@ -1,0 +1,23 @@
+const schema = require('./schemas/schema_template')
+const route = require('./routes/route_template')
+const mutations = require('./models/mutations_template')
+const queries = require('./models/queries_template')
+const type = require('./models/type_template')
+const model = require('./models/model_template')
+const index = require('./routes/index_template')
+const sqlite = require('./sqlite/database_template')
+const config = require('./config/settings')
+const packages = require('./package')
+const app = require('./app')
+
+module.exports.schema = schema;
+module.exports.route = route;
+module.exports.mutations = mutations;
+module.exports.queries = queries;
+module.exports.type = type;
+module.exports.model = model;
+module.exports.index = index;
+module.exports.sqlite = sqlite;
+module.exports.config = config;
+module.exports.packages = packages;
+module.exports.app = app;

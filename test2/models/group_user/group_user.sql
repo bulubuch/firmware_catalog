@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS group_user (
+undefinedgroup_id undefined  NOT NULLuser_id undefined  NOT NULLundefinedundefinedundefinedundefinedgroup_id undefined  NOT NULLuser_id undefined  NOT NULLundefinedundefinedundefined)

@@ -7,7 +7,7 @@ module.exports = {
 	registerComponent: {
 		type,
 		args: {
-			device_id:			{ type: Number, non_null: true },
+			device_id:			{ type: Number, required: true },
 			model_name:			{ type: String },
 			type:				{ type: String },
 			builtin: 			{ type: Number },
@@ -18,7 +18,7 @@ module.exports = {
 	updateComponent: {
 		type,
 		args: {
-			id:					{ type: Number, non_null: true },
+			id:					{ type: Number, required: true },
 			device_id:			{ type: Number },
 			model_name:			{ type: String },
 			type:				{ type: String },

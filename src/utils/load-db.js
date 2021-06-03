@@ -15,7 +15,7 @@
  */
 'use strict'
 
-/**
+/*
  * Utility module used to load the database from the
  * CSV data downloaded from the
  * Open Grocery Database Project: http://www.grocery.com/open-grocery-database-project/
@@ -40,7 +40,7 @@ const utils = require('./utils');
 
 const appSettings = require('../../config/app-settings');
 
-/**
+/*
  * Loads the specified file name and returns its contents
  * in the resolved promise. If an error occurs, the Promise
  * is rejected with that err object.
@@ -56,36 +56,10 @@ function loadFile(filename) {
     });
 }
 
-/**
+/*
  * Creates all of the DB fixtures.
  */
 function createDbFixtures(db) {
-    // return new Promise((resolve, reject) => {
-    //     return new Promise((resolve, reject) => {
-    //         logger.info('Dropping all tables...', 'createDbFixtures()');
-    //         db.run('DROP TABLE IF EXISTS firmware');
-    //         db.run('DROP TABLE IF EXISTS model');
-    //         logger.info('Dropping all tables, done.', 'createDbFixtures()');
-    //         resolve();
-    //     }).then(() => {
-    //         return loadFile(appSettings.create_sql.model);
-    //     }).then((modelSql) => {
-    //         logger.info('Creating model table...', 'createDbFixtures()');
-    //         db.run(modelSql);
-    //         logger.info('Creating model table, done.', 'createDbFixtures()');
-    //         return loadFile(appSettings.create_sql.firmware);
-    //     }).then((firmwareSql) => {
-    //         logger.info('Creating firmware table...', 'createDbFixtures()');
-    //         db.run(firmwareSql);
-    //         logger.info('Creating firmware table, done.', 'createDbFixtures()')
-    //         return Promise.resolve();
-    //     }).catch((err) => {
-    //         logger.error('Something has gone horribly wrong: ' + err.message);
-    //     }).then(() => {
-    //         logger.info('DONE', 'createDbFixtures()');
-    //         resolve();
-    //     });
-    // });
 	return new Promise((resolve, reject) => {
 		return new Promise((resolve, reject) => {
 			logger.info('Dropping all tables...', 'createDbFixtures()');
@@ -138,7 +112,7 @@ function createDbFixtures(db) {
 	});
 }
 
-/**
+/*
  * The cache of unread data. Not all data can be processed
  * for a single chunk, which is most certainly going to cross
  * record boundaries, leaving us with an incomplete record
@@ -147,7 +121,7 @@ function createDbFixtures(db) {
  */
 var chunkCache = '';
 
-/**
+/*
  * Loads the data from the database CSV files
  */
 function loadData(db, fileName, handleTableRow) {
@@ -177,7 +151,7 @@ function loadData(db, fileName, handleTableRow) {
     });
 }
 
-/**
+/*
  * Handles model table: inserts a single row into the table
  * using the specified DB module
  */
@@ -201,7 +175,7 @@ function handleModelRowForSqlDb(db, fields) {
         });
 }
 
-/**
+/*
 * Handles device table: inserts a single row into the table
 * using the specified DB module and the fields provided
 */
@@ -226,7 +200,7 @@ function handleDeviceRowForSqlDb(db, fields) {
 	);
 }
 
-/**
+/*
 * Handles device table: inserts a single row into the table
 * using the specified DB module and the fields provided
 */
@@ -250,7 +224,7 @@ function handleDeviceComponentRowForSqlDb(db, fields) {
 }
  
 
-/**
+/*
 * Handles user table: inserts a single row into the table
 * using the specified DB module and the fields provided
 */
@@ -274,7 +248,7 @@ function handleUserRowForSqlDb(db, fields) {
 	);
 }
 
-/**
+/*
 * Handles project table: inserts a single row into the table
 * using the specified DB module and the fields provided
 */
@@ -299,11 +273,11 @@ function handleProjectRowForSqlDb(db, fields) {
 	);
 }
 
-/**
+/*
  * Handles firmware table: inserts a single row into the table
  * using the specified DB module and the fields provided
  */
-function handleFirmwareRowForSqlDb(db, fields) {
+function handleSqliteDb(db, fields) {
     // Model ID
     let model_name = fields[1];
     // Model version
@@ -322,7 +296,7 @@ function handleFirmwareRowForSqlDb(db, fields) {
         });
 }
 
-/**
+/*
  * This is.... the mainline!
  */
 (function mainline() {

@@ -37,7 +37,7 @@ module.exports = {
 		args: {
 			id: {
 				type: Number,
-				non_null: true
+				required: true
 			}
 		},
 		resolve: Device.getByID.bind(Device)
@@ -47,7 +47,7 @@ module.exports = {
 		args: {
 			uid: {
 				type: Number,
-				non_null: true
+				required: true
 			}
 		},
 		resolve: Device.getByUID.bind(Device)

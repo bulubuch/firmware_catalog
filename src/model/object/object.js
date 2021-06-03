@@ -1,10 +1,18 @@
-const DAO = require('../../lib/dao')
+const DAO = require('../../lib/dao/sqlite')
 		const config = require('../../../config/app-settings');
 		const type = require('./type.js');
-		
+
+		function isEmpty(obj) {
+			for(var prop in obj) {
+				if(obj.hasOwnProperty(prop))
+					return false;
+			}
+			return true;
+		}
+
 		class Object extends DAO {
 		
-			/**
+			/*
 			 * Overrides TABLE_NAME with this class' backing table at MySQL
 			 */
 			static get TABLE_NAME() {
@@ -15,20 +23,20 @@ const DAO = require('../../lib/dao')
 				return type
 			}
 		
-			/**
+			/*
 			 * Returns a model by its ID
 			 */
 			static async getByID(_, {id}) {
 				return await this.find(id)
 			}
 		
-			/**
+			/*
 			 * Returns a list of models matching the passed fields
 			 * @param {*} fields - Fields to be matched
 			 */
 			static async findMatching(_, fields) {
 				// Returns early with all models if no criteria was passed
-				if (Object.keys(fields).length === 0) return this.findAll()
+				if (isEmpty(fields)) return this.findAll()
 				
 				// Find matching models
 				return this.findByFields({
@@ -48,15 +56,15 @@ const DAO = require('../../lib/dao')
 				}
 			}
 		
-			/**
+			/*
 			 * Create a new object
 			 */
-			static async createObject(_, {undefined}) {
+			static async createObject(_, {project_id, name, type, visible, status, created_at, updated_at, }) {
 				console.log("Upload Object")
 				try {
 					let _result = await this.insert({
 						data: {
-							undefined
+							project_id, name, type, visible, status, created_at, updated_at, 
 						}
 					})
 					return this.getByID(_, {id: _result.insertId})
@@ -67,16 +75,16 @@ const DAO = require('../../lib/dao')
 				}
 			}
 			
-			/**
+			/*
 			 * Updates a object 
 			 */
-			 static async updateObject(_, {id, undefined}) {
+			 static async updateObject(_, {id, project_id, name, type, visible, status, created_at, updated_at, }) {
 				console.log("Object Update...")
 				try {
 					await this.update({
 						id,
 						data: {
-							undefined
+							project_id, name, type, visible, status, created_at, updated_at, 
 						}
 					});
 		

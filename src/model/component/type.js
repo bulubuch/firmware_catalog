@@ -5,11 +5,11 @@ module.exports = {
     fields: {
         id: {
             type: Number,
-			non_null: true,
+			required: true,
         },
         device_id: {
             type: Number,
-			non_null: true,
+			required: true,
         },
         model_name: {
             type: String

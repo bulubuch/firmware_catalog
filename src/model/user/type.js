@@ -5,7 +5,7 @@ module.exports = {
     fields: {
         id: {
             type: Number,
-			non_null: true,
+			required: true,
         },
         first_name: {
             type: String

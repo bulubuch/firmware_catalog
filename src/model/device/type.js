@@ -1,32 +1,46 @@
+const { required } = require('../../../project/scaffold/src/sql')
+const [string, integer, double, timestamp, has_one, has_many, belongs_to_one, belongs_to_many] = require('../../lib/dataType')
 // Defines the type
 module.exports = {
     name: 'Device',
     description: 'A multi purpose device',
-    fields: {
+	admin_only: "D",
+	storrage: {
+		name: "sqlite",
+		db: "user"
+	},
+	fields: {
         id: {
-            type: Number,
-			non_null: true,
+            type: 'id',
+			required: true,
         },
         name: {
-            type: String
+            type: 'string'
         },
         model_name: {
-            type: String
+            type: 'string'
         },
         uid: {
-            type: String
+            type: 'string'
         },
         firmware_version: {
-            type: String
+            type: 'string'
         },
 		status: {
-			type: String
+			type: 'string'
 		},
         created_at: {
-            type: Number
+           type: 'date',
+			required: true,
+			default: 'now'
         },
         updated_at: {
-            type: Number
+            type: 'date',
+			required: true,
+			default: 'now'
+        },
+        deleted_at: {
+            type: 'date'
         },
     }
 }

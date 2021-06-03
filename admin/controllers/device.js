@@ -1,4 +1,3 @@
-// VIew Users
 const helpers = require("../utils/helpers");
 const Device = require('../models/device');
 

@@ -1,10 +1,10 @@
-const DAO = require('../../lib/dao')
+const DAO = require('../../lib/dao/sqlite')
 const config = require('../../../config/app-settings');
 const type = require('./type.js');
 
 class Device extends DAO {
 
-    /**
+    /*
      * Overrides TABLE_NAME with this class' backing table at MySQL
      */
     static get TABLE_NAME() {
@@ -15,21 +15,21 @@ class Device extends DAO {
 		return type
 	}
 
-    /**
+    /*
      * Returns a device by its ID
      */
     static async getByID(_, {id}) {
         return await this.find(id)
     }
 
-	/**
+	/*
      * Returns a device by its UID
      */
 	 static async getByUID(_, uid) {
         return await this.findByFields({fields:{uid: uid}});
     }
 
-    /**
+    /*
      * Returns a list of model_names matching the passed fields
      * @param {*} fields - Fields to be matched
      */
@@ -53,7 +53,7 @@ class Device extends DAO {
         }
     }
 
-    /**
+    /*
      * Register device at first connection
      */
     static async registerDevice(_, {name = 'UnregisteredDevice', model_name = "Unknown", uid, firmware_version}) {
@@ -73,7 +73,7 @@ class Device extends DAO {
         }
     }
 
-    /**
+    /*
      * Updates a device 
      */
     static async updateEntry(_, {id, name, model_name, firmware_version, status}) {

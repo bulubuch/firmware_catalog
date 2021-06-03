@@ -33,7 +33,7 @@ function getValue(message, key) {
 	}
 	return (null);
 }
-/**
+/*
  * Process telemetry message from mqtt telemetry topic
  */
 function processTelemetry(message) {

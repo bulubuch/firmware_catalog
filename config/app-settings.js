@@ -15,7 +15,7 @@
  */
 'use strict'
 
-/**
+/*
  * appSettings - all relative to the project root
  */
 const appSettings = {

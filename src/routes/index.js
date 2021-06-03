@@ -9,7 +9,7 @@ const express = require('express')
 const path = require('path');
 module.exports = class Routes {
     
-    /**
+    /*
      * Applies the routes to specific paths
      * @param {*} app - The instance of express which will be serving requests.
      */

@@ -10,7 +10,7 @@ const router = require('express').Router()
 		});
 		
 		router.post('/', (req, res) => {
-			schema.register.resolve(res, req.body)
+			schema.create.resolve(res, req.body)
 			.then((result) => {
 				res.send(result);
 			});

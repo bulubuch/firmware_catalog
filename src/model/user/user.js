@@ -1,10 +1,10 @@
-const DAO = require('../../lib/dao')
+const DAO = require('../../lib/dao/sqlite')
 const config = require('../../../config/app-settings');
 const type = require('./type.js');
 
 class User extends DAO {
 
-    /**
+    /*
      * Overrides TABLE_NAME with this class' backing table at MySQL
      */
     static get TABLE_NAME() {
@@ -15,14 +15,14 @@ class User extends DAO {
 		return type
 	}
 
-    /**
+    /*
      * Returns a model by its ID
      */
     static async getByID(_, {id}) {
         return await this.find(id)
     }
 
-    /**
+    /*
      * Returns a list of models matching the passed fields
      * @param {*} fields - Fields to be matched
      */
@@ -48,7 +48,7 @@ class User extends DAO {
         }
     }
 
-    /**
+    /*
      * Register a new user
      */
     static async registerUser(_, {first_name, last_name, email, phone, comments, role, status}) {
@@ -73,7 +73,7 @@ class User extends DAO {
         }
     }
 	
-    /**
+    /*
      * Updates a user 
      */
 	 static async updateEntry(_, {id, first_name, last_name, email, phone, comments, role, status}) {

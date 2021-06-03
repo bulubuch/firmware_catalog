@@ -6,8 +6,10 @@ const type = require('./type')
 			objects: {
 				type: Array,
 				args: {
-					name: {type:"string", unique: true, required: true, default: undefined},
+					project_id: {type:"id", unique: true, required: true, default: undefined},
+			name: {type:"string", unique: true, required: true, default: undefined},
 			type: {type:"string", required: true, default: "generic"},
+			visible: {type:"integer", required: true, default: true},
 			status: {type:"string", required: true, default: "new"},
 			created_at: {type:"date", required: true, default: "now"},
 			updated_at: {type:"date", required: true, default: "now"}
@@ -19,7 +21,7 @@ const type = require('./type')
 				args: {
 					id: {
 						type: Number,
-						non_null: true
+						required: true
 					}
 				},
 				resolve: Object.getByID.bind(Object)

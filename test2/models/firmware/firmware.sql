@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS firmware (
+undefinedmodel_name undefined  NOT NULLversion undefined  NOT NULLdescription undefined  NOT NULLurl undefined  NOT NULLstatus undefined  NOT NULLundefinedundefinedundefinedundefinedmodel_name undefined  NOT NULLversion undefined  NOT NULLdescription undefined  NOT NULLurl undefined  NOT NULLstatus undefined  NOT NULLundefinedundefinedundefined)

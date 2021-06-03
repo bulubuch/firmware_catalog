@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS project (
+id undefined  NOT NULLuser_id undefined  NOT NULLname undefined  UNIQUE NOT NULLtype undefined  NOT NULLvisible undefined  NOT NULLstatus undefined  NOT NULLundefinedundefinedundefinedid undefined  NOT NULLuser_id undefined  NOT NULLname undefined  UNIQUE NOT NULLtype undefined  NOT NULLvisible undefined  NOT NULLstatus undefined  NOT NULLundefinedundefinedundefined)
