@@ -1,2 +1,0 @@
-CREATE TABLE IF NOT EXISTS device (
-undefineduid undefined  UNIQUE NOT NULLmodel_name undefined  NOT NULLfirmware_version undefined  NOT NULLname undefined status undefined  NOT NULLundefinedundefinedundefinedundefineduid undefined  UNIQUE NOT NULLmodel_name undefined  NOT NULLfirmware_version undefined  NOT NULLname undefined status undefined  NOT NULLundefinedundefinedundefined)

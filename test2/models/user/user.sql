@@ -1,2 +1,0 @@
-CREATE TABLE IF NOT EXISTS user (
-undefinedfirst_name undefined  NOT NULLlast_name undefined  NOT NULLemail undefined  NOT NULLpassword undefined  NOT NULLphone undefined comments undefined role undefined  NOT NULLstatus undefined  NOT NULLundefinedundefinedundefinedundefinedfirst_name undefined  NOT NULLlast_name undefined  NOT NULLemail undefined  NOT NULLpassword undefined  NOT NULLphone undefined comments undefined role undefined  NOT NULLstatus undefined  NOT NULLundefinedundefinedundefined)

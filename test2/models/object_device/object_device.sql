@@ -1,2 +1,0 @@
-CREATE TABLE IF NOT EXISTS object_device (
-undefinedobject_id undefined  NOT NULLdevice_id undefined  NOT NULLvisible undefined  NOT NULLundefinedundefinedundefinedundefinedobject_id undefined  NOT NULLdevice_id undefined  NOT NULLvisible undefined  NOT NULLundefinedundefinedundefined)

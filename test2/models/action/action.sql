@@ -1,2 +1,0 @@
-CREATE TABLE IF NOT EXISTS action (
-undefineduser_id undefined  NOT NULLname undefined  UNIQUE NOT NULLdescription undefined type undefined  NOT NULLparam undefined  NOT NULLtarget_type undefined  NOT NULLtarget undefined undefinedundefinedundefinedundefineduser_id undefined  NOT NULLname undefined  UNIQUE NOT NULLdescription undefined type undefined  NOT NULLparam undefined  NOT NULLtarget_type undefined  NOT NULLtarget undefined undefinedundefinedundefined)

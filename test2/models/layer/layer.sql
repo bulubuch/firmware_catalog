@@ -1,2 +1,0 @@
-CREATE TABLE IF NOT EXISTS layer (
-undefinedproject_id undefined  NOT NULLname undefined  UNIQUE NOT NULLtype undefined  NOT NULLvisible undefined  NOT NULLstatus undefined  NOT NULLundefinedundefinedundefinedundefinedproject_id undefined  NOT NULLname undefined  UNIQUE NOT NULLtype undefined  NOT NULLvisible undefined  NOT NULLstatus undefined  NOT NULLundefinedundefinedundefined)
